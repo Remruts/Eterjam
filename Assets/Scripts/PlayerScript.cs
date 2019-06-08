@@ -5,14 +5,8 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
     Rigidbody2D rb;
-<<<<<<< HEAD
-=======
-<<<<<<< Updated upstream
-    public float speed = 30f;
-=======
-    Animator animator;
->>>>>>> giuliano
     bool isHolding = false;
+    Animator animator;
 
     public float speed = 5f;
     public float maxSpeed = 5f;
@@ -21,15 +15,11 @@ public class PlayerScript : MonoBehaviour
 
     public float maxCooldown = 1f;
 
-<<<<<<< HEAD
-=======
->>>>>>> Stashed changes
->>>>>>> giuliano
     bool canJump = false;
     public LayerMask solidMask;
 
     public GameObject projectilePrefab;
-		public RectTransform forceBar;
+    public RectTransform forceBar;
     public int team = 0;
 
     public int id = 0;
@@ -44,11 +34,9 @@ public class PlayerScript : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-<<<<<<< HEAD
         ManagerScript.coso.addPlayer(this);
-=======
         animator = GetComponent<Animator>();
->>>>>>> giuliano
+
     }
 
     // Update is called once per frame
@@ -56,9 +44,11 @@ public class PlayerScript : MonoBehaviour
     {
         move();
         jump();
-        if (cooldown == 0f) {
+        if (cooldown == 0f)
+        {
             shoot();
-        } else if (cooldown > 0f)
+        }
+        else if (cooldown > 0f)
         {
             cooldown -= Time.deltaTime;
             if (cooldown < 0f)
@@ -72,10 +62,14 @@ public class PlayerScript : MonoBehaviour
 
     }
 
-    void OnCollisionEnter2D(Collision2D col) {
-        if (col.gameObject.CompareTag("piso")) {
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.CompareTag("piso"))
+        {
             canJump = true;
-        } else if (col.gameObject.CompareTag("projectile")){
+        }
+        else if (col.gameObject.CompareTag("projectile"))
+        {
             Debug.Log("stuff");
             ManagerScript.coso.onPlayerDeath(this);
             Destroy(gameObject);
@@ -85,13 +79,13 @@ public class PlayerScript : MonoBehaviour
     void shoot()
     {
         // Shooting
-        Vector2 flick = new Vector2(Input.GetAxisRaw("P" + id.ToString() +"FlickX"), -Input.GetAxisRaw("P" + id.ToString() + "FlickY"));
+        Vector2 flick = new Vector2(Input.GetAxisRaw("P" + id.ToString() + "FlickX"), -Input.GetAxisRaw("P" + id.ToString() + "FlickY"));
 
         if (isHolding)
         {
-						Vector2 forceBarPos = forceBar.anchoredPosition;
-						forceBarPos.x = -1.5f + 1.5f * realFlick.magnitude/4.24f;
-						forceBar.anchoredPosition = forceBarPos;
+            Vector2 forceBarPos = forceBar.anchoredPosition;
+            forceBarPos.x = -1.5f + 1.5f * realFlick.magnitude / 4.24f;
+            forceBar.anchoredPosition = forceBarPos;
 
             if (flick.magnitude > 0.1f)
             {
@@ -110,7 +104,7 @@ public class PlayerScript : MonoBehaviour
                 isHolding = false;
 
                 cooldown = maxCooldown;
-								forceBar.parent.gameObject.SetActive(false);
+                forceBar.parent.gameObject.SetActive(false);
             }
         }
         else
@@ -119,46 +113,32 @@ public class PlayerScript : MonoBehaviour
             {
                 isHolding = true;
                 realFlick = flick;
-								forceBar.parent.gameObject.SetActive(true);
+                forceBar.parent.gameObject.SetActive(true);
             }
         }
     }
 
-<<<<<<< HEAD
-=======
-<<<<<<< Updated upstream
-    void OnCollisionEnter2D(Collision2D col){
-        if (col.gameObject.CompareTag("piso")){
-            canJump = true;
-=======
->>>>>>> giuliano
     void move()
     {
         float movement = Input.GetAxis("P" + id.ToString() + "Horizontal");
         if (Mathf.Abs(movement) > 0.5)
         {
-<<<<<<< HEAD
+            animator.SetBool("standing", false);
+
             RaycastHit2D hit = Physics2D.Raycast(rb.transform.position, new Vector2(movement, 0), 1f, solidMask.value);
             if (!hit)
             {
                 rb.velocity = new Vector2(movement * speed, rb.velocity.y);
             }
 
-=======
-            animator.SetBool("standing", false);
-            RaycastHit2D hit = Physics2D.Raycast(rb.transform.position, new Vector2(movement, 0), 1f, solidMask.value);
-            if (!hit)
-            {                
-                rb.velocity = new Vector2(movement * speed, rb.velocity.y);
-            }
-
-        } else {
+        }
+        else
+        {
             animator.SetBool("standing", true);
->>>>>>> giuliano
+
         }
     }
-
-    void jump()
+        void jump()
     {
         if (canJump)
         {
@@ -167,10 +147,6 @@ public class PlayerScript : MonoBehaviour
                 rb.AddForce(new Vector2(0f, jumpForce));
                 canJump = false;
             }
-<<<<<<< HEAD
-=======
->>>>>>> Stashed changes
->>>>>>> giuliano
         }
     }
 }
