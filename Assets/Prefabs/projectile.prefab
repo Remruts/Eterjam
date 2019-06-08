@@ -91,7 +91,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 6090660027465305050}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 803f636c5173c4b9b9e73156bad9c09f, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -113,7 +113,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 4
   m_Material: {fileID: 0}
   m_Interpolate: 1
   m_SleepingMode: 1
@@ -131,3 +131,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69771e53b903e4a4c86eac2194cc1c04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  theBody: {fileID: 0}
