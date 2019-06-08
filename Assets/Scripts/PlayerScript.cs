@@ -18,6 +18,7 @@ public class PlayerScript : MonoBehaviour
     public LayerMask solidMask;
 
     public GameObject projectilePrefab;
+		public RectTransform forceBar;
     public int team = 0;
 
     public int id = 0;
@@ -50,7 +51,7 @@ public class PlayerScript : MonoBehaviour
                 cooldown = 0f;
             }
         }
-        
+
         if (Mathf.Abs(rb.velocity.x) > maxSpeed)
             rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * maxSpeed, rb.velocity.y);
 
@@ -73,6 +74,10 @@ public class PlayerScript : MonoBehaviour
 
         if (isHolding)
         {
+						Vector2 forceBarPos = forceBar.anchoredPosition;
+						forceBarPos.x = -1.5f + 1.5f * realFlick.magnitude/4.24f;
+						forceBar.anchoredPosition = forceBarPos;
+
             if (flick.magnitude > 0.1f)
             {
                 realFlick += flick * flickSpeed * Time.deltaTime;
@@ -81,7 +86,7 @@ public class PlayerScript : MonoBehaviour
             }
 
             // Esto dispararía el objeto
-            if (flick.magnitude < 0.1f)
+            if (flick.magnitude < 0.5f)
             {
                 Vector2 projectilePos = -realFlick.normalized;
                 GameObject aProjectile = Instantiate(projectilePrefab, transform.position + new Vector3(projectilePos.x, projectilePos.y, 0f) * 1.2f, Quaternion.identity) as GameObject;
@@ -90,6 +95,7 @@ public class PlayerScript : MonoBehaviour
                 isHolding = false;
 
                 cooldown = maxCooldown;
+								forceBar.parent.gameObject.SetActive(false);
             }
         }
         else
@@ -98,6 +104,7 @@ public class PlayerScript : MonoBehaviour
             {
                 isHolding = true;
                 realFlick = flick;
+								forceBar.parent.gameObject.SetActive(true);
             }
         }
     }
@@ -109,7 +116,7 @@ public class PlayerScript : MonoBehaviour
         {
             RaycastHit2D hit = Physics2D.Raycast(rb.transform.position, new Vector2(movement, 0), 1f, solidMask.value);
             if (!hit)
-            {                
+            {
                 rb.velocity = new Vector2(movement * speed, rb.velocity.y);
             }
 
