@@ -17,7 +17,9 @@ public class PlayerScript : MonoBehaviour
     public GameObject projectilePrefab;
     public int team = 0;
 
-    Vector2 previousFlick;
+    public float flickSpeed = 1f;
+
+    Vector2 realFlick = Vector2.zero;
 
     // Start is called before the first frame update
     void Start()
@@ -52,24 +54,29 @@ public class PlayerScript : MonoBehaviour
             }
         }
 
-        Vector2 flick = new Vector2(Input.GetAxis("P1FlickX"), -Input.GetAxis("P1FlickY"));
+        Vector2 flick = new Vector2(Input.GetAxisRaw("P1FlickX"), -Input.GetAxisRaw("P1FlickY"));        
 
         if (isHolding){
-            if (flick.magnitude > 0.3f)
-            {
-                previousFlick = flick;
+            if (flick.magnitude > 0.1f)
+            {             
+                realFlick += flick * flickSpeed * Time.deltaTime;
+                realFlick.x = Mathf.Clamp(realFlick.x, -1f, 1f);
+                realFlick.y = Mathf.Clamp(realFlick.y, -1f, 1f);                
+                Debug.Log(realFlick);
             }
 
             if (flick.magnitude < 0.1f)
             {
-                GameObject aProjectile = Instantiate(projectilePrefab, transform.position + Vector3.right, Quaternion.identity) as GameObject;
+                Vector2 projectilePos = -realFlick.normalized;
+                GameObject aProjectile = Instantiate(projectilePrefab, transform.position + new Vector3(projectilePos.x, projectilePos.y, 0f) * 1.2f, Quaternion.identity) as GameObject;
                 Rigidbody2D projectileRb = aProjectile.GetComponent<Rigidbody2D>();
-                projectileRb.AddForce(-previousFlick * projectileSpeed);
+                projectileRb.AddForce(-realFlick * projectileSpeed);
                 isHolding = false;
             }            
         } else {
             if (flick.magnitude > 0.1f){
                 isHolding = true;
+                realFlick = flick.normalized;
             }
         }
         
