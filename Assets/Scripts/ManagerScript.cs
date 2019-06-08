@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using UnityEngine.SceneManager;
+using UnityEngine.SceneManagement;
 
 public class ManagerScript : MonoBehaviour
 {
@@ -9,16 +9,18 @@ public class ManagerScript : MonoBehaviour
 
     // player array
 
-    ArrayList currentPlayers;
+    public List<PlayerScript> currentPlayers;
 
     int bodyCount;
+
+    public static ManagerScript coso;
     
     // Start is called before the first frame update
     void Start()
     {
         // Spawns players, player arrays?
-         
-        
+        coso = this;
+        currentPlayers = new List<PlayerScript>();
     }
 
     // Update is called once per frame
@@ -52,17 +54,18 @@ public class ManagerScript : MonoBehaviour
    void roundOver(int aWinningTeam)
     {
 
-        //SceneManager.loadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         // Do something
 
         // show congrats()
+        Debug.Log("Ganó el equipo " + aWinningTeam.ToString());
 
     }
-    
 
-    void addPlayer()
+
+    public void addPlayer(PlayerScript p)
     {
-
+        currentPlayers.Add(p);
     }
 
 
