@@ -5,6 +5,13 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
     Rigidbody2D rb;
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+    public float speed = 30f;
+=======
+    Animator animator;
+>>>>>>> giuliano
     bool isHolding = false;
 
     public float speed = 5f;
@@ -14,6 +21,10 @@ public class PlayerScript : MonoBehaviour
 
     public float maxCooldown = 1f;
 
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
+>>>>>>> giuliano
     bool canJump = false;
     public LayerMask solidMask;
 
@@ -33,7 +44,11 @@ public class PlayerScript : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+<<<<<<< HEAD
         ManagerScript.coso.addPlayer(this);
+=======
+        animator = GetComponent<Animator>();
+>>>>>>> giuliano
     }
 
     // Update is called once per frame
@@ -109,17 +124,37 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+    void OnCollisionEnter2D(Collision2D col){
+        if (col.gameObject.CompareTag("piso")){
+            canJump = true;
+=======
+>>>>>>> giuliano
     void move()
     {
         float movement = Input.GetAxis("P" + id.ToString() + "Horizontal");
         if (Mathf.Abs(movement) > 0.5)
         {
+<<<<<<< HEAD
             RaycastHit2D hit = Physics2D.Raycast(rb.transform.position, new Vector2(movement, 0), 1f, solidMask.value);
             if (!hit)
             {
                 rb.velocity = new Vector2(movement * speed, rb.velocity.y);
             }
 
+=======
+            animator.SetBool("standing", false);
+            RaycastHit2D hit = Physics2D.Raycast(rb.transform.position, new Vector2(movement, 0), 1f, solidMask.value);
+            if (!hit)
+            {                
+                rb.velocity = new Vector2(movement * speed, rb.velocity.y);
+            }
+
+        } else {
+            animator.SetBool("standing", true);
+>>>>>>> giuliano
         }
     }
 
@@ -132,6 +167,10 @@ public class PlayerScript : MonoBehaviour
                 rb.AddForce(new Vector2(0f, jumpForce));
                 canJump = false;
             }
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
+>>>>>>> giuliano
         }
     }
 }
