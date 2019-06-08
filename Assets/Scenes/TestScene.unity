@@ -661,6 +661,11 @@ PrefabInstance:
       propertyPath: id
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5236526188443135364, guid: 9f60166068a1d1248b5b20e68999b738,
+        type: 3}
+      propertyPath: team
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f60166068a1d1248b5b20e68999b738, type: 3}
 --- !u!1 &1997310522
@@ -676,7 +681,7 @@ GameObject:
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -692,6 +697,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57e57c98fc3076c4498e815d7c9c8600, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentPlayers: []
 --- !u!4 &1997310524
 Transform:
   m_ObjectHideFlags: 0

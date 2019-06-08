@@ -144,7 +144,7 @@ MonoBehaviour:
   speed: 5
   maxSpeed: 5
   projectileSpeed: 1200
-  jumpForce: 700
+  jumpForce: 900
   maxCooldown: 1
   solidMask:
     serializedVersion: 2

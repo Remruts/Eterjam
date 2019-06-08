@@ -32,6 +32,7 @@ public class PlayerScript : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        ManagerScript.coso.addPlayer(this);
     }
 
     // Update is called once per frame
@@ -58,6 +59,10 @@ public class PlayerScript : MonoBehaviour
     void OnCollisionEnter2D(Collision2D col) {
         if (col.gameObject.CompareTag("piso")) {
             canJump = true;
+        } else if (col.gameObject.CompareTag("projectile")){
+            Debug.Log("stuff");
+            ManagerScript.coso.onPlayerDeath(this);
+            Destroy(gameObject);
         }
     }
 
@@ -72,8 +77,7 @@ public class PlayerScript : MonoBehaviour
             {
                 realFlick += flick * flickSpeed * Time.deltaTime;
                 realFlick.x = Mathf.Clamp(realFlick.x, -1f, 1f);
-                realFlick.y = Mathf.Clamp(realFlick.y, -1f, 1f);
-                Debug.Log(realFlick);
+                realFlick.y = Mathf.Clamp(realFlick.y, -1f, 1f);                
             }
 
             // Esto dispararía el objeto
