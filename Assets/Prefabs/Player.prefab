@@ -143,9 +143,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   maxSpeed: 5
+  projectileSpeed: 1200
   jumpForce: 700
+  maxCooldown: 1
   solidMask:
     serializedVersion: 2
     m_Bits: 256
   projectilePrefab: {fileID: 6090660027465305050, guid: 2cc97c32afba38b429571de718846035,
     type: 3}
+  team: 0
+  id: 0
+  flickSpeed: 10
