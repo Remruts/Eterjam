@@ -76,8 +76,8 @@ public class PlayerScript : MonoBehaviour
             if (flick.magnitude > 0.1f)
             {
                 realFlick += flick * flickSpeed * Time.deltaTime;
-                realFlick.x = Mathf.Clamp(realFlick.x, -1f, 1f);
-                realFlick.y = Mathf.Clamp(realFlick.y, -1f, 1f);                
+                realFlick.x = Mathf.Clamp(realFlick.x, -3f, 3f);
+                realFlick.y = Mathf.Clamp(realFlick.y, -3f, 3f);
             }
 
             // Esto dispararía el objeto
@@ -94,7 +94,7 @@ public class PlayerScript : MonoBehaviour
         }
         else
         {
-            if (flick.magnitude > 0.1f)
+            if (flick.magnitude > 0.5f)
             {
                 isHolding = true;
                 realFlick = flick;

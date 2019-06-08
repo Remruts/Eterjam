@@ -143,9 +143,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   maxSpeed: 5
-  projectileSpeed: 1200
+  projectileSpeed: 400
   jumpForce: 900
-  maxCooldown: 1
+  maxCooldown: 0
   solidMask:
     serializedVersion: 2
     m_Bits: 256
