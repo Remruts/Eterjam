@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class ManagerScript : MonoBehaviour
 {
@@ -14,6 +15,10 @@ public class ManagerScript : MonoBehaviour
     int bodyCount;
 
     public static ManagerScript coso;
+
+    public GameObject winText;
+
+    bool matchEnded = false;
     
     // Start is called before the first frame update
     void Start()
@@ -42,7 +47,7 @@ public class ManagerScript : MonoBehaviour
                 return;
             }
         }
-        this.roundOver(deadPlayerTeam + 1 % 2);
+        this.roundOver((deadPlayerTeam + 1) % 2);
     }
 
     public void pauseGame()
@@ -53,13 +58,25 @@ public class ManagerScript : MonoBehaviour
 
    void roundOver(int aWinningTeam)
     {
+        if (matchEnded)
+        {
+            return;
+        }
+        matchEnded = true;
+        winText.SetActive(true);
+        winText.GetComponent<TMP_Text>().text = "Ganó el equipo " + aWinningTeam.ToString();
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        // Do something
+
+        Invoke("resetearJuego", 5f);
 
         // show congrats()
         Debug.Log("Ganó el equipo " + aWinningTeam.ToString());
 
+    }
+
+    void resetearJuego()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
 
