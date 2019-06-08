@@ -165,7 +165,7 @@ GameObject:
   - component: {fileID: 165384663}
   - component: {fileID: 165384665}
   - component: {fileID: 165384664}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: wall_right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -388,9 +388,9 @@ GameObject:
   - component: {fileID: 714184082}
   - component: {fileID: 714184083}
   - component: {fileID: 714184084}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: floor
-  m_TagString: Untagged
+  m_TagString: piso
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -494,7 +494,7 @@ GameObject:
   - component: {fileID: 943546784}
   - component: {fileID: 943546786}
   - component: {fileID: 943546785}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: wall_center
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -643,7 +643,7 @@ GameObject:
   - component: {fileID: 2135693245}
   - component: {fileID: 2135693247}
   - component: {fileID: 2135693246}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: wall_left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -738,25 +738,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &4386864481693641778 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4386864481693641778, guid: 9f60166068a1d1248b5b20e68999b738,
-    type: 3}
-  m_PrefabInstance: {fileID: 4535790401253030477}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &4386864481693641779
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4386864481693641778}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df3e9ff8dc1268749b4c3b3d2364fbc6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 30
 --- !u!1001 &4535790401253030477
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -823,6 +804,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5236526188443135364, guid: 9f60166068a1d1248b5b20e68999b738,
+        type: 3}
+      propertyPath: projectileSpeed
+      value: 500
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f60166068a1d1248b5b20e68999b738, type: 3}
