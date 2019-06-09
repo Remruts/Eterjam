@@ -53,7 +53,7 @@ public class ProjectileScript : MonoBehaviour
             theBody.velocity = newDirection;
         } else if (col.gameObject.CompareTag("Player")) {
             morir();
-        } else if (col.gameObject.CompareTag("proyectile"){
+        } else if (col.gameObject.CompareTag("projectile")){
             morir();
         }
     }
