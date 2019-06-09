@@ -63,7 +63,7 @@ public class PlayerScript : MonoBehaviour
 
 				dash();
 
-				rb.velocity = new Vector2(movement * speed + (isDashing ? dashForce * Mathf.Sign(transform.localScale.x) : 0f), rb.velocity.y);
+				rb.velocity = new Vector2(movement * speed + (isDashing ? dashForce * Mathf.Sign(movement) : 0f), rb.velocity.y);
 
         if (Mathf.Abs(rb.velocity.x) > maxSpeed + (isDashing ? dashForce : 0f))
             rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * maxSpeed + (isDashing ? dashForce * Mathf.Sign(transform.localScale.x)  : 0f), rb.velocity.y);
@@ -90,9 +90,6 @@ public class PlayerScript : MonoBehaviour
 
         if (isHolding)
         {
-						Vector3 prevScale = transform.localScale;
-						prevScale.x = -Mathf.Sign(-flick.x);
-						transform.localScale = prevScale;
 
 						Vector2 forceBarPos = forceBar.anchoredPosition;
 						forceBarPos.x = -1.5f + 1.5f * realFlick.magnitude/4.24f;
@@ -100,6 +97,12 @@ public class PlayerScript : MonoBehaviour
 
             if (flick.magnitude > 0.1f)
             {
+								//Esto es para cambiar de lado el sprite dependiendo del flick
+								Vector3 prevScale = transform.localScale;
+								prevScale.x = -Mathf.Sign(-flick.x);
+								transform.localScale = prevScale;
+
+								// y esto es para darle el poder al flick
                 realFlick += flick * flickSpeed * Time.deltaTime;
                 realFlick.x = Mathf.Clamp(realFlick.x, -3f, 3f);
                 realFlick.y = Mathf.Clamp(realFlick.y, -3f, 3f);
@@ -170,6 +173,7 @@ public class PlayerScript : MonoBehaviour
 
 			if (dashCooldown <= 0f){
 				if (Input.GetButton("P" + id.ToString() + "Dash")){
+					
 					isDashing = true;
 					dashCooldown = maxDashCooldown;
 				}
