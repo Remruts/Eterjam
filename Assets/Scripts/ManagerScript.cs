@@ -9,6 +9,7 @@ public class ManagerScript : MonoBehaviour
     //global variables
 
     // player array
+    public List<GameObject> furniturePrefab;
 
     public List<PlayerScript> currentPlayers;
 
@@ -26,6 +27,11 @@ public class ManagerScript : MonoBehaviour
         // Spawns players, player arrays?
         coso = this;
         currentPlayers = new List<PlayerScript>();
+        for (int i = 0; i < 10; i++)
+        {
+            wait(100);
+            GameObject mueble = Instantiate(furniturePrefab[Random.Range(0,furniturePrefab.Count)], new Vector3(0f, -5f + i*0.5f, 0f), Quaternion.Euler(0,0,Random.Range(0,180))) as GameObject;
+        }
     }
 
     // Update is called once per frame
@@ -83,6 +89,13 @@ public class ManagerScript : MonoBehaviour
     public void addPlayer(PlayerScript p)
     {
         currentPlayers.Add(p);
+    }
+
+    IEnumerator wait(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        // Code to execute after the delay
     }
 
 
