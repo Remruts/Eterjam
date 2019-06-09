@@ -66,14 +66,22 @@ for (int i = 0; i < 10; i++)
 
     void roundOver(int aWinningTeam)
     {
-        string winner = aWinningTeam == 0 ? "de Desarrollo" : "de Comercial";
+        string winner = aWinningTeam == 0 ? "de Desarrollo" : "de Comercial";        
         if (matchEnded)
         {
             return;
         }
         matchEnded = true;
         winText.SetActive(true);
-        winText.GetComponent<TMP_Text>().text = "Ganó el equipo " + winner;
+        var elTexto = winText.GetComponent<TMP_Text>();
+        if (aWinningTeam==0)
+        {
+            elTexto.color = new Color32(224, 116, 222, 255);
+        }else{
+            elTexto.color = new Color32(73, 178, 99, 255);
+        }
+        
+        elTexto.text = "Ganó el equipo " + winner;
 
 
         Invoke("resetearJuego", 5f);
