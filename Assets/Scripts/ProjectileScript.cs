@@ -7,6 +7,7 @@ public class ProjectileScript : MonoBehaviour
     public Rigidbody2D theBody;
     float initialTime;
     float lifeSpam;
+		public GameObject explosionPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -22,7 +23,7 @@ public class ProjectileScript : MonoBehaviour
     {
         if (Time.time - initialTime > lifeSpam)
         {
-            Destroy(gameObject);
+            morir();
         }
     }
 
@@ -50,6 +51,13 @@ public class ProjectileScript : MonoBehaviour
             }
 
             theBody.velocity = newDirection;
-        }
+        } else if (col.gameObject.CompareTag("Player")){
+					morir();
+				}
     }
+
+		void morir(){
+			Destroy(gameObject);
+			Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+		}
 }
