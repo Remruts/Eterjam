@@ -104,7 +104,7 @@ public class PlayerScript : MonoBehaviour
             {
 								//Esto es para cambiar de lado el sprite dependiendo del flick
 								Vector3 prevScale = transform.localScale;
-								prevScale.x = -Mathf.Sign(-flick.x);
+								prevScale.x = Mathf.Sign(-flick.x);
 								transform.localScale = prevScale;
 
 								// y esto es para darle el poder al flick
