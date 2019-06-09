@@ -33,13 +33,13 @@ public class ProjectileScript : MonoBehaviour
         {
             Vector3 velocity = theBody.velocity;
             Vector3 newDirection = new Vector3();
-            float rand = Random.Range(0.0f,1.0f);
+            float rand = Random.Range(0.0f, 1.0f);
             float sameDirectionProbability = 0.5f;
             float multiplier = 3.0f * Random.Range(0.0f, 1.0f) + 1.0f;
             if (rand < sameDirectionProbability)
             {
 
-                newDirection.x = Random.Range(0f,50f) * -1.0f;
+                newDirection.x = Random.Range(0f, 50f) * -1.0f;
                 newDirection.y = Random.Range(0f, 50f) * -1.0f;
                 newDirection.z = velocity.z;
             }
@@ -51,9 +51,11 @@ public class ProjectileScript : MonoBehaviour
             }
 
             theBody.velocity = newDirection;
-        } else if (col.gameObject.CompareTag("Player")){
-					morir();
-				}
+        } else if (col.gameObject.CompareTag("Player")) {
+            morir();
+        } else if (col.gameObject.CompareTag("proyectile"){
+            morir();
+        }
     }
 
 		void morir(){
