@@ -30,12 +30,14 @@ public class PlayerScript : MonoBehaviour
   float cooldown = 0f;
 
 	float movement = 0;
+	float faceDir = 1f;
 
 	Animator anim;
 
     // Start is called before the first frame update
     void Start()
     {
+				faceDir = transform.localScale.x;
         rb = GetComponent<Rigidbody2D>();
 				if (ManagerScript.coso != null){
 					ManagerScript.coso.addPlayer(this);
@@ -46,6 +48,7 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+				dash();
 				if (!isDashing){
 					move();
 	        jump();
@@ -61,12 +64,19 @@ public class PlayerScript : MonoBehaviour
 	        }
 				}
 
-				dash();
+				float distanceMoved = movement + (isDashing ? dashForce * faceDir : 0f);
+				RaycastHit2D hit = Physics2D.Raycast(rb.transform.position, new Vector2(distanceMoved, 0f), 0.5f + distanceMoved/50f, solidMask.value);
+				if (hit)
+				{
+						Debug.Log("Coso");
+						distanceMoved = 0f;
+				}
 
-				rb.velocity = new Vector2(movement * speed + (isDashing ? dashForce * Mathf.Sign(movement) : 0f), rb.velocity.y);
+				rb.velocity = new Vector2(distanceMoved, rb.velocity.y);
 
-        if (Mathf.Abs(rb.velocity.x) > maxSpeed + (isDashing ? dashForce : 0f))
-            rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * maxSpeed + (isDashing ? dashForce * Mathf.Sign(transform.localScale.x)  : 0f), rb.velocity.y);
+        /*if (Mathf.Abs(rb.velocity.x) > movement)
+            rb.velocity = new Vector2(movement, rb.velocity.y);
+				*/
     }
 
     void OnCollisionEnter2D(Collision2D col) {
@@ -135,16 +145,13 @@ public class PlayerScript : MonoBehaviour
 
     void move()
     {
-        movement = Input.GetAxis("P" + id.ToString() + "Horizontal");
+        movement = Input.GetAxis("P" + id.ToString() + "Horizontal") * speed;
         if (Mathf.Abs(movement) > 0.5)
         {
-						anim.SetBool("standing", false);
-            RaycastHit2D hit = Physics2D.Raycast(rb.transform.position, new Vector2(movement, 0), 0.5f, solidMask.value);
-            if (hit)
-            {
-                movement = 0f;
-            }
+					faceDir = Mathf.Sign(movement);
+					anim.SetBool("standing", false);
         } else {
+					movement = 0f;
 					anim.SetBool("standing", true);
 				}
     }
@@ -167,6 +174,7 @@ public class PlayerScript : MonoBehaviour
 
 			if (dashCooldown <= maxDashCooldown - 0.1f){
 					isDashing = false;
+					GetComponent<Collider2D>().enabled = true;
 			}
 			if (dashCooldown <= 0f){
 				dashCooldown = 0f;
@@ -174,8 +182,13 @@ public class PlayerScript : MonoBehaviour
 
 			if (dashCooldown <= 0f){
 				if (Input.GetButton("P" + id.ToString() + "Dash")){
+<<<<<<< HEAD
 					anim.Play("Dash");
+=======
+					GetComponent<Collider2D>().enabled = false;
+>>>>>>> master
 					isDashing = true;
+					Debug.Log("MEGAZORD!");
 					dashCooldown = maxDashCooldown;
 				}
 			}
