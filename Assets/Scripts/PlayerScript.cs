@@ -33,6 +33,7 @@ public class PlayerScript : MonoBehaviour
 	float faceDir = 1f;
 
 	Animator anim;
+	SpriteRenderer spr;
 
     // Start is called before the first frame update
     void Start()
@@ -43,6 +44,7 @@ public class PlayerScript : MonoBehaviour
 					ManagerScript.coso.addPlayer(this);
 				}
 				anim = GetComponent<Animator>();
+				spr = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -104,7 +106,7 @@ public class PlayerScript : MonoBehaviour
             {
 								//Esto es para cambiar de lado el sprite dependiendo del flick
 								Vector3 prevScale = transform.localScale;
-								prevScale.x = Mathf.Sign(-flick.x);
+								prevScale.x = Mathf.Sign(flick.x) * (spr.flipX ? -1f : 1f);
 								transform.localScale = prevScale;
 
 								// y esto es para darle el poder al flick
