@@ -111,6 +111,7 @@ public class PlayerScript : MonoBehaviour
             // Esto dispararía el objeto
             if (flick.magnitude < 0.5f)
             {
+                anim.Play("Throw");
                 Vector2 projectilePos = -realFlick.normalized;
                 GameObject aProjectile = Instantiate(projectilePrefab, transform.position + new Vector3(projectilePos.x, projectilePos.y, 0f) * 1.2f, Quaternion.identity) as GameObject;
                 Rigidbody2D projectileRb = aProjectile.GetComponent<Rigidbody2D>();
@@ -173,7 +174,7 @@ public class PlayerScript : MonoBehaviour
 
 			if (dashCooldown <= 0f){
 				if (Input.GetButton("P" + id.ToString() + "Dash")){
-					
+					anim.Play("Dash");
 					isDashing = true;
 					dashCooldown = maxDashCooldown;
 				}
