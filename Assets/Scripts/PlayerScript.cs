@@ -182,11 +182,8 @@ public class PlayerScript : MonoBehaviour
 
 			if (dashCooldown <= 0f){
 				if (Input.GetButton("P" + id.ToString() + "Dash")){
-<<<<<<< HEAD
 					anim.Play("Dash");
-=======
 					GetComponent<Collider2D>().enabled = false;
->>>>>>> master
 					isDashing = true;
 					Debug.Log("MEGAZORD!");
 					dashCooldown = maxDashCooldown;
