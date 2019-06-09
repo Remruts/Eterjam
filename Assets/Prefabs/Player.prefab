@@ -378,7 +378,7 @@ MonoBehaviour:
   speed: 5
   maxSpeed: 5
   projectileSpeed: 400
-  jumpForce: 900
+  jumpForce: 450
   dashForce: 30
   maxCooldown: 0
   maxDashCooldown: 1

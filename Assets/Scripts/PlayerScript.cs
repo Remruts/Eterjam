@@ -63,6 +63,7 @@ public class PlayerScript : MonoBehaviour
 	            }
 	        }
 				}
+				checkFloor();
 
 				float distanceMoved = movement + (isDashing ? dashForce * faceDir : 0f);
 				RaycastHit2D hit = Physics2D.Raycast(rb.transform.position, new Vector2(distanceMoved, 0f), 0.5f + distanceMoved/50f, solidMask.value);
@@ -80,13 +81,7 @@ public class PlayerScript : MonoBehaviour
     }
 
     void OnCollisionEnter2D(Collision2D col) {
-        if (col.gameObject.CompareTag("piso")) {
-						var state = anim.GetCurrentAnimatorStateInfo(0);
-						if (state.IsName("Jump")){
-							anim.Play("Idle");
-						}
-            canJump = true;
-        } else if (col.gameObject.CompareTag("projectile")){
+        if (col.gameObject.CompareTag("projectile")){
             Debug.Log("stuff");
             ManagerScript.coso.onPlayerDeath(this);
             Destroy(gameObject);
@@ -188,6 +183,21 @@ public class PlayerScript : MonoBehaviour
 					Debug.Log("MEGAZORD!");
 					dashCooldown = maxDashCooldown;
 				}
+			}
+		}
+
+		void checkFloor(){
+			RaycastHit2D hit = Physics2D.Raycast(rb.transform.position, new Vector2(0f, -1f), 0.7f, solidMask.value);
+			if (hit){
+				var state = anim.GetCurrentAnimatorStateInfo(0);
+				if (state.IsName("Jump")){
+					anim.Play("Idle");
+				}
+				rb.velocity = new Vector2(rb.velocity.x, 0f);
+				canJump = true;
+				rb.gravityScale = 0f;
+			} else {
+				rb.gravityScale = 4f;
 			}
 		}
 }
