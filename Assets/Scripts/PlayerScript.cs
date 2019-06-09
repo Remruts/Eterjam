@@ -187,7 +187,7 @@ public class PlayerScript : MonoBehaviour
 		}
 
 		void checkFloor(){
-			RaycastHit2D hit = Physics2D.Raycast(rb.transform.position, new Vector2(0f, -1f), 0.7f, solidMask.value);
+			RaycastHit2D hit = Physics2D.Raycast(rb.transform.position, new Vector2(0f, -1f), 0.8f, solidMask.value);
 			if (hit){
 				var state = anim.GetCurrentAnimatorStateInfo(0);
 				if (state.IsName("Jump")){
