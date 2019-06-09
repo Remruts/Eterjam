@@ -244,6 +244,7 @@ GameObject:
   - component: {fileID: 8801323125628439533}
   - component: {fileID: 3958303823898571821}
   - component: {fileID: 5236526188443135364}
+  - component: {fileID: 959507028362922116}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -377,7 +378,9 @@ MonoBehaviour:
   maxSpeed: 5
   projectileSpeed: 400
   jumpForce: 900
+  dashForce: 600
   maxCooldown: 0
+  maxDashCooldown: 1
   solidMask:
     serializedVersion: 2
     m_Bits: 256
@@ -387,3 +390,22 @@ MonoBehaviour:
   team: 0
   id: 1
   flickSpeed: 10
+--- !u!95 &959507028362922116
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4386864481693641778}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2c015f2ab82424b7b9273f73405efafd, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
