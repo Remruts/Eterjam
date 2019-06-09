@@ -35,6 +35,10 @@ public class PlayerScript : MonoBehaviour
 	Animator anim;
 	SpriteRenderer spr;
 
+    AudioSource audioSource;
+    public AudioClip dashSound;
+    public AudioClip fireSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,6 +49,7 @@ public class PlayerScript : MonoBehaviour
 				}
 				anim = GetComponent<Animator>();
 				spr = GetComponent<SpriteRenderer>();
+                audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -119,6 +124,7 @@ public class PlayerScript : MonoBehaviour
             if (flick.magnitude < 0.5f)
             {
                 anim.Play("Throw");
+                audioSource.PlayOneShot(fireSound);
                 Vector2 projectilePos = -realFlick.normalized;
                 GameObject aProjectile = Instantiate(projectilePrefab, transform.position + new Vector3(projectilePos.x, projectilePos.y, 0f) * 1.2f, Quaternion.identity) as GameObject;
                 Rigidbody2D projectileRb = aProjectile.GetComponent<Rigidbody2D>();
@@ -180,6 +186,7 @@ public class PlayerScript : MonoBehaviour
 			if (dashCooldown <= 0f){
 				if (Input.GetButton("P" + id.ToString() + "Dash")){
 					anim.Play("Dash");
+                    audioSource.PlayOneShot(dashSound);
 					GetComponent<Collider2D>().enabled = false;
 					isDashing = true;
 					Debug.Log("MEGAZORD!");
