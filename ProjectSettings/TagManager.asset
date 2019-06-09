@@ -6,6 +6,7 @@ TagManager:
   tags:
   - piso
   - projectile
+  - fan
   layers:
   - Default
   - TransparentFX

@@ -4,62 +4,84 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
-    Rigidbody2D rb;
-    bool isHolding = false;
+  Rigidbody2D rb;
+  bool isHolding = false;
 
-    public float speed = 5f;
-    public float maxSpeed = 5f;
-    public float projectileSpeed = 300f;
-    public float jumpForce = 300f;
+  public float speed = 5f;
+  public float maxSpeed = 5f;
+  public float projectileSpeed = 300f;
+  public float jumpForce = 300f;
+	public float dashForce = 600f;
+  public float maxCooldown = 1f;
+	public float maxDashCooldown = 1f;
 
-    public float maxCooldown = 1f;
+  bool canJump = false;
+	bool isDashing = false;
+	float dashCooldown = 0f;
+  public LayerMask solidMask;
 
-    bool canJump = false;
-    public LayerMask solidMask;
+  public GameObject projectilePrefab;
+	public RectTransform forceBar;
+  public int team = 0;
+  public int id = 0;
 
-    public GameObject projectilePrefab;
-    public int team = 0;
+  public float flickSpeed = 1f;
+  Vector2 realFlick = Vector2.zero;
+  float cooldown = 0f;
 
-    public int id = 0;
+	float movement = 0;
+	float faceDir = 1f;
 
-    public float flickSpeed = 1f;
-
-    Vector2 realFlick = Vector2.zero;
-
-    float cooldown = 0f;
+	Animator anim;
 
     // Start is called before the first frame update
     void Start()
     {
+				faceDir = transform.localScale.x;
         rb = GetComponent<Rigidbody2D>();
-        ManagerScript.coso.addPlayer(this);
+				if (ManagerScript.coso != null){
+					ManagerScript.coso.addPlayer(this);
+				}
+				anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        move();
-        jump();
-        if (cooldown == 0f) {
-            shoot();
-        } else if (cooldown > 0f)
-        {
-            cooldown -= Time.deltaTime;
-            if (cooldown < 0f)
-            {
-                cooldown = 0f;
-            }
-        }
-        
-        if (Mathf.Abs(rb.velocity.x) > maxSpeed)
-            rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * maxSpeed, rb.velocity.y);
+				dash();
+				if (!isDashing){
+					move();
+	        jump();
+					if (cooldown == 0f) {
+	            shoot();
+	        } else if (cooldown > 0f)
+	        {
+	            cooldown -= Time.deltaTime;
+	            if (cooldown < 0f)
+	            {
+	                cooldown = 0f;
+	            }
+	        }
+				}
+				checkFloor();
 
+				float distanceMoved = movement + (isDashing ? dashForce * faceDir : 0f);
+				RaycastHit2D hit = Physics2D.Raycast(rb.transform.position, new Vector2(distanceMoved, 0f), 0.5f + distanceMoved/50f, solidMask.value);
+				if (hit)
+				{
+						Debug.Log("Coso");
+						distanceMoved = 0f;
+				}
+
+				rb.velocity = new Vector2(distanceMoved, rb.velocity.y);
+
+        /*if (Mathf.Abs(rb.velocity.x) > movement)
+            rb.velocity = new Vector2(movement, rb.velocity.y);
+				*/
     }
 
     void OnCollisionEnter2D(Collision2D col) {
-        if (col.gameObject.CompareTag("piso")) {
-            canJump = true;
-        } else if (col.gameObject.CompareTag("projectile")){
+        if (col.gameObject.CompareTag("projectile")){
             Debug.Log("stuff");
             ManagerScript.coso.onPlayerDeath(this);
             Destroy(gameObject);
@@ -73,16 +95,28 @@ public class PlayerScript : MonoBehaviour
 
         if (isHolding)
         {
+
+						Vector2 forceBarPos = forceBar.anchoredPosition;
+						forceBarPos.x = -1.5f + 1.5f * realFlick.magnitude/4.24f;
+						forceBar.anchoredPosition = forceBarPos;
+
             if (flick.magnitude > 0.1f)
             {
+								//Esto es para cambiar de lado el sprite dependiendo del flick
+								Vector3 prevScale = transform.localScale;
+								prevScale.x = -Mathf.Sign(-flick.x);
+								transform.localScale = prevScale;
+
+								// y esto es para darle el poder al flick
                 realFlick += flick * flickSpeed * Time.deltaTime;
                 realFlick.x = Mathf.Clamp(realFlick.x, -3f, 3f);
                 realFlick.y = Mathf.Clamp(realFlick.y, -3f, 3f);
             }
 
             // Esto dispararía el objeto
-            if (flick.magnitude < 0.1f)
+            if (flick.magnitude < 0.5f)
             {
+                anim.Play("Throw");
                 Vector2 projectilePos = -realFlick.normalized;
                 GameObject aProjectile = Instantiate(projectilePrefab, transform.position + new Vector3(projectilePos.x, projectilePos.y, 0f) * 1.2f, Quaternion.identity) as GameObject;
                 Rigidbody2D projectileRb = aProjectile.GetComponent<Rigidbody2D>();
@@ -90,6 +124,7 @@ public class PlayerScript : MonoBehaviour
                 isHolding = false;
 
                 cooldown = maxCooldown;
+								forceBar.parent.gameObject.SetActive(false);
             }
         }
         else
@@ -98,22 +133,22 @@ public class PlayerScript : MonoBehaviour
             {
                 isHolding = true;
                 realFlick = flick;
+								forceBar.parent.gameObject.SetActive(true);
             }
         }
     }
 
     void move()
     {
-        float movement = Input.GetAxis("P" + id.ToString() + "Horizontal");
+        movement = Input.GetAxis("P" + id.ToString() + "Horizontal") * speed;
         if (Mathf.Abs(movement) > 0.5)
         {
-            RaycastHit2D hit = Physics2D.Raycast(rb.transform.position, new Vector2(movement, 0), 1f, solidMask.value);
-            if (!hit)
-            {                
-                rb.velocity = new Vector2(movement * speed, rb.velocity.y);
-            }
-
-        }
+					faceDir = Mathf.Sign(movement);
+					anim.SetBool("standing", false);
+        } else {
+					movement = 0f;
+					anim.SetBool("standing", true);
+				}
     }
 
     void jump()
@@ -122,9 +157,47 @@ public class PlayerScript : MonoBehaviour
         {
             if (Input.GetButton("P" + id.ToString() + "Jump"))
             {
+								anim.Play("Jump");
                 rb.AddForce(new Vector2(0f, jumpForce));
                 canJump = false;
             }
         }
     }
+
+		void dash(){
+			dashCooldown -= Time.deltaTime;
+
+			if (dashCooldown <= maxDashCooldown - 0.1f){
+					isDashing = false;
+					GetComponent<Collider2D>().enabled = true;
+			}
+			if (dashCooldown <= 0f){
+				dashCooldown = 0f;
+			}
+
+			if (dashCooldown <= 0f){
+				if (Input.GetButton("P" + id.ToString() + "Dash")){
+					anim.Play("Dash");
+					GetComponent<Collider2D>().enabled = false;
+					isDashing = true;
+					Debug.Log("MEGAZORD!");
+					dashCooldown = maxDashCooldown;
+				}
+			}
+		}
+
+		void checkFloor(){
+			RaycastHit2D hit = Physics2D.Raycast(rb.transform.position, new Vector2(0f, -1f), 0.8f, solidMask.value);
+			if (hit){
+				var state = anim.GetCurrentAnimatorStateInfo(0);
+				if (state.IsName("Jump")){
+					anim.Play("Idle");
+				}
+				rb.velocity = new Vector2(rb.velocity.x, 0f);
+				canJump = true;
+				rb.gravityScale = 0f;
+			} else {
+				rb.gravityScale = 4f;
+			}
+		}
 }
