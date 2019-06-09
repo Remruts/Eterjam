@@ -945,12 +945,12 @@ PrefabInstance:
     - target: {fileID: 4716701102290288976, guid: 9f60166068a1d1248b5b20e68999b738,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.6
+      value: -6.52
       objectReference: {fileID: 0}
     - target: {fileID: 4716701102290288976, guid: 9f60166068a1d1248b5b20e68999b738,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.3
+      value: -3.85
       objectReference: {fileID: 0}
     - target: {fileID: 4716701102290288976, guid: 9f60166068a1d1248b5b20e68999b738,
         type: 3}
@@ -996,6 +996,17 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4386864481693641779, guid: 9f60166068a1d1248b5b20e68999b738,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -6375441436082845787, guid: 737a4763e97e445eb943e19daabffbb1,
+        type: 3}
+    - target: {fileID: 5236526188443135364, guid: 9f60166068a1d1248b5b20e68999b738,
+        type: 3}
+      propertyPath: jumpForce
+      value: 450
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f60166068a1d1248b5b20e68999b738, type: 3}
