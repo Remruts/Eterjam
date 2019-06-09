@@ -854,6 +854,12 @@ PrefabInstance:
       propertyPath: m_Size.x
       value: 1.4808993
       objectReference: {fileID: 0}
+    - target: {fileID: 959507028362922116, guid: 9f60166068a1d1248b5b20e68999b738,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 22100000, guid: 86fe8a937d3f64a148216eb1d71c67f4,
+        type: 2}
     - target: {fileID: 5236526188443135364, guid: 9f60166068a1d1248b5b20e68999b738,
         type: 3}
       propertyPath: id
@@ -864,12 +870,6 @@ PrefabInstance:
       propertyPath: team
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 959507028362922116, guid: 9f60166068a1d1248b5b20e68999b738,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 22100000, guid: 86fe8a937d3f64a148216eb1d71c67f4,
-        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f60166068a1d1248b5b20e68999b738, type: 3}
 --- !u!1 &958194180

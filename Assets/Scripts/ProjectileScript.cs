@@ -13,7 +13,7 @@ public class ProjectileScript : MonoBehaviour
     void Start()
     {
         initialTime = Time.time;
-        lifeSpam = 3.0f;
+        lifeSpam = 1.5f;
         theBody = GetComponent<Rigidbody2D>();
 				theBody.AddTorque(Random.Range(-10f, 10f));
     }
