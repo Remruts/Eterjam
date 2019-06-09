@@ -14,7 +14,7 @@ public class ProjectileScript : MonoBehaviour
         initialTime = Time.time;
         lifeSpam = 3.0f;
         theBody = GetComponent<Rigidbody2D>();
-
+				theBody.AddTorque(Random.Range(-10f, 10f));
     }
 
     // Update is called once per frame
@@ -44,7 +44,6 @@ public class ProjectileScript : MonoBehaviour
             }
             else
             {
-
                 newDirection.x = Random.Range(0f, 50f);
                 newDirection.y = Random.Range(0f, 50f) * -1.0f;
                 newDirection.z = velocity.z;
