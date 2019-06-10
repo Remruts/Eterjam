@@ -39,7 +39,9 @@ for (int i = 0; i < 10; i++)
     // Update is called once per frame
     void Update()
     {
-
+			if (Input.GetKey("escape")){
+				Application.Quit();
+			}
     }
 
 
@@ -66,7 +68,7 @@ for (int i = 0; i < 10; i++)
 
     void roundOver(int aWinningTeam)
     {
-        string winner = aWinningTeam == 0 ? "de Desarrollo" : "de Comercial";        
+        string winner = aWinningTeam == 0 ? "de Desarrollo" : "de Comercial";
         if (matchEnded)
         {
             return;
@@ -80,7 +82,7 @@ for (int i = 0; i < 10; i++)
         }else{
             elTexto.color = new Color32(73, 178, 99, 255);
         }
-        
+
         elTexto.text = "Ganó el equipo " + winner;
 
 

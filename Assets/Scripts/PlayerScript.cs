@@ -89,7 +89,6 @@ public class PlayerScript : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col) {
         if (col.gameObject.CompareTag("projectile")){
-            Debug.Log("stuff");
             ManagerScript.coso.onPlayerDeath(this);
             Destroy(gameObject);
         }
@@ -151,6 +150,7 @@ public class PlayerScript : MonoBehaviour
         movement = Input.GetAxis("P" + id.ToString() + "Horizontal") * speed;
         if (Mathf.Abs(movement) > 0.5)
         {
+					Debug.Log("move");
 					faceDir = Mathf.Sign(movement);
 					anim.SetBool("standing", false);
         } else {
