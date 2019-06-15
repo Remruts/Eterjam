@@ -11,11 +11,11 @@ El código debería ser libre, salvo cosas como Yarn Spinner que no es nuestro, 
 Los sonidos no tengo idea la licencia, así que yo no me arriesgaría. Y la fuente Roboto es de Google, pero deberían poder usarla.
 
 ### ![laptop](GraficosReadme/proy3.png) Equipo:
-- Emilia Calvo (Arte)
-- Martin Altman (Música/Programación)
-- Fabricio Previgliano (Música/Programación)
-- Giuliano Francisco Vitteli (Programación)
-- Andreas Sturmer (Programación)
+- Emilia Calvo (Arte) [@pand_emik](https://www.instagram.com/pand_emik/)
+- Martin Altman (Música/Programación) [@M4R70](https://github.com/M4R70)
+- Fabricio Previgliano (Música/Programación) [@Dagian](https://github.com/Dagian)
+- Giuliano Francisco Vitteli (Programación) [@jellybeat](https://github.com/jellybeat)
+- Andreas Sturmer (Programación) [@remruts](https://github.com/Remruts)
 
 El diseño del juego fue un trabajo en conjunto y los roles de dirección, etc. fueron rotando.
 
