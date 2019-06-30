@@ -261,7 +261,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4386864481693641778}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.8318928, y: -1.3325067, z: -9.205078}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1347372214}
@@ -332,7 +332,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0.4
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 4
   m_Material: {fileID: 0}
   m_Interpolate: 1
@@ -380,7 +380,7 @@ MonoBehaviour:
   speed: 5
   maxSpeed: 5
   projectileSpeed: 400
-  jumpForce: 450
+  jumpForce: 20
   dashForce: 30
   maxCooldown: 0
   maxDashCooldown: 1
@@ -393,9 +393,12 @@ MonoBehaviour:
   team: 0
   id: 1
   flickSpeed: 10
-  dashSound: {fileID: 8300000, guid: 6ee71354462ac4f2088e84d95bb71395, type: 3}
+  dashSound: {fileID: 8300000, guid: 727103812a253704a81d6980ba0e97e0, type: 3}
   fireSound: {fileID: 8300000, guid: 8e6f5256bf0b0439c8b44701bde975a6, type: 3}
+  jumpSound: {fileID: 8300000, guid: 8eb5dc3caa99b7b40a4266be5374da12, type: 3}
   dashEffect: {fileID: 4711104831747315064}
+  landingPartsPrefab: {fileID: 4816474038267315517, guid: 28f835ad2d2d9564aba459eeaaa32597,
+    type: 3}
 --- !u!95 &959507028362922116
 Animator:
   serializedVersion: 3

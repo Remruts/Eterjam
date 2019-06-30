@@ -11,20 +11,23 @@
     - Soporte para hotplugging?
     - Soporte para teclado
 - Agregar jugadores cuando presionan un botón en el control hasta cuatro jugadores
-- Corregir colisiones
-    - Saltos
-    - Atravesar objetos
+- Corregir colisiones ✅ (ponele)
+    - Saltos ️️✅
+    - Atravesar objetos ✅
 
 ## Arreglos chiquitos:
 - Aumentar un poco el radio al jugador en el que salen los objetos para que no te mates cuando sale un proyectil para abajo ✅
 - Hacer que el objeto explote cuando toca un personaje ✔️✔️
 - Hacer que el fantasmita salga cuando muere un personaje
-- Agregar sonidos a otras acciones
+- Agregar sonidos a otras acciones ⚠️
+    - Dash ✅
+    - Jump ✅
+    - Proyectil rebote con pared ✅
 - Agregar un efecto al dash ️️✅
     - Arreglado también dirección de dash cuando está idle ✅
-- Agregar efectos al salto (como polvo cuando aterriza)
+- Agregar efectos al salto (como polvo cuando aterriza) ✅ (podría ser mejor)
 - Arreglar los textos horribles!
-- Efectos de destrucción de los objetos (podría ser polvo)
+- Efectos de destrucción de los objetos (podría ser polvo) ✅
 - Agregar transiciones a escenas
 - Screenshake! ✅
     - Agregar screenshake a más cosas además de explosiones

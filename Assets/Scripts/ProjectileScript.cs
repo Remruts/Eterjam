@@ -7,14 +7,20 @@ public class ProjectileScript : MonoBehaviour
   float initialTime;
   float lifeSpam;
   public GameObject explosionPrefab;
+  public AudioClip bounceSound;
+  
   Rigidbody2D theBody;
-
+  AudioSource audioSource;
+  
   // Start is called before the first frame update
   void Start(){
     initialTime = Time.time;
     lifeSpam = 1.5f;
+    
     theBody = GetComponent<Rigidbody2D>();
     theBody.AddTorque(Random.Range(-10f, 10f));
+
+    audioSource = GetComponent<AudioSource>();
   }
 
   // Update is called once per frame
@@ -24,7 +30,10 @@ public class ProjectileScript : MonoBehaviour
     }
   }
 
-  void OnCollisionEnter2D(Collision2D col){    
+  void OnCollisionEnter2D(Collision2D col){
+    if (audioSource != null){
+        audioSource.PlayOneShot(bounceSound);
+    }
     if (col.gameObject.CompareTag("fan")){
       Vector3 velocity = theBody.velocity;
       Vector3 newDirection = new Vector3();
@@ -44,7 +53,6 @@ public class ProjectileScript : MonoBehaviour
       }
 
       theBody.velocity = newDirection;
-
     } else if (col.gameObject.CompareTag("Player")) {      
       morir();
     } else if (col.gameObject.CompareTag("projectile")){

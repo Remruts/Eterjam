@@ -38,8 +38,10 @@ public class PlayerScript : MonoBehaviour
   AudioSource audioSource;
   public AudioClip dashSound;
   public AudioClip fireSound;
+  public AudioClip jumpSound;
 
   public GameObject dashEffect;
+  public GameObject landingPartsPrefab;
 
   // Start is called before the first frame update
   void Start(){
@@ -73,9 +75,11 @@ public class PlayerScript : MonoBehaviour
     checkFloor();
 
     float distanceMoved = movement + (isDashing ? dashForce * faceDir : 0f);
-    RaycastHit2D hit = Physics2D.Raycast(rb.transform.position, new Vector2(distanceMoved, 0f), 0.5f + distanceMoved/50f, solidMask.value);
+    RaycastHit2D hit = Physics2D.BoxCast(transform.position, new Vector2(0.5f, 0.5f), 0f, new Vector2(distanceMoved, 0f), 0.5f, solidMask.value);
+    Debug.DrawRay(transform.position, new Vector2(0.5f * faceDir, 0f));
+    
     if (hit){
-      //Debug.Log("Coso");
+      //Debug.Log(hit.point);
       distanceMoved = 0f;
     }
 
@@ -102,7 +106,7 @@ public class PlayerScript : MonoBehaviour
       forceBarPos.x = -1.5f + 1.5f * realFlick.magnitude/4.24f;
       forceBar.anchoredPosition = forceBarPos;
 
-      if (flick.magnitude > 0.1f){
+      if (flick.magnitude > 0.15f){
         //Esto es para cambiar de lado el sprite dependiendo del flick
         Vector3 prevScale = transform.localScale;
         prevScale.x = Mathf.Sign(flick.x) * (spr.flipX ? -1f : 1f);
@@ -137,7 +141,7 @@ public class PlayerScript : MonoBehaviour
   }
 
   void move(){
-    movement = Input.GetAxis("P" + id.ToString() + "Horizontal") * speed;
+    movement = Input.GetAxis("P" + id.ToString() + "Horizontal") * speed;    
     if (Mathf.Abs(movement) > 0.5f)
     {
       faceDir = Mathf.Sign(movement);
@@ -145,16 +149,17 @@ public class PlayerScript : MonoBehaviour
     } else {
       movement = 0f;
       anim.SetBool("standing", true);
-    }
-    
+    }    
   }
 
   void jump(){
     if (canJump){
       if (Input.GetButton("P" + id.ToString() + "Jump")){
         anim.Play("Jump");
-        rb.AddForce(new Vector2(0f, jumpForce));
+        //rb.AddForce(new Vector2(0f, jumpForce));
+        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         canJump = false;
+        audioSource.PlayOneShot(jumpSound, 2f);
       }
     }
   }
@@ -174,7 +179,7 @@ public class PlayerScript : MonoBehaviour
       if (Input.GetButton("P" + id.ToString() + "Dash")){
       anim.Play("Dash");
 
-      audioSource.PlayOneShot(dashSound);
+      audioSource.PlayOneShot(dashSound, 3f);
       
       GetComponent<Collider2D>().enabled = false;
       isDashing = true;
@@ -189,17 +194,28 @@ public class PlayerScript : MonoBehaviour
   }
 
   void checkFloor(){
-    RaycastHit2D hit = Physics2D.Raycast(rb.transform.position, new Vector2(0f, -1f), 0.8f, solidMask.value);
-    if (hit){
-      var state = anim.GetCurrentAnimatorStateInfo(0);
-      if (state.IsName("Jump")){
-        anim.Play("Idle");
+    //RaycastHit2D hit = Physics2D.Raycast(rb.transform.position, new Vector2(0f, -1f), 0.8f, solidMask.value);
+    Collider2D col = Physics2D.OverlapBox(rb.transform.position + Vector3.down * 0.75f, new Vector2(0.5f, 0.2f), 0f, solidMask.value);
+    if (col != null){
+      if (rb.velocity.y <= 0f && !canJump){
+        //partículas de cuando cae al piso        
+        Instantiate(landingPartsPrefab, transform.position + Vector3.down * 0.75f, Quaternion.identity);        
+
+        rb.velocity = new Vector2(rb.velocity.x, 0f);
+        canJump = true;
+        var state = anim.GetCurrentAnimatorStateInfo(0); 
+        if (state.IsName("Jump")){
+          anim.Play("Idle");
+        }
       }
-      rb.velocity = new Vector2(rb.velocity.x, 0f);
-      canJump = true;
       rb.gravityScale = 0f;
     } else {
       rb.gravityScale = 4f;
     }
+  }  
+
+  void OnDrawGizmos(){    
+    Gizmos.color = Color.yellow;
+    Gizmos.DrawWireCube(transform.position + Vector3.down * 0.75f, new Vector3(0.5f, 0.2f, 1f));    
   }
 }
