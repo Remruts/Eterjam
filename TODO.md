@@ -1,4 +1,11 @@
 # GRAN TO-DO DE ARREGLOS Y MEJORAS:
+
+## Referencia:
+⚠️ haciendo  
+✅ hecho  
+✔️✔️ hecho y testeado bien / completo totalmente  
+❌ abandonado/rechazado  
+
 ## Cosas grandes:
 - Cambiarse al nuevo Input System:
     - Soporte para hotplugging?
@@ -9,16 +16,18 @@
     - Atravesar objetos
 
 ## Arreglos chiquitos:
-- Aumentar un poco el radio al jugador en el que salen los objetos para que no te mates cuando sale un proyectil para abajo
-- Hacer que el objeto explote cuando toca un personaje
+- Aumentar un poco el radio al jugador en el que salen los objetos para que no te mates cuando sale un proyectil para abajo ✅
+- Hacer que el objeto explote cuando toca un personaje ✔️✔️
 - Hacer que el fantasmita salga cuando muere un personaje
 - Agregar sonidos a otras acciones
-- Agregar un efecto al dash
+- Agregar un efecto al dash ️️✅
+    - Arreglado también dirección de dash cuando está idle ✅
 - Agregar efectos al salto (como polvo cuando aterriza)
 - Arreglar los textos horribles!
 - Efectos de destrucción de los objetos (podría ser polvo)
 - Agregar transiciones a escenas
-- Screenshake!
+- Screenshake! ✅
+    - Agregar screenshake a más cosas además de explosiones
 - "Press any button" para el menú de inicio
 - Agregar gifs del juego a itch.io
 
