@@ -18,9 +18,9 @@
 ## Arreglos chiquitos:
 
 - Hacer que el fantasmita salga cuando muere un personaje
-- Agregar gifs del juego a itch.io
 
 
+- Agregar gifs del juego a itch.io ✅
 - Post processing ✅
     - Alguien que sepa más de colores debería verlo.
 - Aumentar un poco el radio al jugador en el que salen los objetos para que no te mates cuando sale un proyectil para abajo ✅
