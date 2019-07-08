@@ -18,9 +18,19 @@ public class ManagerScript : MonoBehaviour
     public static ManagerScript coso;
 
     public GameObject winText;
+    public GameObject pauseText;
 
     bool matchEnded = false;
+    bool paused = false;
 
+    float currentTimeScale = 1f;
+
+    public Color32 team0TextColor = new Color32(255, 176, 255, 255);
+    public Color32 team0OutlineColor = new Color32(255, 117, 117, 255);
+
+    public Color32 team1TextColor = new Color32(88, 255, 119, 255);
+    public Color32 team1OutlineColor = new Color32(126, 161, 121, 255);
+   
     // Start is called before the first frame update
     void Awake()
     {
@@ -28,20 +38,24 @@ public class ManagerScript : MonoBehaviour
         coso = this;
         currentPlayers = new List<PlayerScript>();
         /*
-for (int i = 0; i < 10; i++)
-{
-    wait(100);
-    GameObject mueble = Instantiate(furniturePrefab[Random.Range(0,furniturePrefab.Count)], new Vector3(0f, -5f + i*0.5f, 0f), Quaternion.Euler(0,0,Random.Range(0,180))) as GameObject;
-}
+        for (int i = 0; i < 10; i++)
+        {
+            wait(100);
+            GameObject mueble = Instantiate(furniturePrefab[Random.Range(0,furniturePrefab.Count)], new Vector3(0f, -5f + i*0.5f, 0f), Quaternion.Euler(0,0,Random.Range(0,180))) as GameObject;
+        }
         */
     }
 
     // Update is called once per frame
     void Update()
     {
-			if (Input.GetKey("escape")){
-				Application.Quit();
-			}
+        if (Input.GetKey("escape")){
+            Application.Quit();
+        }
+
+        if (Input.GetButtonDown("P1Start") || Input.GetButtonDown("P2Start")){
+            pauseGame();
+        }
     }
 
 
@@ -63,6 +77,16 @@ for (int i = 0; i < 10; i++)
     public void pauseGame()
     {
         // pause the game TODO
+        paused = !paused;
+        if (paused){
+            pauseText.SetActive(true);
+            Time.timeScale = 0f;
+            pauseText.GetComponent<Animator>().Play("show");            
+        } else {
+            //pauseText.SetActive(false);
+            Time.timeScale = currentTimeScale;
+            pauseText.GetComponent<Animator>().Play("hide");
+        }
     }
 
 
@@ -78,21 +102,23 @@ for (int i = 0; i < 10; i++)
         var elTexto = winText.GetComponent<TMP_Text>();
         if (aWinningTeam==0)
         {
-            elTexto.color = new Color32(224, 116, 222, 255);
+            elTexto.color = team0TextColor;
+            elTexto.outlineColor = team0OutlineColor;
         }else{
-            elTexto.color = new Color32(73, 178, 99, 255);
+            elTexto.color = team1TextColor;
+            elTexto.outlineColor = team1OutlineColor;
         }
 
         elTexto.text = "Ganó el equipo " + winner;
 
-
-        Invoke("resetearJuego", 5f);
-
+        Invoke("resetearJuego", 3f);
     }
 
     void resetearJuego()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        transitionScript.transition.setTransition(SceneManager.GetActiveScene().name, "noise0");
+        transitionScript.transition.startTransition(0.5f);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
 

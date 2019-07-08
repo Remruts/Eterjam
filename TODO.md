@@ -16,23 +16,33 @@
     - Atravesar objetos ✅
 
 ## Arreglos chiquitos:
+
+- Hacer que el fantasmita salga cuando muere un personaje
+- Agregar gifs del juego a itch.io
+
+
+- Post processing ✅
+    - Alguien que sepa más de colores debería verlo.
 - Aumentar un poco el radio al jugador en el que salen los objetos para que no te mates cuando sale un proyectil para abajo ✅
 - Hacer que el objeto explote cuando toca un personaje ✔️✔️
-- Hacer que el fantasmita salga cuando muere un personaje
+- Agregar un efecto al dash ️️✅
+    - Arreglado también dirección de dash cuando está idle ✅
+- Agregar transiciones a escenas ️✅
+    - Title screen ✅
+    - Game ✅
+- Agregar pausa ✅
+- "Press any button" para el menú de inicio ✅ (es "press jump" por ahora)
+- Agregar efectos al salto (como polvo cuando aterriza) ✅ (podría ser mejor)
+- Efectos de colisiones de proyectiles
+- Efectos de destrucción de los objetos (podría ser polvo) ✅
+- Screenshake! ✅
+    - Agregar screenshake a más cosas además de explosiones
+- Arreglar los textos horribles! ✅
 - Agregar sonidos a otras acciones ⚠️
     - Dash ✅
     - Jump ✅
     - Proyectil rebote con pared ✅
-- Agregar un efecto al dash ️️✅
-    - Arreglado también dirección de dash cuando está idle ✅
-- Agregar efectos al salto (como polvo cuando aterriza) ✅ (podría ser mejor)
-- Arreglar los textos horribles!
-- Efectos de destrucción de los objetos (podría ser polvo) ✅
-- Agregar transiciones a escenas
-- Screenshake! ✅
-    - Agregar screenshake a más cosas además de explosiones
-- "Press any button" para el menú de inicio
-- Agregar gifs del juego a itch.io
+- Esconder el cursor del mouse ✅
 
 ## Ideas:
 - Distintos tipos de proyectiles?

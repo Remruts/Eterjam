@@ -136,7 +136,7 @@ MonoBehaviour:
   explosionPrefab: {fileID: 3786275188020294121, guid: 1cc8a1bd8d77c7b4a98ca43a76132971,
     type: 3}
   bounceSound: {fileID: 8300000, guid: 2de30b767b8844403ba6214e435ef83c, type: 3}
-  fanSound: {fileID: 8300000, guid: 15ef0e3d79a1e3c44bf313aa7855d059, type: 3}
+  sparks: {fileID: 4816474038267315517, guid: d01f4c4020fd01044a872a437a3b7d86, type: 3}
 --- !u!114 &-5371908766714406574
 MonoBehaviour:
   m_ObjectHideFlags: 0

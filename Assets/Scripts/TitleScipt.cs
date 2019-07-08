@@ -5,20 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class TitleScipt : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-
+    void Start(){
+        Cursor.visible = false;
     }
-
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetButton("P1Jump") || Input.GetButton("P2Jump")) {
-            SceneManager.LoadScene("SpritesScene");
+        if(Input.GetButtonDown("P1Jump") || Input.GetButtonDown("P2Jump") || Input.GetButtonDown("P1Start") || Input.GetButtonDown("P2Start")) {
+            transitionScript.transition.setTransition("SpritesScene", "noise0");
+            transitionScript.transition.startTransition(0.5f);
+            //SceneManager.LoadScene("SpritesScene");
         }
-				if (Input.GetKey("escape")){
-					Application.Quit();
-				}
+        if (Input.GetKey("escape")){
+            Application.Quit();
+        }
     }
 }

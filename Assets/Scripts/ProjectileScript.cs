@@ -8,9 +8,11 @@ public class ProjectileScript : MonoBehaviour
   float lifeSpam;
   public GameObject explosionPrefab;
   public AudioClip bounceSound;
+  public GameObject sparks;
   
   Rigidbody2D theBody;
   AudioSource audioSource;
+
   
   // Start is called before the first frame update
   void Start(){
@@ -31,6 +33,8 @@ public class ProjectileScript : MonoBehaviour
   }
 
   void OnCollisionEnter2D(Collision2D col){
+    Instantiate(sparks, transform.position, Quaternion.identity);
+
     if (audioSource != null){
         audioSource.PlayOneShot(bounceSound);
     }
@@ -53,6 +57,7 @@ public class ProjectileScript : MonoBehaviour
       }
 
       theBody.velocity = newDirection;
+      
     } else if (col.gameObject.CompareTag("Player")) {      
       morir();
     } else if (col.gameObject.CompareTag("projectile")){
