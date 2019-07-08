@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+
 
 public class PlayerScript : MonoBehaviour
 {
@@ -42,9 +44,29 @@ public class PlayerScript : MonoBehaviour
 
   public GameObject dashEffect;
   public GameObject landingPartsPrefab;
+  
+  InputMaster controls;
+
+  void Awake(){
+    controls = new InputMaster();
+    controls.Player.Jump.performed += _ => jump();
+    //controls.Player.Dash.performed += _ => dash();
+    //controls.Player.Movement.performed += ctx => move(ctx.ReadValue<float>());
+    //controls.Player.Movement.cancelled += ctx => move(float);
+    //controls.Player.Flick.performed += ctx => flick();
+  }
+
+  void OnEnable(){
+    controls.Enable();
+  }
+
+  void OnDisable(){
+    controls.Disable();
+  }
 
   // Start is called before the first frame update
-  void Start(){
+  void Start(){    
+
     faceDir = transform.localScale.x;
     
     rb = GetComponent<Rigidbody2D>();
@@ -59,6 +81,8 @@ public class PlayerScript : MonoBehaviour
 
   // Update is called once per frame
   void FixedUpdate(){
+    
+    /*
     dash();
     if (!isDashing){
       move();
@@ -70,6 +94,13 @@ public class PlayerScript : MonoBehaviour
         if (cooldown < 0f){
           cooldown = 0f;
         }
+      }
+    }
+    */
+    if (cooldown > 0f){
+      cooldown -= Time.deltaTime;
+      if (cooldown < 0f){
+        cooldown = 0f;
       }
     }
     checkFloor();
@@ -148,11 +179,15 @@ public class PlayerScript : MonoBehaviour
       anim.SetBool("standing", false);
     } else {
       movement = 0f;
-      anim.SetBool("standing", true);
+      anim.SetBool("standing", true);   
     }    
   }
 
-  void jump(){
+  void test(){
+    Debug.Log("meh");
+  }
+
+  void jump(){    
     if (canJump){
       if (Input.GetButton("P" + id.ToString() + "Jump")){
         anim.Play("Jump");
