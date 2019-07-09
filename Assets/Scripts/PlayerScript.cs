@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-
 public class PlayerScript : MonoBehaviour
 {
   Rigidbody2D rb;
@@ -45,11 +44,12 @@ public class PlayerScript : MonoBehaviour
   public GameObject dashEffect;
   public GameObject landingPartsPrefab;
   
-  InputMaster controls;
+  //InputMaster controls;
 
+/*
   void Awake(){
-    controls = new InputMaster();
-    controls.Player.Jump.performed += _ => jump();
+    //controls = new InputMaster();
+    //controls.Player.Jump.performed += _ => jump();
     //controls.Player.Dash.performed += _ => dash();
     //controls.Player.Movement.performed += ctx => move(ctx.ReadValue<float>());
     //controls.Player.Movement.cancelled += ctx => move(float);
@@ -63,6 +63,7 @@ public class PlayerScript : MonoBehaviour
   void OnDisable(){
     controls.Disable();
   }
+*/
 
   // Start is called before the first frame update
   void Start(){    
@@ -97,6 +98,17 @@ public class PlayerScript : MonoBehaviour
       }
     }
     */
+    
+    dashCooldown -= Time.deltaTime;
+
+    if (dashCooldown <= maxDashCooldown - 0.1f){
+      isDashing = false;
+      GetComponent<Collider2D>().enabled = true;
+    }
+    if (dashCooldown <= 0f){
+      dashCooldown = 0f;
+    }
+
     if (cooldown > 0f){
       cooldown -= Time.deltaTime;
       if (cooldown < 0f){
@@ -128,9 +140,13 @@ public class PlayerScript : MonoBehaviour
     }
   }
 
-  void shoot(){
+  public void flick(InputAction.CallbackContext context){
+    if (cooldown > 0f){
+        return;
+    }
     // Shooting
-    Vector2 flick = new Vector2(Input.GetAxisRaw("P" + id.ToString() +"FlickX"), -Input.GetAxisRaw("P" + id.ToString() + "FlickY"));
+    Vector2 flick = context.ReadValue<Vector2>();    
+    //Vector2 flick = new Vector2(Input.GetAxisRaw("P" + id.ToString() +"FlickX"), -Input.GetAxisRaw("P" + id.ToString() + "FlickY"));
 
     if (isHolding){
       Vector2 forceBarPos = forceBar.anchoredPosition;
@@ -163,55 +179,39 @@ public class PlayerScript : MonoBehaviour
         forceBar.parent.gameObject.SetActive(false);
       }
     } else {
-      if (flick.magnitude > 0.5f){
+      if (flick.magnitude > 0.5f){        
         isHolding = true;
-        realFlick = flick;
+        realFlick = flick/2.0f;
         forceBar.parent.gameObject.SetActive(true);
       }
     }
   }
 
-  void move(){
-    movement = Input.GetAxis("P" + id.ToString() + "Horizontal") * speed;    
-    if (Mathf.Abs(movement) > 0.5f)
-    {
-      faceDir = Mathf.Sign(movement);
-      anim.SetBool("standing", false);
-    } else {
-      movement = 0f;
-      anim.SetBool("standing", true);   
-    }    
-  }
-
-  void test(){
-    Debug.Log("meh");
-  }
-
-  void jump(){    
-    if (canJump){
-      if (Input.GetButton("P" + id.ToString() + "Jump")){
-        anim.Play("Jump");
-        //rb.AddForce(new Vector2(0f, jumpForce));
-        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-        canJump = false;
-        audioSource.PlayOneShot(jumpSound, 2f);
+  public void move(InputAction.CallbackContext context){
+    if (!isDashing){      
+      movement = context.ReadValue<Vector2>().x * speed;
+      if (Mathf.Abs(movement) > 0.5f){
+        faceDir = Mathf.Sign(movement);
+        anim.SetBool("standing", false);
+      } else {
+        movement = 0f;
+        anim.SetBool("standing", true);   
       }
     }
+        
   }
 
-  void dash(){
-    dashCooldown -= Time.deltaTime;
-
-    if (dashCooldown <= maxDashCooldown - 0.1f){
-      isDashing = false;
-      GetComponent<Collider2D>().enabled = true;
+  public void jump(){    
+    if (canJump && !isDashing){      
+      anim.Play("Jump");        
+      rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+      canJump = false;
+      audioSource.PlayOneShot(jumpSound, 2f);      
     }
-    if (dashCooldown <= 0f){
-      dashCooldown = 0f;
-    }
+  }
 
-    if (dashCooldown <= 0f){
-      if (Input.GetButton("P" + id.ToString() + "Dash")){
+  public void dash(){
+    if (dashCooldown <= 0f){      
       anim.Play("Dash");
 
       audioSource.PlayOneShot(dashSound, 3f);
@@ -224,7 +224,6 @@ public class PlayerScript : MonoBehaviour
       dashEffect.GetComponent<particleScript>().Emit();
       
       dashCooldown = maxDashCooldown;
-      }
     }
   }
 

@@ -13,7 +13,40 @@
                     "passThrough": false,
                     "initialStateCheck": false,
                     "processors": "",
-                    "interactions": "Press",
+                    "interactions": "",
+                    "bindings": []
+                },
+                {
+                    "name": "Move",
+                    "id": "eac821a4-9f0f-42ed-96c8-38f7085ee3f3",
+                    "expectedControlLayout": "Vector2",
+                    "continuous": false,
+                    "passThrough": false,
+                    "initialStateCheck": false,
+                    "processors": "",
+                    "interactions": "",
+                    "bindings": []
+                },
+                {
+                    "name": "Dash",
+                    "id": "167f5efd-c588-4875-9c2f-31e822774f8a",
+                    "expectedControlLayout": "",
+                    "continuous": false,
+                    "passThrough": false,
+                    "initialStateCheck": false,
+                    "processors": "",
+                    "interactions": "",
+                    "bindings": []
+                },
+                {
+                    "name": "Flick",
+                    "id": "7bcc5f0f-6efd-4519-ab94-7d4554016169",
+                    "expectedControlLayout": "Vector2",
+                    "continuous": true,
+                    "passThrough": false,
+                    "initialStateCheck": false,
+                    "processors": "",
+                    "interactions": "",
                     "bindings": []
                 }
             ],
@@ -22,10 +55,46 @@
                     "name": "",
                     "id": "155aa2a8-bf24-4a0d-b9c1-4674efc5295f",
                     "path": "<Gamepad>/rightShoulder",
-                    "interactions": "Press",
+                    "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";gamepadAndKeyboard",
                     "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "",
+                    "id": "fc252da2-448a-46c1-856a-06764f5cd756",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";gamepadAndKeyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "",
+                    "id": "24fc4b6e-57ba-4f22-9ef1-2ff6d5aacbce",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";gamepadAndKeyboard",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "",
+                    "id": "ac8ca32d-bc0a-4d57-abe8-7a46adb73745",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "NormalizeVector2",
+                    "groups": ";gamepadAndKeyboard",
+                    "action": "Flick",
                     "isComposite": false,
                     "isPartOfComposite": false,
                     "modifiers": ""
@@ -33,5 +102,23 @@
             ]
         }
     ],
-    "controlSchemes": []
+    "controlSchemes": [
+        {
+            "name": "gamepadAndKeyboard",
+            "basedOn": "",
+            "bindingGroup": "gamepadAndKeyboard",
+            "devices": [
+                {
+                    "devicePath": "<Gamepad>",
+                    "isOptional": true,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": true,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
 }
