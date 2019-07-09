@@ -21,6 +21,7 @@ public class PlayerScript : MonoBehaviour
   public LayerMask solidMask;
 
   public GameObject projectilePrefab;
+  public GameObject fantasmitaPrefab;
   public RectTransform forceBar;
   public int team = 0;
   public int id = 0;
@@ -94,6 +95,10 @@ public class PlayerScript : MonoBehaviour
     if (col.gameObject.CompareTag("projectile")){
       ManagerScript.coso.onPlayerDeath(this);
       Destroy(gameObject);
+      GameObject fantasmita = Instantiate(fantasmitaPrefab, transform.position, Quaternion.identity);
+      var scr = fantasmita.GetComponent<fantasmitaScript>();
+      scr.team = team;
+      scr.flip = (Mathf.Sign(transform.localScale.x) > 0f) ? spr.flipX : !spr.flipX;
     }
   }
 

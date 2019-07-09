@@ -389,6 +389,8 @@ MonoBehaviour:
     m_Bits: 256
   projectilePrefab: {fileID: 6090660027465305050, guid: 2cc97c32afba38b429571de718846035,
     type: 3}
+  fantasmitaPrefab: {fileID: 8546250162463274020, guid: 2d2d64da860c9de4683bb8d70867f9b7,
+    type: 3}
   forceBar: {fileID: 163093086}
   team: 0
   id: 1
