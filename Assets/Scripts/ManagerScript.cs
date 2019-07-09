@@ -49,6 +49,9 @@ public class ManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (matchEnded){
+            return;
+        }
         if (Input.GetKey("escape")){
             Application.Quit();
         }

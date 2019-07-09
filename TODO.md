@@ -18,8 +18,15 @@
 ## Arreglos chiquitos:
 
 - Hacer que el fantasmita salga cuando muere un personaje
+- Efectos para cuando los proyectiles van muy rápido (supersonic)
+    - Hacer que sean más rápidos tal vez cuando salen disparados con el ventilador
 
+### Done?
 
+- Que no se resetee la música ✅
+- Que no se pueda presionar pausa una vez que terminó el partido ✅
+- Arreglar texto de "press jump" a "Apretá Start!" ✅
+- Cambiar background de las transiciones porque este es feo ✅
 - Agregar gifs del juego a itch.io ✅
 - Post processing ✅
     - Alguien que sepa más de colores debería verlo.
@@ -29,7 +36,7 @@
     - Arreglado también dirección de dash cuando está idle ✅
 - Agregar transiciones a escenas ️✅
     - Title screen ✅
-    - Game ✅
+    - Game ✅    
 - Agregar pausa ✅
 - "Press any button" para el menú de inicio ✅ (es "press jump" por ahora)
 - Agregar efectos al salto (como polvo cuando aterriza) ✅ (podría ser mejor)
@@ -44,13 +51,19 @@
     - Proyectil rebote con pared ✅
 - Esconder el cursor del mouse ✅
 
+## Gameplay Feel (para testear):
+- Reducir largo de dash y tener dos dashs
+- Dashes en otras direcciones (libre)
+
 ## Ideas:
+- Transición a lo Batman (girando)
 - Distintos tipos de proyectiles?
 - Un ataque melee?
 - Parry/Escudo
 - Power-ups
     - Taza de café que te haga más rápido
 - Tag-team con switches pseudorandoms
+- Build para celulares?
 
 ## Deseables
 - Zoom a la cámara dependiendo de distancia de personajes

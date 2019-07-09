@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 468337957}
   - component: {fileID: 468337959}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: apretaStart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -155,7 +155,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -48, y: 24}
+  m_AnchoredPosition: {x: -48, y: 32}
   m_SizeDelta: {x: 500, y: 100}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &468337957
@@ -178,7 +178,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: press jump
+  m_text: "Apret\xE1 Start!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b813315be599fd34794a29c8d5434586, type: 2}
   m_sharedMaterial: {fileID: 6224024021316187475, guid: b813315be599fd34794a29c8d5434586,
@@ -248,7 +248,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 468337957}
-    characterCount: 10
+    characterCount: 13
     spriteCount: 0
     spaceCount: 1
     wordCount: 2
