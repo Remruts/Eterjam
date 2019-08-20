@@ -12,7 +12,7 @@ public class ProjectileScript : MonoBehaviour
   
   Rigidbody2D theBody;
   AudioSource audioSource;
-
+  
   
   // Start is called before the first frame update
   void Start(){
@@ -28,17 +28,21 @@ public class ProjectileScript : MonoBehaviour
   // Update is called once per frame
   void Update(){
     if (Time.time - initialTime > lifeSpam){
-      morir();
+      morir();      
     }
   }
 
   void OnCollisionEnter2D(Collision2D col){
+
     Instantiate(sparks, transform.position, Quaternion.identity);
 
     if (audioSource != null){
         audioSource.PlayOneShot(bounceSound);
     }
-    if (col.gameObject.CompareTag("fan")){
+    if (col.gameObject.CompareTag("fan")){ 
+      if (theBody == null){
+        return;
+      }
       Vector3 velocity = theBody.velocity;
       Vector3 newDirection = new Vector3();
       
@@ -66,7 +70,7 @@ public class ProjectileScript : MonoBehaviour
   }
 
   void morir(){
-    Destroy(gameObject);
+    Destroy(gameObject);    
     Instantiate(explosionPrefab, transform.position, Quaternion.identity);
     CamScript.screen.shake(0.1f, 0.5f);
   }

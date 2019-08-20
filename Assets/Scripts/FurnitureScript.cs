@@ -9,8 +9,7 @@ public class FurnitureScript : MonoBehaviour
     {
         float probability = Random.Range(0.0f,1.0f);
         if (col.gameObject.CompareTag("projectile") && probability > 0.9f)
-        {
-            Debug.Log("stuff");
+        {            
             Destroy(gameObject);
             Instantiate(smokePrefab, transform.position, Quaternion.identity);
             CamScript.screen.shake(0.1f, 0.8f);
