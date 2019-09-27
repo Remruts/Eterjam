@@ -17,9 +17,16 @@
 
 ## Arreglos chiquitos:
 
-- Hacer que el fantasmita salga cuando muere un personaje
+- Hacer que el fantasmita salga cuando muere un personaje✅
 - Efectos para cuando los proyectiles van muy rápido (supersonic)
     - Hacer que sean más rápidos tal vez cuando salen disparados con el ventilador
+
+## Polish ideas:
+- Ventilador: sonido + efecto + screenshake en colisión
+- Mejorar animaciones (por ejemplo, caras, pestañar, tener miedo, etc.)
+- Agrandar los personajes.
+- Movimientos más rápidos, sobre todo dash y un mejor efecto para eso.
+- Transición no tan pixelada, usar smoothstep en el shader.
 
 ### Done?
 
@@ -29,7 +36,7 @@
 - Cambiar background de las transiciones porque este es feo ✅
 - Agregar gifs del juego a itch.io ✅
 - Post processing ✅
-    - Alguien que sepa más de colores debería verlo.
+    - Alguien que sepa más de colores debería verlo. ⚠️
 - Aumentar un poco el radio al jugador en el que salen los objetos para que no te mates cuando sale un proyectil para abajo ✅
 - Hacer que el objeto explote cuando toca un personaje ✔️✔️
 - Agregar un efecto al dash ️️✅
