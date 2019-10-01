@@ -14,12 +14,28 @@ InputManager:
     altNegativeButton: 
     altPositiveButton: 
     gravity: 3
-    dead: 0.001
-    sensitivity: 3
+    dead: 0.01
+    sensitivity: 2
     snap: 1
     invert: 0
     type: 2
     axis: 0
+    joyNum: 1
+  - serializedVersion: 3
+    m_Name: P1Vertical
+    descriptiveName: P1 Movement
+    descriptiveNegativeName: 
+    negativeButton: a
+    positiveButton: d
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 3
+    dead: 0.01
+    sensitivity: 2
+    snap: 1
+    invert: 0
+    type: 2
+    axis: 1
     joyNum: 1
   - serializedVersion: 3
     m_Name: P2Horizontal
@@ -30,12 +46,28 @@ InputManager:
     altNegativeButton: 
     altPositiveButton: 
     gravity: 3
-    dead: 0.001
-    sensitivity: 3
+    dead: 0.01
+    sensitivity: 2
     snap: 1
     invert: 0
     type: 2
     axis: 0
+    joyNum: 2
+  - serializedVersion: 3
+    m_Name: P2Vertical
+    descriptiveName: P2 Movement
+    descriptiveNegativeName: 
+    negativeButton: j
+    positiveButton: l
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 3
+    dead: 0.01
+    sensitivity: 2
+    snap: 1
+    invert: 0
+    type: 2
+    axis: 1
     joyNum: 2
   - serializedVersion: 3
     m_Name: P1FlickX
@@ -167,12 +199,12 @@ InputManager:
     joyNum: 2
   - serializedVersion: 3
     m_Name: P1Start
-    descriptiveName: P1 Pause
+    descriptiveName: P1 Start
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: joystick 1 button 7
+    positiveButton: joystick 1 button 6
     altNegativeButton: 
-    altPositiveButton: return
+    altPositiveButton: y
     gravity: 3
     dead: 0.001
     sensitivity: 3
@@ -183,12 +215,12 @@ InputManager:
     joyNum: 1
   - serializedVersion: 3
     m_Name: P2Start
-    descriptiveName: P2 Pause
+    descriptiveName: P2 Start
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: joystick 2 button 7
+    positiveButton: joystick 2 button 6
     altNegativeButton: 
-    altPositiveButton: return
+    altPositiveButton: y
     gravity: 3
     dead: 0.001
     sensitivity: 3

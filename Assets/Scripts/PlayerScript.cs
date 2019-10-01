@@ -11,13 +11,18 @@ public class PlayerScript : MonoBehaviour
   public float maxSpeed = 5f;
   public float projectileSpeed = 300f;
   public float jumpForce = 300f;
-  public float dashForce = 600f;
+  public float dashSpeed = 600f;
   public float maxCooldown = 1f;
-  public float maxDashCooldown = 1f;
+  public float dashLength = 0.5f;
+  public int maxDashes = 3;
+  float friction = 0.85f;
 
   bool canJump = false;
   bool isDashing = false;
-  float dashCooldown = 0f;
+  float dashTimer = 0f;
+  Vector2 dashDirection = Vector2.zero;
+  int availableDashes;
+  
   public LayerMask solidMask;
 
   public GameObject projectilePrefab;
@@ -30,7 +35,7 @@ public class PlayerScript : MonoBehaviour
   Vector2 realFlick = Vector2.zero;
   float cooldown = 0f;
 
-  float movement = 0;
+  Vector2 movement;
   float faceDir = 1f;
 
   Animator anim;
@@ -46,6 +51,7 @@ public class PlayerScript : MonoBehaviour
 
   // Start is called before the first frame update
   void Start(){
+    availableDashes = maxDashes;
     faceDir = transform.localScale.x;
     
     rb = GetComponent<Rigidbody2D>();
@@ -59,35 +65,54 @@ public class PlayerScript : MonoBehaviour
   }
 
   // Update is called once per frame
-  void FixedUpdate(){
+  void Update()
+  {
     dash();
-    if (!isDashing){
-      move();
-      jump();
-      if (cooldown == 0f) {
-        shoot();
-      } else if (cooldown > 0f){
-        cooldown -= Time.deltaTime;
-        if (cooldown < 0f){
-          cooldown = 0f;
+    if (!isDashing)
+    {
+        move();
+        jump();
+        if (cooldown == 0f)
+        {
+            shoot();
         }
-      }
+        else if (cooldown > 0f)
+        {
+            cooldown -= Time.deltaTime;
+            if (cooldown < 0f)
+            {
+                cooldown = 0f;
+            }
+        }
+    } else {
+        movement = dashDirection * dashSpeed;
     }
-    checkFloor();
+  }
 
-    float distanceMoved = movement + (isDashing ? dashForce * faceDir : 0f);
-    RaycastHit2D hit = Physics2D.BoxCast(transform.position, new Vector2(0.5f, 0.5f), 0f, new Vector2(distanceMoved, 0f), 0.5f, solidMask.value);
-    Debug.DrawRay(transform.position, new Vector2(0.5f * faceDir, 0f));
+  void FixedUpdate(){    
+    
+    checkFloor();
+    
+    RaycastHit2D hit = Physics2D.BoxCast(transform.position, new Vector2(0.5f, 0.5f), 0f, movement, 0.5f, solidMask.value);
+    Debug.DrawRay(transform.position, movement);
     
     if (hit){
-      //Debug.Log(hit.point);
-      distanceMoved = 0f;
+        //Debug.Log(hit.point);
+        if (isDashing) {
+            Debug.Log("Meh");
+            movement = -movement;
+            stopDashing();
+        } else { 
+            movement.x = 0f;
+        }        
     }
 
-    rb.velocity = new Vector2(distanceMoved, rb.velocity.y);
+    movement *= friction;
+    
+    rb.velocity = movement;
 
-    /*if (Mathf.Abs(rb.velocity.x) > movement)
-    rb.velocity = new Vector2(movement, rb.velocity.y);
+    /*if (Mathf.Abs(rb.velocity.x) > movementX)
+    rb.velocity = new Vector2(movementX, rb.velocity.y);
     */
   }
 
@@ -146,13 +171,14 @@ public class PlayerScript : MonoBehaviour
   }
 
   void move(){
-    movement = Input.GetAxis("P" + id.ToString() + "Horizontal") * speed;    
-    if (Mathf.Abs(movement) > 0.5f)
+    float inputX = Input.GetAxis("P" + id.ToString() + "Horizontal");        
+    if (Mathf.Abs(inputX) > 0.5f)
     {
-      faceDir = Mathf.Sign(movement);
+      movement.x = inputX * speed;
+      faceDir = Mathf.Sign(movement.x);
       anim.SetBool("standing", false);
-    } else {
-      movement = 0f;
+    } else {            
+      //movementX = movementX * friction;      
       anim.SetBool("standing", true);
     }    
   }
@@ -162,7 +188,8 @@ public class PlayerScript : MonoBehaviour
       if (Input.GetButton("P" + id.ToString() + "Jump")){
         anim.Play("Jump");
         //rb.AddForce(new Vector2(0f, jumpForce));
-        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        movement.y = jumpForce;
+        //rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         canJump = false;
         audioSource.PlayOneShot(jumpSound, 2f);
       }
@@ -170,32 +197,38 @@ public class PlayerScript : MonoBehaviour
   }
 
   void dash(){
-    dashCooldown -= Time.deltaTime;
+    //if (availableDashes > 0){            
+    if (Input.GetButtonDown("P" + id.ToString() + "Dash"))    
+    {
+        Debug.Log($"Presionamos space en {Time.time}");
+        isDashing = true;
+        anim.Play("Dash");
+        GetComponent<Collider2D>().enabled = false;
+        //dashEffect.GetComponent<particleScript>().Emit();
 
-    if (dashCooldown <= maxDashCooldown - 0.1f){
-      isDashing = false;
-      GetComponent<Collider2D>().enabled = true;
-    }
-    if (dashCooldown <= 0f){
-      dashCooldown = 0f;
-    }
+        dashDirection = new Vector2(Input.GetAxis("P" + id.ToString() + "Horizontal"), -Input.GetAxis("P" + id.ToString() + "Vertical")).normalized;                
 
-    if (dashCooldown <= 0f){
-      if (Input.GetButton("P" + id.ToString() + "Dash")){
-      anim.Play("Dash");
-
-      audioSource.PlayOneShot(dashSound, 3f);
-      
-      GetComponent<Collider2D>().enabled = false;
-      isDashing = true;
-      Vector3 dashFlip = dashEffect.transform.localScale;
-      dashFlip.y = faceDir * transform.localScale.x;
-      dashEffect.transform.localScale = dashFlip;
-      dashEffect.GetComponent<particleScript>().Emit();
-      
-      dashCooldown = maxDashCooldown;
-      }
+        dashTimer = dashLength;
+        //availableDashes -= 1;
     }
+    //}
+
+    if (isDashing) {            
+        dashTimer -= Time.deltaTime;
+        if (dashTimer <= 0f)
+        {
+          stopDashing();  
+        }
+        
+    }
+  }
+
+  void stopDashing() {        
+        Debug.Log("terminó el dash");        
+        dashTimer = 0f;
+        isDashing = false;
+        GetComponent<Collider2D>().enabled = true;
+        rb.velocity = rb.velocity * 0.2f;
   }
 
   void checkFloor(){
@@ -206,16 +239,24 @@ public class PlayerScript : MonoBehaviour
         //partículas de cuando cae al piso        
         Instantiate(landingPartsPrefab, transform.position + Vector3.down * 0.75f, Quaternion.identity);        
 
-        rb.velocity = new Vector2(rb.velocity.x, 0f);
+        //rb.velocity = new Vector2(rb.velocity.x, 0f);
+        if (!isDashing) {
+            movement.y = 0f;
+        }
+        
         canJump = true;
         var state = anim.GetCurrentAnimatorStateInfo(0); 
         if (state.IsName("Jump")){
           anim.Play("Idle");
         }
       }
-      rb.gravityScale = 0f;
+      //rb.gravityScale = 0f;      
+      availableDashes = maxDashes;
     } else {
-      rb.gravityScale = 4f;
+      //rb.gravityScale = 4f;
+      if (!isDashing){
+        movement.y -= 3f;
+      }      
     }
   }  
 

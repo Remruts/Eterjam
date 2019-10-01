@@ -557,6 +557,31 @@ PrefabInstance:
       propertyPath: lengthInSec
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 5236526188443135364, guid: 9f60166068a1d1248b5b20e68999b738,
+        type: 3}
+      propertyPath: jumpForce
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 5236526188443135364, guid: 9f60166068a1d1248b5b20e68999b738,
+        type: 3}
+      propertyPath: dashSpeed
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 5236526188443135364, guid: 9f60166068a1d1248b5b20e68999b738,
+        type: 3}
+      propertyPath: dashLength
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5236526188443135364, guid: 9f60166068a1d1248b5b20e68999b738,
+        type: 3}
+      propertyPath: speed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5236526188443135364, guid: 9f60166068a1d1248b5b20e68999b738,
+        type: 3}
+      propertyPath: maxSpeed
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f60166068a1d1248b5b20e68999b738, type: 3}
 --- !u!1 &582236080
@@ -1047,6 +1072,31 @@ PrefabInstance:
         type: 3}
       propertyPath: team
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5236526188443135364, guid: 9f60166068a1d1248b5b20e68999b738,
+        type: 3}
+      propertyPath: jumpForce
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 5236526188443135364, guid: 9f60166068a1d1248b5b20e68999b738,
+        type: 3}
+      propertyPath: dashSpeed
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 5236526188443135364, guid: 9f60166068a1d1248b5b20e68999b738,
+        type: 3}
+      propertyPath: dashLength
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5236526188443135364, guid: 9f60166068a1d1248b5b20e68999b738,
+        type: 3}
+      propertyPath: speed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5236526188443135364, guid: 9f60166068a1d1248b5b20e68999b738,
+        type: 3}
+      propertyPath: maxSpeed
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f60166068a1d1248b5b20e68999b738, type: 3}

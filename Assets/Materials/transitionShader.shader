@@ -10,7 +10,7 @@ Shader "Hidden/transitionShader"
 		_Cutoff ("Cutoff", Range(0.0, 1.0)) = 0.0
 		_Translation("Translation", Vector) = (0.5, 0.5, 0, 0)
 		_Fade ("Fade", Range(0, 1)) = 1
-        _Scale ("Scale", Range(0.5, 3)) = 1
+        _Scale ("Scale", Range(0.5, 3)) = 1		
 	}
 
 	SubShader
