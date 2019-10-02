@@ -77,7 +77,9 @@ public class ProjectileScript : MonoBehaviour
   }
 
   void morir(){
-    aTrail.transform.SetParent(null);
+    if (aTrail != null){
+        aTrail.transform.SetParent(null);
+    }
     Instantiate(explosionPrefab, transform.position, Quaternion.identity);
     CamScript.screen.shake(0.1f, 0.5f);
     Destroy(gameObject);    

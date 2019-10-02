@@ -67,13 +67,14 @@ Shader "Hidden/transitionShader"
 				fixed4 col = tex2D(_MainTex, i.uv);
 				fixed4 transit = tex2D(_MaskTex, i.uv);
 
-				if (transit.b < _Cutoff){
-					fixed2 newuv = i.uv;
-					newuv.x *= _TransitionTex_TexelSize.x / _MainTex_TexelSize.x / _Scale;
-					newuv.y *= _TransitionTex_TexelSize.y / _MainTex_TexelSize.y / _Scale;
-					return lerp(col, tex2D(_TransitionTex, newuv + _Translation.xy * _Time.y), _Fade);
-				}
-				return col;
+                float threshold = smoothstep(_Cutoff - 0.10, _Cutoff - 0.25, transit.b);
+				//if (transit.b < _Cutoff + 0.05){
+				fixed2 newuv = i.uv;
+				newuv.x *= _TransitionTex_TexelSize.x / _MainTex_TexelSize.x / _Scale;
+				newuv.y *= _TransitionTex_TexelSize.y / _MainTex_TexelSize.y / _Scale;
+				return lerp(col, tex2D(_TransitionTex, newuv + _Translation.xy * _Time.y), threshold);
+				//}
+				//return col;
 			}
 			ENDCG
 		}
