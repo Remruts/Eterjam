@@ -229,6 +229,8 @@ MonoBehaviour:
   dashEffect: {fileID: 98455050328540647}
   landingPartsPrefab: {fileID: 4816474038267315517, guid: 28f835ad2d2d9564aba459eeaaa32597,
     type: 3}
+  collisionPartsPrefab: {fileID: 5748673802296053759, guid: 98e29d0bcca8b1345a13bef180693c6d,
+    type: 3}
 --- !u!95 &959507028362922116
 Animator:
   serializedVersion: 3

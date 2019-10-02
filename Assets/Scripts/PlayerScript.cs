@@ -49,6 +49,7 @@ public class PlayerScript : MonoBehaviour
 
   public GameObject dashEffect;
   public GameObject landingPartsPrefab;
+  public GameObject collisionPartsPrefab;
 
   // Start is called before the first frame update
   void Start(){
@@ -70,28 +71,24 @@ public class PlayerScript : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
-    dash();
-    if (!isDashing)
-    {
+    checkFloor();
+    checkForDashes();
+    if (!isDashing){
         move();
         jump();
-        if (cooldown == 0f)
-        {
+        if (cooldown == 0f){
             shoot();
-        }
-        else if (cooldown > 0f)
-        {
+        } else if (cooldown > 0f){
             cooldown -= Time.deltaTime;
-            if (cooldown < 0f)
-            {
+            if (cooldown < 0f){
                 cooldown = 0f;
             }
         }
     } else {
         arrowBar.gameObject.SetActive(false);
         //movement = dashDirection * dashSpeed;
+        rotateWhenInDash();
     }
-    checkFloor();
   }
 
   void FixedUpdate(){    
@@ -101,14 +98,33 @@ public class PlayerScript : MonoBehaviour
     
     if (hit){
         //Debug.Log(hit.point);
-        if (isDashing) {
-            //Debug.Log("Meh");            
-            movement = Vector2.zero;            
-            //dashDirection = -dashDirection;
-            //movement = -dashDirection;
+        if (isDashing) {            
+            // Si está dasheando y se choca, debería reflejarse
+            if (hit.collider.CompareTag("furniture")){
+              Debug.Log("Collision!");
+              hit.collider.attachedRigidbody.AddForceAtPosition(dashDirection * 2500f, hit.point);
+            }
+            if (availableDashes >= 0){
+              dashDirection = Vector2.Reflect(dashDirection, hit.normal) * friction;
+              dash();
+
+              GameObject spikeyParts = Instantiate(collisionPartsPrefab, hit.point, Quaternion.identity);
+              float spikeyPartsAngle = Mathf.Atan2(transform.position.y - hit.point.y, transform.position.x - hit.point.x) * Mathf.Rad2Deg;
+              landingPartsScript spikeyPartsScr = spikeyParts.GetComponent<landingPartsScript>();
+              spikeyPartsScr.startAngle = spikeyPartsAngle - 120f;
+              spikeyPartsScr.maxAngle = 180f;
+            } else {
+              movement = Vector2.zero;
+            }
+
+            GameObject parts = Instantiate(landingPartsPrefab, hit.point, Quaternion.identity);
+            float partsAngle = Mathf.Atan2(transform.position.y - hit.point.y, transform.position.x - hit.point.x) * Mathf.Rad2Deg;
+            landingPartsScript partsScr = parts.GetComponent<landingPartsScript>();
+            partsScr.startAngle = partsAngle - 120f;
+            partsScr.maxAngle = partsAngle + 120f;
         } else { 
             movement.x = 0f;
-        }        
+        }
     }
 
     if (!isDashing){
@@ -218,53 +234,56 @@ public class PlayerScript : MonoBehaviour
     }
   }
 
-  void dash(){
+  void rotateWhenInDash(){
+      if (isDashing){
+        //Calculamos la rotación del personaje dependiendo de la dirección del dash
+
+        bool estaFlipeado = (spr.flipX && transform.localScale.x >= 0f) || (!spr.flipX && transform.localScale.x < 0f);
+        float angle = Mathf.Atan2(dashDirection.y, dashDirection.x) * Mathf.Rad2Deg + (estaFlipeado ? 0f : 180f);
+
+        if (angle < 0){
+            angle += 360;
+        } else if (angle > 360){
+            angle -= 360;
+        }
+
+        if (angle > 90 && angle < 270){
+            spr.flipY = true;
+        } else {
+            spr.flipY = false;
+        }
+
+        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+      }
+  }
+
+  void checkForDashes(){
     if (availableDashes > 0){            
-      if (Input.GetButtonDown("P" + id.ToString() + "Dash"))    
-      {          
-          isDashing = true;
-          anim.Play("Dash");
-          GetComponent<Collider2D>().enabled = false;
-          dashEffect.GetComponent<particleScript>().Emit();
-
-          dashDirection = new Vector2(Input.GetAxis("P" + id.ToString() + "Horizontal"), -Input.GetAxis("P" + id.ToString() + "Vertical")).normalized;                
-
-          dashTimer = dashLength;
-          movement = dashDirection * dashSpeed;
-          
-          //Calculamos la rotación del personaje dependiendo de la dirección del dash
-          
-          bool estaFlipeado = (spr.flipX && transform.localScale.x >= 0f) || (!spr.flipX && transform.localScale.x < 0f);
-          float angle = Mathf.Atan2 (dashDirection.y, dashDirection.x) * Mathf.Rad2Deg + (estaFlipeado ? 0f : 180f);
-          
-          if (angle < 0) {
-              angle += 360;
-          } else if (angle > 360) {
-              angle -= 360;
-          }  
-          
-          if (angle > 90 && angle < 270) {
-              spr.flipY = true;
-          } else {
-              spr.flipY = false;
-          }
-          
-
-          transform.rotation = Quaternion.AngleAxis (angle, Vector3.forward);
-
-          //transform.rotation = Quaternion.Euler(0.0f, 0.0f, Mathf.Atan2(dashDirection.y, dashDirection.x * -Mathf.Sign(transform.localScale.x)) * Mathf.Rad2Deg);
-          availableDashes -= 1;
+      if (Input.GetButtonDown("P" + id.ToString() + "Dash")) {
+          dashDirection = new Vector2(Input.GetAxis("P" + id.ToString() + "Horizontal"), -Input.GetAxis("P" + id.ToString() + "Vertical")).normalized;
+          dash();
       }
     }
 
     if (isDashing) {            
         dashTimer -= Time.deltaTime;
-        if (dashTimer <= 0f)
-        {
+        if (dashTimer <= 0f){
           stopDashing();  
         }
         
     }
+  }
+
+  void dash(){
+    isDashing = true;
+    anim.Play("Dash");
+    GetComponent<Collider2D>().enabled = false;
+    dashEffect.GetComponent<particleScript>().Emit();
+
+    dashTimer = dashLength;
+    movement = dashDirection * dashSpeed;
+
+    availableDashes -= 1;
   }
 
   void stopDashing() {        
@@ -285,9 +304,9 @@ public class PlayerScript : MonoBehaviour
     //RaycastHit2D hit = Physics2D.Raycast(rb.transform.position, new Vector2(0f, -1f), 0.8f, solidMask.value);
     Collider2D col = Physics2D.OverlapBox(rb.transform.position + Vector3.down * 0.75f, new Vector2(0.5f, 0.2f), 0f, solidMask.value);
     if (col != null){
-      if (rb.velocity.y <= 0f && !canJump){
+      if (movement.y <= 0f && !canJump){
         //partículas de cuando cae al piso        
-        Instantiate(landingPartsPrefab, transform.position + Vector3.down * 0.75f, Quaternion.identity);        
+        Instantiate(landingPartsPrefab, transform.position + Vector3.down * 0.75f, Quaternion.identity);
 
         //rb.velocity = new Vector2(rb.velocity.x, 0f);
         /*
@@ -302,13 +321,15 @@ public class PlayerScript : MonoBehaviour
           anim.Play("Idle");
         }
       }
-      //rb.gravityScale = 0f;      
-      availableDashes = maxDashes;
+      //rb.gravityScale = 0f;
+      if (!isDashing){
+        availableDashes = maxDashes;
+      }
     } else {
       //rb.gravityScale = 4f;
       if (!isDashing){
         movement.y -= 3f;
-      }      
+      }
     }
   }  
 
