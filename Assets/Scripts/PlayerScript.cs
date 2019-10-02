@@ -27,7 +27,8 @@ public class PlayerScript : MonoBehaviour
 
   public GameObject projectilePrefab;
   public GameObject fantasmitaPrefab;
-  public RectTransform forceBar;
+  public GameObject arrowBar;
+  SpriteRenderer arrowSprite;
   public int team = 0;
   public int id = 0;
 
@@ -53,6 +54,8 @@ public class PlayerScript : MonoBehaviour
   void Start(){
     availableDashes = maxDashes;
     faceDir = transform.localScale.x;
+
+    arrowSprite = arrowBar.GetComponent<SpriteRenderer>();
     
     rb = GetComponent<Rigidbody2D>();
     if (ManagerScript.coso != null){
@@ -98,7 +101,7 @@ public class PlayerScript : MonoBehaviour
     if (hit){
         //Debug.Log(hit.point);
         if (isDashing) {
-            Debug.Log("Meh");            
+            //Debug.Log("Meh");            
             movement = Vector2.zero;            
             //dashDirection = -dashDirection;
             //movement = -dashDirection;
@@ -137,12 +140,8 @@ public class PlayerScript : MonoBehaviour
     Vector2 flick = new Vector2(Input.GetAxisRaw("P" + id.ToString() +"FlickX"), -Input.GetAxisRaw("P" + id.ToString() + "FlickY"));
 
     if (isHolding){
-      // FIXME!!
-      movement.y = 0f;
-
-      Vector2 forceBarPos = forceBar.anchoredPosition;
-      forceBarPos.x = -1.5f + 1.5f * realFlick.magnitude/4.24f;
-      forceBar.anchoredPosition = forceBarPos;
+      // FIXME!! GRAVEDAD!
+      //movement.y = 0f;
 
       if (flick.magnitude > 0.15f){
         //Esto es para cambiar de lado el sprite dependiendo del flick
@@ -155,6 +154,12 @@ public class PlayerScript : MonoBehaviour
         realFlick.x = Mathf.Clamp(realFlick.x, -3f, 3f);
         realFlick.y = Mathf.Clamp(realFlick.y, -3f, 3f);
       }
+
+      arrowBar.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(-realFlick.y, -realFlick.x) * Mathf.Rad2Deg);
+      Vector3 dummyScale = arrowBar.transform.localScale;
+      dummyScale.x = -Mathf.Sign(transform.localScale.x);
+      arrowBar.transform.localScale = dummyScale;
+      arrowSprite.size = new Vector2(1.5f + 2f * realFlick.magnitude / 4.24f, 0.7f);
 
       // Esto dispararía el objeto
       if (flick.magnitude < 0.5f){
@@ -172,13 +177,13 @@ public class PlayerScript : MonoBehaviour
         isHolding = false;
 
         cooldown = maxCooldown;
-        forceBar.parent.gameObject.SetActive(false);        
+        arrowBar.gameObject.SetActive(false);
       }
     } else {
       if (flick.magnitude > 0.5f){
         isHolding = true;
         realFlick = flick;
-        forceBar.parent.gameObject.SetActive(true);
+        arrowBar.gameObject.SetActive(true);
       }
     }
   }
@@ -212,8 +217,7 @@ public class PlayerScript : MonoBehaviour
   void dash(){
     if (availableDashes > 0){            
       if (Input.GetButtonDown("P" + id.ToString() + "Dash"))    
-      {
-          Debug.Log($"Presionamos space en {Time.time}");
+      {          
           isDashing = true;
           anim.Play("Dash");
           GetComponent<Collider2D>().enabled = false;
@@ -238,7 +242,7 @@ public class PlayerScript : MonoBehaviour
   }
 
   void stopDashing() {        
-        Debug.Log("terminó el dash");        
+        //Debug.Log("terminó el dash");        
         dashTimer = 0f;
         isDashing = false;
         GetComponent<Collider2D>().enabled = true;

@@ -7,12 +7,14 @@ public class ProjectileScript : MonoBehaviour
   float initialTime;
   float lifeSpam;
   public GameObject explosionPrefab;
+  public GameObject trail;
   public AudioClip bounceSound;
   public GameObject sparks;
   public int team = 0;
   
   Rigidbody2D theBody;
   AudioSource audioSource;
+  GameObject aTrail;
   
   
   // Start is called before the first frame update
@@ -24,6 +26,8 @@ public class ProjectileScript : MonoBehaviour
     theBody.AddTorque(Random.Range(-10f, 10f));
 
     audioSource = GetComponent<AudioSource>();
+    aTrail = Instantiate(trail, transform.position, transform.rotation);
+    aTrail.transform.SetParent(transform);
   }
 
   // Update is called once per frame
@@ -37,7 +41,7 @@ public class ProjectileScript : MonoBehaviour
 
     Instantiate(sparks, transform.position, Quaternion.identity);
 
-    if (audioSource != null){
+    if (audioSource != null && audioSource.enabled){
         audioSource.PlayOneShot(bounceSound);
     }
     if (col.gameObject.CompareTag("fan")){ 
@@ -71,8 +75,9 @@ public class ProjectileScript : MonoBehaviour
   }
 
   void morir(){
-    Destroy(gameObject);    
+    aTrail.transform.SetParent(null);
     Instantiate(explosionPrefab, transform.position, Quaternion.identity);
     CamScript.screen.shake(0.1f, 0.5f);
+    Destroy(gameObject);    
   }
 }

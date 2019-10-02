@@ -135,8 +135,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosionPrefab: {fileID: 3786275188020294121, guid: 1cc8a1bd8d77c7b4a98ca43a76132971,
     type: 3}
+  trail: {fileID: 6074713289663803166, guid: e57c1c5b3dc446d4ba041f8d978fc069, type: 3}
   bounceSound: {fileID: 8300000, guid: 2de30b767b8844403ba6214e435ef83c, type: 3}
   sparks: {fileID: 4816474038267315517, guid: d01f4c4020fd01044a872a437a3b7d86, type: 3}
+  team: 0
 --- !u!114 &-5371908766714406574
 MonoBehaviour:
   m_ObjectHideFlags: 0

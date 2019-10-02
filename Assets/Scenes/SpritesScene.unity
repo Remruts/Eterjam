@@ -588,6 +588,10 @@ PrefabInstance:
       propertyPath: maxDashes
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1347372213, guid: 9f60166068a1d1248b5b20e68999b738, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f60166068a1d1248b5b20e68999b738, type: 3}
 --- !u!1 &582236080
@@ -1054,21 +1058,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 22100000, guid: 86fe8a937d3f64a148216eb1d71c67f4,
         type: 2}
-    - target: {fileID: 3958303823898571821, guid: 9f60166068a1d1248b5b20e68999b738,
-        type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 1.6666666
-      objectReference: {fileID: 0}
-    - target: {fileID: 3958303823898571821, guid: 9f60166068a1d1248b5b20e68999b738,
-        type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 1.6666666
-      objectReference: {fileID: 0}
-    - target: {fileID: 3958303823898571821, guid: 9f60166068a1d1248b5b20e68999b738,
-        type: 3}
-      propertyPath: m_SpriteTilingProperty.newSize.x
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5236526188443135364, guid: 9f60166068a1d1248b5b20e68999b738,
         type: 3}
       propertyPath: id
@@ -1109,6 +1098,26 @@ PrefabInstance:
       propertyPath: maxDashes
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3958303823898571821, guid: 9f60166068a1d1248b5b20e68999b738,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 1.6666666
+      objectReference: {fileID: 0}
+    - target: {fileID: 3958303823898571821, guid: 9f60166068a1d1248b5b20e68999b738,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 1.6666666
+      objectReference: {fileID: 0}
+    - target: {fileID: 3958303823898571821, guid: 9f60166068a1d1248b5b20e68999b738,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1347372215, guid: 9f60166068a1d1248b5b20e68999b738, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a110c88b0d563894fb7e2ddeefd3dbc8,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f60166068a1d1248b5b20e68999b738, type: 3}
 --- !u!1 &958194180
