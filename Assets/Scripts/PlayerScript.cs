@@ -6,7 +6,11 @@ public class PlayerScript : MonoBehaviour
 {
   Rigidbody2D rb;
   bool isHolding = false;
+[Header("Identificación")]
+  public int team = 0;
+  public int id = 0;
 
+[Header("Movimiento")]
   public float speed = 5f;
   public float maxSpeed = 5f;
   public float projectileSpeed = 300f;
@@ -17,21 +21,10 @@ public class PlayerScript : MonoBehaviour
   public int maxDashes = 1;
   float friction = 0.8f;
 
-  bool canJump = false;
-  bool isDashing = false;
-  float dashTimer = 0f;
-  float dashBounceTimer = 0f;
-  Vector2 dashDirection = Vector2.zero;
-  int availableDashes;
-  
-  public LayerMask solidMask;
-
-  public GameObject projectilePrefab;
-  public GameObject fantasmitaPrefab;
-  public GameObject arrowBar;
-  SpriteRenderer arrowSprite;
-  public int team = 0;
-  public int id = 0;
+  public float baseGravity = 3f;
+  float currentGravity = 3f;
+  float gravityTimer = 0f;
+  bool grounded = false;
 
   public float flickSpeed = 1f;
   Vector2 realFlick = Vector2.zero;
@@ -39,15 +32,33 @@ public class PlayerScript : MonoBehaviour
 
   Vector2 movement;
   float faceDir = 1f;
+  bool canJump = false;
+  bool isDashing = false;
+  float dashTimer = 0f;
+  float dashBounceTimer = 0f;
+  Vector2 dashDirection = Vector2.zero;
+  int availableDashes;
+
+[Header("Colisiones")]  
+  public LayerMask solidMask;
+
+[Header("Objetos del Player")]
+  public GameObject projectilePrefab;
+  public GameObject fantasmitaPrefab;
+  public GameObject arrowBar;
+  SpriteRenderer arrowSprite;
 
   Animator anim;
   SpriteRenderer spr;
 
   AudioSource audioSource;
+
+[Header("Audio")]
   public AudioClip dashSound;
   public AudioClip fireSound;
   public AudioClip jumpSound;
 
+[Header("Efectos")]
   public GameObject dashEffect;
   public GameObject landingPartsPrefab;
   public GameObject jumpingPartsPrefab;
@@ -57,6 +68,8 @@ public class PlayerScript : MonoBehaviour
   void Start(){
     availableDashes = maxDashes;
     faceDir = transform.localScale.x;
+
+    currentGravity = baseGravity;
 
     arrowSprite = arrowBar.GetComponent<SpriteRenderer>();
     
@@ -95,6 +108,12 @@ public class PlayerScript : MonoBehaviour
     dashBounceTimer -= Time.deltaTime;
     if (dashBounceTimer <= 0f){
         dashBounceTimer = 0f;
+    }
+
+    gravityTimer -= Time.deltaTime;
+    if (gravityTimer <= 0f){
+      currentGravity = baseGravity;
+      gravityTimer = 0f;
     }
   }
 
@@ -164,13 +183,20 @@ public class PlayerScript : MonoBehaviour
     }
   }
 
+  public void changeGravity(float factor, float time){
+      gravityTimer = time;
+      currentGravity = baseGravity * factor;
+  }
+
   void shoot(){
     // Shooting
     Vector2 flick = new Vector2(Input.GetAxisRaw("P" + id.ToString() +"FlickX"), -Input.GetAxisRaw("P" + id.ToString() + "FlickY"));
 
     if (isHolding){
       // FIXME!! GRAVEDAD!
-      //movement.y = 0f;
+      if (!grounded){
+        movement.x = 0f;
+      }
 
       if (flick.magnitude > 0.15f){
         //Esto es para cambiar de lado el sprite dependiendo del flick
@@ -195,6 +221,7 @@ public class PlayerScript : MonoBehaviour
 
       // Esto dispararía el objeto
       if (flick.magnitude < 0.5f){
+        changeGravity(1.0f, 0f);
         anim.Play("Throw");
         audioSource.PlayOneShot(fireSound);
         Vector2 projectilePos = -realFlick.normalized;
@@ -213,6 +240,9 @@ public class PlayerScript : MonoBehaviour
       }
     } else {
       if (flick.magnitude > 0.5f){
+        if (!grounded){
+          changeGravity(0.05f, 0.5f);
+        }
         isHolding = true;
         realFlick = flick;
         arrowBar.gameObject.SetActive(true);
@@ -342,10 +372,13 @@ public class PlayerScript : MonoBehaviour
       if (!isDashing){
         availableDashes = maxDashes;
       }
+
+      grounded = true;
     } else {
+      grounded = false;
       //rb.gravityScale = 4f;
       if (!isDashing){
-        movement.y -= 3f;
+        movement.y -= currentGravity;
       }
     }
   }  
