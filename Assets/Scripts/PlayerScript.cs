@@ -155,12 +155,15 @@ public class PlayerScript : MonoBehaviour
         realFlick.x = Mathf.Clamp(realFlick.x, -3f, 3f);
         realFlick.y = Mathf.Clamp(realFlick.y, -3f, 3f);
       }
-
-      arrowBar.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(-realFlick.y, -realFlick.x) * Mathf.Rad2Deg);            
+      
+      // Esta es la flechita (Mover a una función de dibujar flechita?)
+      arrowBar.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(-realFlick.y, -realFlick.x) * Mathf.Rad2Deg);
+      arrowBar.transform.position = transform.position 
+        + new Vector3(-realFlick.normalized.x, -realFlick.normalized.y, 0f);
       Vector3 dummyScale = arrowBar.transform.localScale;
       dummyScale.x = -Mathf.Sign(transform.localScale.x);
       arrowBar.transform.localScale = dummyScale;
-      arrowSprite.size = new Vector2(1.5f + 2f * realFlick.magnitude / 4.24f, 0.7f);
+      arrowSprite.size = new Vector2(1.0f + 1.5f * realFlick.magnitude / 4.24f, 0.7f);
 
       // Esto dispararía el objeto
       if (flick.magnitude < 0.5f){
