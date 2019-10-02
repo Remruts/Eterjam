@@ -10,6 +10,7 @@ public class ProjectileScript : MonoBehaviour
   public GameObject trail;
   public AudioClip bounceSound;
   public GameObject sparks;
+  public Gradient[] teamGradients;  
   public int team = 0;
   
   Rigidbody2D theBody;
@@ -27,6 +28,7 @@ public class ProjectileScript : MonoBehaviour
 
     audioSource = GetComponent<AudioSource>();
     aTrail = Instantiate(trail, transform.position, transform.rotation);
+    aTrail.GetComponent<TrailRenderer>().colorGradient = teamGradients[team];
     aTrail.transform.SetParent(transform);
   }
 
