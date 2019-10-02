@@ -31,21 +31,22 @@ public class ManagerScript : MonoBehaviour
     public Color32 team1TextColor = new Color32(88, 255, 119, 255);
     public Color32 team1OutlineColor = new Color32(126, 161, 121, 255);
 
+    public Texture2D[] transBacks;
+
     public float timeScale = 1.0f;
+
+    public int currentWinningTeam = 0;
    
     // Start is called before the first frame update
     void Awake()
-    {
-        // Spawns players, player arrays?
-        coso = this;
-        currentPlayers = new List<PlayerScript>();
-        /*
-        for (int i = 0; i < 10; i++)
-        {
-            wait(100);
-            GameObject mueble = Instantiate(furniturePrefab[Random.Range(0,furniturePrefab.Count)], new Vector3(0f, -5f + i*0.5f, 0f), Quaternion.Euler(0,0,Random.Range(0,180))) as GameObject;
+    {   
+        if (ManagerScript.coso == null){
+            DontDestroyOnLoad(gameObject);
+            ManagerScript.coso = this;
+            currentPlayers = new List<PlayerScript>();
+        } else{
+            Destroy(gameObject);
         }
-        */
     }
 
     // Update is called once per frame
@@ -65,15 +66,12 @@ public class ManagerScript : MonoBehaviour
     }
 
 
-    public void onPlayerDeath(PlayerScript aDeadPlayer)
-    {
-
+    public void onPlayerDeath(PlayerScript aDeadPlayer) {
         currentPlayers.Remove(aDeadPlayer);
         int deadPlayerTeam = aDeadPlayer.team;
         foreach (PlayerScript player in this.currentPlayers)
         {
-            if (player.team == deadPlayerTeam)
-            {
+            if (player.team == deadPlayerTeam){
                 return;
             }
         }
@@ -99,15 +97,16 @@ public class ManagerScript : MonoBehaviour
     void roundOver(int aWinningTeam)
     {
         string winner = aWinningTeam == 0 ? "de Desarrollo" : "de Comercial";
-        if (matchEnded)
-        {
+        if (matchEnded){
             return;
         }
+
+        currentWinningTeam = aWinningTeam;
         matchEnded = true;
         winText.SetActive(true);
+
         var elTexto = winText.GetComponent<TMP_Text>();
-        if (aWinningTeam==0)
-        {
+        if (aWinningTeam==0){
             elTexto.color = team0TextColor;
             elTexto.outlineColor = team0OutlineColor;
         }else{
@@ -120,10 +119,14 @@ public class ManagerScript : MonoBehaviour
         Invoke("resetearJuego", 3f);
     }
 
-    void resetearJuego()
-    {
+    void resetearJuego(){
+        matchEnded = false;
+        winText.SetActive(false);
+
+        currentPlayers = new List<PlayerScript>();
         transitionScript.transition.setTransition(SceneManager.GetActiveScene().name, "noise0");
         transitionScript.transition.startTransition(0.5f);
+        transitionScript.transition.setTransitionTexture(transBacks[currentWinningTeam]);
         //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 

@@ -107,7 +107,13 @@ public class transitionScript : MonoBehaviour {
 		newTransitionType = transType;
 	}
 
-    void goToScene(string sceneName){
+    public void setTransitionTexture(Texture2D tex){
+        if (tex != null){
+            EffectMaterial.SetTexture("_TransitionTex", tex);
+        }
+    }
+
+    public void goToScene(string sceneName){
         SceneManager.LoadScene(sceneName);
     }
 

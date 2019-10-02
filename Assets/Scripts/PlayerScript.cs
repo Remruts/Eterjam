@@ -113,6 +113,9 @@ public class PlayerScript : MonoBehaviour
             }
             if (dashBounceTimer <= 0f){
               dashDirection = Vector2.Reflect(dashDirection, hit.normal) * friction;
+              
+              //Pequeño screenshake
+              CamScript.screen.shake(0.05f, 0.5f);
 
               dash();
               dashBounceTimer = 0.3f;
