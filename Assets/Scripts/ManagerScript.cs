@@ -30,6 +30,8 @@ public class ManagerScript : MonoBehaviour
 
     public Color32 team1TextColor = new Color32(88, 255, 119, 255);
     public Color32 team1OutlineColor = new Color32(126, 161, 121, 255);
+
+    public float timeScale = 1.0f;
    
     // Start is called before the first frame update
     void Awake()
@@ -49,6 +51,7 @@ public class ManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Time.timeScale = timeScale;
         if (matchEnded){
             return;
         }

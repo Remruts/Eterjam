@@ -310,6 +310,7 @@ MonoBehaviour:
   team1OutlineColor:
     serializedVersion: 2
     rgba: 4278752537
+  timeScale: 1
 --- !u!4 &289254176
 Transform:
   m_ObjectHideFlags: 0
@@ -543,21 +544,6 @@ PrefabInstance:
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4711104831747315078, guid: 9f60166068a1d1248b5b20e68999b738,
-        type: 3}
-      propertyPath: InitialModule.startLifetime.minScalar
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 4711104831747315078, guid: 9f60166068a1d1248b5b20e68999b738,
-        type: 3}
-      propertyPath: InitialModule.startLifetime.scalar
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4711104831747315078, guid: 9f60166068a1d1248b5b20e68999b738,
-        type: 3}
-      propertyPath: lengthInSec
-      value: 0.1
-      objectReference: {fileID: 0}
     - target: {fileID: 5236526188443135364, guid: 9f60166068a1d1248b5b20e68999b738,
         type: 3}
       propertyPath: jumpForce
@@ -566,12 +552,12 @@ PrefabInstance:
     - target: {fileID: 5236526188443135364, guid: 9f60166068a1d1248b5b20e68999b738,
         type: 3}
       propertyPath: dashSpeed
-      value: 60
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 5236526188443135364, guid: 9f60166068a1d1248b5b20e68999b738,
         type: 3}
       propertyPath: dashLength
-      value: 0.1
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 5236526188443135364, guid: 9f60166068a1d1248b5b20e68999b738,
         type: 3}
@@ -591,6 +577,11 @@ PrefabInstance:
     - target: {fileID: 1347372213, guid: 9f60166068a1d1248b5b20e68999b738, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 98455050328540440, guid: 9f60166068a1d1248b5b20e68999b738,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f60166068a1d1248b5b20e68999b738, type: 3}
@@ -942,7 +933,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 15022617
-  m_SortingLayer: -1
+  m_SortingLayer: -3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: be2167fc1b04f4682bd5387f61138dbe, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1052,6 +1043,11 @@ PrefabInstance:
       propertyPath: m_FlipX
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4386864481693641779, guid: 9f60166068a1d1248b5b20e68999b738,
+        type: 3}
+      propertyPath: m_FlipY
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 959507028362922116, guid: 9f60166068a1d1248b5b20e68999b738,
         type: 3}
       propertyPath: m_Controller
@@ -1076,12 +1072,12 @@ PrefabInstance:
     - target: {fileID: 5236526188443135364, guid: 9f60166068a1d1248b5b20e68999b738,
         type: 3}
       propertyPath: dashSpeed
-      value: 60
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 5236526188443135364, guid: 9f60166068a1d1248b5b20e68999b738,
         type: 3}
       propertyPath: dashLength
-      value: 0.1
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 5236526188443135364, guid: 9f60166068a1d1248b5b20e68999b738,
         type: 3}

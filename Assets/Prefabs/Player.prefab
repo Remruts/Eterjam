@@ -95,10 +95,10 @@ GameObject:
   - component: {fileID: 4716701102290288976}
   - component: {fileID: 4386864481693641779}
   - component: {fileID: 8801323125628439533}
-  - component: {fileID: 3958303823898571821}
   - component: {fileID: 5236526188443135364}
   - component: {fileID: 959507028362922116}
   - component: {fileID: 5777953963252155573}
+  - component: {fileID: 999468658779346042}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -118,7 +118,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1347372214}
-  - {fileID: 4711104831747315079}
+  - {fileID: 98455050328540440}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -192,32 +192,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!61 &3958303823898571821
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4386864481693641778}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.015514433, y: -0.43828136}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.5, y: 1.5}
-    newSize: {x: 1.5, y: 1.5}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.55362236, y: 0.48380792}
-  m_EdgeRadius: 0
 --- !u!114 &5236526188443135364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,13 +204,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df3e9ff8dc1268749b4c3b3d2364fbc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
-  maxSpeed: 5
+  speed: 10
+  maxSpeed: 10
   projectileSpeed: 400
-  jumpForce: 20
-  dashSpeed: 600
+  jumpForce: 70
+  dashSpeed: 60
   maxCooldown: 0
-  dashLength: 0.5
+  dashLength: 0.1
   maxDashes: 1
   solidMask:
     serializedVersion: 2
@@ -252,7 +226,7 @@ MonoBehaviour:
   dashSound: {fileID: 8300000, guid: 727103812a253704a81d6980ba0e97e0, type: 3}
   fireSound: {fileID: 8300000, guid: 8e6f5256bf0b0439c8b44701bde975a6, type: 3}
   jumpSound: {fileID: 8300000, guid: 8eb5dc3caa99b7b40a4266be5374da12, type: 3}
-  dashEffect: {fileID: 4711104831747315064}
+  dashEffect: {fileID: 98455050328540647}
   landingPartsPrefab: {fileID: 4816474038267315517, guid: 28f835ad2d2d9564aba459eeaaa32597,
     type: 3}
 --- !u!95 &959507028362922116
@@ -370,7 +344,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!1001 &4217920480763485238
+--- !u!58 &999468658779346042
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4386864481693641778}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.35}
+  serializedVersion: 2
+  m_Radius: 0.36
+--- !u!1001 &8842233952975539369
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -390,7 +380,7 @@ PrefabInstance:
     - target: {fileID: 8928426625921206705, guid: 0826c01a157db9446a6c9c6bae831143,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.29
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8928426625921206705, guid: 0826c01a157db9446a6c9c6bae831143,
         type: 3}
@@ -400,12 +390,12 @@ PrefabInstance:
     - target: {fileID: 8928426625921206705, guid: 0826c01a157db9446a6c9c6bae831143,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8928426625921206705, guid: 0826c01a157db9446a6c9c6bae831143,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8928426625921206705, guid: 0826c01a157db9446a6c9c6bae831143,
         type: 3}
@@ -439,15 +429,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0826c01a157db9446a6c9c6bae831143, type: 3}
---- !u!1 &4711104831747315064 stripped
+--- !u!1 &98455050328540647 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8928426625921206606, guid: 0826c01a157db9446a6c9c6bae831143,
     type: 3}
-  m_PrefabInstance: {fileID: 4217920480763485238}
+  m_PrefabInstance: {fileID: 8842233952975539369}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &4711104831747315079 stripped
+--- !u!4 &98455050328540440 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8928426625921206705, guid: 0826c01a157db9446a6c9c6bae831143,
     type: 3}
-  m_PrefabInstance: {fileID: 4217920480763485238}
+  m_PrefabInstance: {fileID: 8842233952975539369}
   m_PrefabAsset: {fileID: 0}

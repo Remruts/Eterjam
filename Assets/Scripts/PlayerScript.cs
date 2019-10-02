@@ -88,6 +88,7 @@ public class PlayerScript : MonoBehaviour
             }
         }
     } else {
+        arrowBar.gameObject.SetActive(false);
         //movement = dashDirection * dashSpeed;
     }
     checkFloor();
@@ -155,7 +156,7 @@ public class PlayerScript : MonoBehaviour
         realFlick.y = Mathf.Clamp(realFlick.y, -3f, 3f);
       }
 
-      arrowBar.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(-realFlick.y, -realFlick.x) * Mathf.Rad2Deg);
+      arrowBar.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(-realFlick.y, -realFlick.x) * Mathf.Rad2Deg);            
       Vector3 dummyScale = arrowBar.transform.localScale;
       dummyScale.x = -Mathf.Sign(transform.localScale.x);
       arrowBar.transform.localScale = dummyScale;
@@ -221,12 +222,34 @@ public class PlayerScript : MonoBehaviour
           isDashing = true;
           anim.Play("Dash");
           GetComponent<Collider2D>().enabled = false;
-          //dashEffect.GetComponent<particleScript>().Emit();
+          dashEffect.GetComponent<particleScript>().Emit();
 
           dashDirection = new Vector2(Input.GetAxis("P" + id.ToString() + "Horizontal"), -Input.GetAxis("P" + id.ToString() + "Vertical")).normalized;                
 
           dashTimer = dashLength;
           movement = dashDirection * dashSpeed;
+          
+          //Calculamos la rotación del personaje dependiendo de la dirección del dash
+          
+          bool estaFlipeado = (spr.flipX && transform.localScale.x >= 0f) || (!spr.flipX && transform.localScale.x < 0f);
+          float angle = Mathf.Atan2 (dashDirection.y, dashDirection.x) * Mathf.Rad2Deg + (estaFlipeado ? 0f : 180f);
+          
+          if (angle < 0) {
+              angle += 360;
+          } else if (angle > 360) {
+              angle -= 360;
+          }  
+          
+          if (angle > 90 && angle < 270) {
+              spr.flipY = true;
+          } else {
+              spr.flipY = false;
+          }
+          
+
+          transform.rotation = Quaternion.AngleAxis (angle, Vector3.forward);
+
+          //transform.rotation = Quaternion.Euler(0.0f, 0.0f, Mathf.Atan2(dashDirection.y, dashDirection.x * -Mathf.Sign(transform.localScale.x)) * Mathf.Rad2Deg);
           availableDashes -= 1;
       }
     }
@@ -246,7 +269,13 @@ public class PlayerScript : MonoBehaviour
         dashTimer = 0f;
         isDashing = false;
         GetComponent<Collider2D>().enabled = true;
+        Vector3 prevScale = transform.localScale;
+        prevScale.x = (spr.flipX ? Mathf.Sign(movement.x) : -Mathf.Sign(movement.x));
+        transform.localScale = prevScale;
         movement = movement * 0.5f;
+
+        spr.flipY = false;
+        transform.rotation = Quaternion.identity;
   }
 
   void checkFloor(){
