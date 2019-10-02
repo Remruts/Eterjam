@@ -9,6 +9,7 @@ public class ProjectileScript : MonoBehaviour
   public GameObject explosionPrefab;
   public AudioClip bounceSound;
   public GameObject sparks;
+  public int team = 0;
   
   Rigidbody2D theBody;
   AudioSource audioSource;

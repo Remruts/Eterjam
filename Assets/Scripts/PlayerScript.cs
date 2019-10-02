@@ -14,8 +14,8 @@ public class PlayerScript : MonoBehaviour
   public float dashSpeed = 600f;
   public float maxCooldown = 1f;
   public float dashLength = 0.5f;
-  public int maxDashes = 3;
-  float friction = 0.85f;
+  public int maxDashes = 1;
+  float friction = 0.8f;
 
   bool canJump = false;
   bool isDashing = false;
@@ -85,13 +85,12 @@ public class PlayerScript : MonoBehaviour
             }
         }
     } else {
-        movement = dashDirection * dashSpeed;
+        //movement = dashDirection * dashSpeed;
     }
+    checkFloor();
   }
 
   void FixedUpdate(){    
-    
-    checkFloor();
     
     RaycastHit2D hit = Physics2D.BoxCast(transform.position, new Vector2(0.5f, 0.5f), 0f, movement, 0.5f, solidMask.value);
     Debug.DrawRay(transform.position, movement);
@@ -99,15 +98,18 @@ public class PlayerScript : MonoBehaviour
     if (hit){
         //Debug.Log(hit.point);
         if (isDashing) {
-            Debug.Log("Meh");
-            movement = -movement;
-            stopDashing();
+            Debug.Log("Meh");            
+            movement = Vector2.zero;            
+            //dashDirection = -dashDirection;
+            //movement = -dashDirection;
         } else { 
             movement.x = 0f;
         }        
     }
 
-    movement *= friction;
+    if (!isDashing){
+      movement *= friction;
+    }
     
     rb.velocity = movement;
 
@@ -118,6 +120,9 @@ public class PlayerScript : MonoBehaviour
 
   void OnCollisionEnter2D(Collision2D col) {
     if (col.gameObject.CompareTag("projectile")){
+      if (col.gameObject.GetComponent<ProjectileScript>().team == team){
+        return;
+      }
       ManagerScript.coso.onPlayerDeath(this);
       Destroy(gameObject);
       GameObject fantasmita = Instantiate(fantasmitaPrefab, transform.position, Quaternion.identity);
@@ -132,6 +137,9 @@ public class PlayerScript : MonoBehaviour
     Vector2 flick = new Vector2(Input.GetAxisRaw("P" + id.ToString() +"FlickX"), -Input.GetAxisRaw("P" + id.ToString() + "FlickY"));
 
     if (isHolding){
+      // FIXME!!
+      movement.y = 0f;
+
       Vector2 forceBarPos = forceBar.anchoredPosition;
       forceBarPos.x = -1.5f + 1.5f * realFlick.magnitude/4.24f;
       forceBar.anchoredPosition = forceBarPos;
@@ -155,11 +163,16 @@ public class PlayerScript : MonoBehaviour
         Vector2 projectilePos = -realFlick.normalized;
         GameObject aProjectile = Instantiate(projectilePrefab, transform.position + new Vector3(projectilePos.x, projectilePos.y, 0f) * 1.5f, Quaternion.identity) as GameObject;
         Rigidbody2D projectileRb = aProjectile.GetComponent<Rigidbody2D>();
-        projectileRb.AddForce(-realFlick * projectileSpeed);
+        aProjectile.GetComponent<ProjectileScript>().team = team;
+
+        Vector2 laFuerza = -realFlick * projectileSpeed;
+        laFuerza = laFuerza + laFuerza.normalized * 100f;
+        projectileRb.AddForce(laFuerza);
+
         isHolding = false;
 
         cooldown = maxCooldown;
-        forceBar.parent.gameObject.SetActive(false);
+        forceBar.parent.gameObject.SetActive(false);        
       }
     } else {
       if (flick.magnitude > 0.5f){
@@ -197,21 +210,22 @@ public class PlayerScript : MonoBehaviour
   }
 
   void dash(){
-    //if (availableDashes > 0){            
-    if (Input.GetButtonDown("P" + id.ToString() + "Dash"))    
-    {
-        Debug.Log($"Presionamos space en {Time.time}");
-        isDashing = true;
-        anim.Play("Dash");
-        GetComponent<Collider2D>().enabled = false;
-        //dashEffect.GetComponent<particleScript>().Emit();
+    if (availableDashes > 0){            
+      if (Input.GetButtonDown("P" + id.ToString() + "Dash"))    
+      {
+          Debug.Log($"Presionamos space en {Time.time}");
+          isDashing = true;
+          anim.Play("Dash");
+          GetComponent<Collider2D>().enabled = false;
+          //dashEffect.GetComponent<particleScript>().Emit();
 
-        dashDirection = new Vector2(Input.GetAxis("P" + id.ToString() + "Horizontal"), -Input.GetAxis("P" + id.ToString() + "Vertical")).normalized;                
+          dashDirection = new Vector2(Input.GetAxis("P" + id.ToString() + "Horizontal"), -Input.GetAxis("P" + id.ToString() + "Vertical")).normalized;                
 
-        dashTimer = dashLength;
-        //availableDashes -= 1;
+          dashTimer = dashLength;
+          movement = dashDirection * dashSpeed;
+          availableDashes -= 1;
+      }
     }
-    //}
 
     if (isDashing) {            
         dashTimer -= Time.deltaTime;
@@ -228,7 +242,7 @@ public class PlayerScript : MonoBehaviour
         dashTimer = 0f;
         isDashing = false;
         GetComponent<Collider2D>().enabled = true;
-        rb.velocity = rb.velocity * 0.2f;
+        movement = movement * 0.5f;
   }
 
   void checkFloor(){
@@ -240,9 +254,11 @@ public class PlayerScript : MonoBehaviour
         Instantiate(landingPartsPrefab, transform.position + Vector3.down * 0.75f, Quaternion.identity);        
 
         //rb.velocity = new Vector2(rb.velocity.x, 0f);
+        /*
         if (!isDashing) {
             movement.y = 0f;
         }
+        */
         
         canJump = true;
         var state = anim.GetCurrentAnimatorStateInfo(0); 
