@@ -211,7 +211,7 @@ MonoBehaviour:
   dashSpeed: 60
   maxCooldown: 0
   dashLength: 0.1
-  maxDashes: 1
+  maxDashes: 2
   solidMask:
     serializedVersion: 2
     m_Bits: 256

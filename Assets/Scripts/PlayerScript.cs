@@ -20,6 +20,7 @@ public class PlayerScript : MonoBehaviour
   bool canJump = false;
   bool isDashing = false;
   float dashTimer = 0f;
+  float dashBounceTimer = 0f;
   Vector2 dashDirection = Vector2.zero;
   int availableDashes;
   
@@ -89,6 +90,11 @@ public class PlayerScript : MonoBehaviour
         //movement = dashDirection * dashSpeed;
         rotateWhenInDash();
     }
+
+    dashBounceTimer -= Time.deltaTime;
+    if (dashBounceTimer <= 0f){
+        dashBounceTimer = 0f;
+    }
   }
 
   void FixedUpdate(){    
@@ -104,9 +110,11 @@ public class PlayerScript : MonoBehaviour
               Debug.Log("Collision!");
               hit.collider.attachedRigidbody.AddForceAtPosition(dashDirection * 2500f, hit.point);
             }
-            if (availableDashes >= 0){
+            if (dashBounceTimer <= 0f){
               dashDirection = Vector2.Reflect(dashDirection, hit.normal) * friction;
+
               dash();
+              dashBounceTimer = 0.3f;
 
               GameObject spikeyParts = Instantiate(collisionPartsPrefab, hit.point, Quaternion.identity);
               float spikeyPartsAngle = Mathf.Atan2(transform.position.y - hit.point.y, transform.position.x - hit.point.x) * Mathf.Rad2Deg;
@@ -261,7 +269,10 @@ public class PlayerScript : MonoBehaviour
     if (availableDashes > 0){            
       if (Input.GetButtonDown("P" + id.ToString() + "Dash")) {
           dashDirection = new Vector2(Input.GetAxis("P" + id.ToString() + "Horizontal"), -Input.GetAxis("P" + id.ToString() + "Vertical")).normalized;
+          
           dash();
+          
+          availableDashes -= 1;
       }
     }
 
@@ -282,8 +293,6 @@ public class PlayerScript : MonoBehaviour
 
     dashTimer = dashLength;
     movement = dashDirection * dashSpeed;
-
-    availableDashes -= 1;
   }
 
   void stopDashing() {        
