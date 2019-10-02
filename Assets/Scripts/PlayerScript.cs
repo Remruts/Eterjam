@@ -50,6 +50,7 @@ public class PlayerScript : MonoBehaviour
 
   public GameObject dashEffect;
   public GameObject landingPartsPrefab;
+  public GameObject jumpingPartsPrefab;
   public GameObject collisionPartsPrefab;
 
   // Start is called before the first frame update
@@ -235,6 +236,10 @@ public class PlayerScript : MonoBehaviour
         anim.Play("Jump");
         //rb.AddForce(new Vector2(0f, jumpForce));
         movement.y = jumpForce;
+        GameObject jumpParts = Instantiate(jumpingPartsPrefab, transform.position + Vector3.down * 0.75f, Quaternion.identity);
+        landingPartsScript jumpPartsScr = jumpParts.GetComponent<landingPartsScript>();
+        jumpPartsScr.startAngle = 0f;
+        jumpPartsScr.maxAngle = 180f;
         //rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         canJump = false;
         audioSource.PlayOneShot(jumpSound, 2f);
