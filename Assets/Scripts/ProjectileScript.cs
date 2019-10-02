@@ -16,6 +16,7 @@ public class ProjectileScript : MonoBehaviour
   Rigidbody2D theBody;
   AudioSource audioSource;
   GameObject aTrail;
+  SpriteRenderer spr;
   
   
   // Start is called before the first frame update
@@ -26,16 +27,22 @@ public class ProjectileScript : MonoBehaviour
     theBody = GetComponent<Rigidbody2D>();
     theBody.AddTorque(Random.Range(-10f, 10f));
 
+    spr = GetComponent<SpriteRenderer>();
+
     audioSource = GetComponent<AudioSource>();
+
     aTrail = Instantiate(trail, transform.position, transform.rotation);
     aTrail.GetComponent<TrailRenderer>().colorGradient = teamGradients[team];
     aTrail.transform.SetParent(transform);
+    
+    UpdateShader();
   }
 
   // Update is called once per frame
   void Update(){
+    UpdateShader();
     if (Time.time - initialTime > lifeSpam){
-      morir();      
+      morir();
     }
   }
 
@@ -75,6 +82,16 @@ public class ProjectileScript : MonoBehaviour
       morir();
     }
   }
+
+    void UpdateShader()
+    {
+        MaterialPropertyBlock mpb = new MaterialPropertyBlock();
+        spr.GetPropertyBlock(mpb);
+        //mpb.SetFloat("_Outline", outline ? 1f : 0f);        
+        mpb.SetColor("_OutlineColor", teamGradients[team].Evaluate(0f));
+        mpb.SetFloat("_OutlineSize", 16.0f);
+        spr.SetPropertyBlock(mpb);
+    }
 
   void morir(){
     if (aTrail != null){
