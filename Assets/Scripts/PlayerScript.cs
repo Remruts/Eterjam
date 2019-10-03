@@ -332,6 +332,11 @@ public class PlayerScript : MonoBehaviour
     GetComponent<Collider2D>().enabled = false;
     dashEffect.GetComponent<particleScript>().Emit();
 
+    GameObject jumpParts = Instantiate(jumpingPartsPrefab, transform.position, Quaternion.identity);
+    landingPartsScript jumpPartsScr = jumpParts.GetComponent<landingPartsScript>();
+    jumpPartsScr.startAngle = Mathf.Atan2(dashDirection.y, dashDirection.x) * Mathf.Rad2Deg + 90f;
+    jumpPartsScr.maxAngle = 180f;
+
     dashTimer = dashLength;
     movement = dashDirection * dashSpeed;
   }

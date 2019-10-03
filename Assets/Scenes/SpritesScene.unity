@@ -298,6 +298,7 @@ MonoBehaviour:
   currentPlayers: []
   winText: {fileID: 1560756935}
   pauseText: {fileID: 622845782}
+  paused: 0
   team0TextColor:
     serializedVersion: 2
     rgba: 4294947071
