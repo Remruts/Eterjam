@@ -86,6 +86,9 @@ public class PlayerScript : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
+    if (ManagerScript.coso != null && ManagerScript.coso.paused){
+        return;
+    }
     checkFloor();
     checkForDashes();
     if (!isDashing){

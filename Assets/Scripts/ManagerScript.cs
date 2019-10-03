@@ -21,7 +21,7 @@ public class ManagerScript : MonoBehaviour
     public GameObject pauseText;
 
     bool matchEnded = false;
-    bool paused = false;
+    public bool paused = false;
 
     float currentTimeScale = 1f;
 
@@ -47,12 +47,18 @@ public class ManagerScript : MonoBehaviour
         } else{
             Destroy(gameObject);
         }
+        currentTimeScale = timeScale;
+        Time.timeScale = currentTimeScale;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Time.timeScale = timeScale;
+        // Para debug. Cambiar
+        if (!paused){
+          Time.timeScale = timeScale;
+        }
+        
         if (matchEnded){
             return;
         }
