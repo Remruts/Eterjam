@@ -13,6 +13,7 @@ public class PlayerScript : MonoBehaviour
 [Header("Movimiento")]
   public float speed = 5f;
   public float maxSpeed = 5f;
+  float speedTimer = 0f;
   public float projectileSpeed = 300f;
   public float jumpForce = 300f;
   public float dashSpeed = 600f;
@@ -25,12 +26,15 @@ public class PlayerScript : MonoBehaviour
   float currentGravity = 3f;
   float gravityTimer = 0f;
   bool grounded = false;
-
-  public float flickSpeed = 1f;
+  
+  public int shotsToOverheat = 10;
+  int currentShotsLeft;
+  float reloadTimer = 0f;
+  public float flickSpeed = 10f;
   Vector2 realFlick = Vector2.zero;
   float cooldown = 0f;
 
-  Vector2 movement;
+  Vector2 movement;  
   float faceDir = 1f;
   bool canJump = false;
   bool isDashing = false;
@@ -48,12 +52,15 @@ public class PlayerScript : MonoBehaviour
   public GameObject arrowBar;
   SpriteRenderer arrowSprite;
 
+  public GameObject playerGraphics;
+  public Collider2D floorChecker;
+  CircleCollider2D bodyCollider;
   Animator anim;
   SpriteRenderer spr;
-
-  AudioSource audioSource;
+  Vector2 startingScale;
 
 [Header("Audio")]
+  AudioSource audioSource;
   public AudioClip dashSound;
   public AudioClip fireSound;
   public AudioClip jumpSound;
@@ -67,20 +74,24 @@ public class PlayerScript : MonoBehaviour
   // Start is called before the first frame update
   void Start(){
     availableDashes = maxDashes;
-    faceDir = transform.localScale.x;
+    faceDir = playerGraphics.transform.localScale.x;
 
     currentGravity = baseGravity;
-
-    arrowSprite = arrowBar.GetComponent<SpriteRenderer>();
+    currentShotsLeft = shotsToOverheat;
     
     rb = GetComponent<Rigidbody2D>();
     if (ManagerScript.coso != null){
       ManagerScript.coso.addPlayer(this);
     }
 
-    anim = GetComponent<Animator>();
-    spr = GetComponent<SpriteRenderer>();
+    bodyCollider = GetComponent<CircleCollider2D>();
+
+    arrowSprite = arrowBar.GetComponent<SpriteRenderer>();
+    anim = playerGraphics.GetComponent<Animator>();
+    spr = playerGraphics.GetComponent<SpriteRenderer>();
     audioSource = GetComponent<AudioSource>();
+
+    startingScale = playerGraphics.transform.localScale;
   }
 
   // Update is called once per frame
@@ -118,11 +129,26 @@ public class PlayerScript : MonoBehaviour
       currentGravity = baseGravity;
       gravityTimer = 0f;
     }
+
+    speedTimer -= Time.deltaTime;
+    if (speedTimer <= 0f){
+      speed = maxSpeed;
+      speedTimer = 0f;
+    }
+
+    reloadTimer -= Time.deltaTime;
+    if (reloadTimer <= 0f){
+      if (currentShotsLeft < shotsToOverheat){
+        currentShotsLeft += 1;
+        reloadTimer = 0.5f - 0.5f * ((float)currentShotsLeft / (float)shotsToOverheat);
+      }
+    }
   }
 
   void FixedUpdate(){    
     
-    RaycastHit2D hit = Physics2D.BoxCast(transform.position, new Vector2(0.5f, 0.5f), 0f, movement, 0.5f, solidMask.value);
+    Vector3 castOffset = movement.normalized * bodyCollider.radius; 
+    RaycastHit2D hit = Physics2D.BoxCast(transform.position + castOffset, new Vector2(0.5f, 0.5f), 0f, movement, 0.5f, solidMask.value);
     Debug.DrawRay(transform.position, movement);
     
     if (hit){
@@ -130,7 +156,7 @@ public class PlayerScript : MonoBehaviour
         if (isDashing) {            
             // Si está dasheando y se choca, debería reflejarse
             if (hit.collider.CompareTag("furniture")){
-              Debug.Log("Collision!");
+              //Debug.Log("Collision!");
               hit.collider.attachedRigidbody.AddForceAtPosition(dashDirection * 2500f, hit.point);
             }
             if (dashBounceTimer <= 0f){
@@ -182,18 +208,23 @@ public class PlayerScript : MonoBehaviour
       GameObject fantasmita = Instantiate(fantasmitaPrefab, transform.position, Quaternion.identity);
       var scr = fantasmita.GetComponent<fantasmitaScript>();
       scr.team = team;
-      scr.flip = (Mathf.Sign(transform.localScale.x) > 0f) ? spr.flipX : !spr.flipX;
+      scr.flip = (Mathf.Sign(playerGraphics.transform.localScale.x) > 0f) ? spr.flipX : !spr.flipX;
     }
   }
 
-  public void changeGravity(float factor, float time){
+  public void changeGravity(float percentage, float time){
       gravityTimer = time;
-      currentGravity = baseGravity * factor;
+      currentGravity = baseGravity * percentage;
+  }
+
+  public void changeSpeed(float percentage, float time){
+      speedTimer = time;
+      speed = maxSpeed * percentage;
   }
 
   void shoot(){
     // Shooting
-    Vector2 flick = new Vector2(Input.GetAxisRaw("P" + id.ToString() +"FlickX"), -Input.GetAxisRaw("P" + id.ToString() + "FlickY"));
+    Vector2 flick = new Vector2(Input.GetAxisRaw("P" + id.ToString() +"FlickX"), -Input.GetAxisRaw("P" + id.ToString() + "FlickY"));    
 
     if (isHolding){
       // FIXME!! GRAVEDAD!
@@ -201,17 +232,21 @@ public class PlayerScript : MonoBehaviour
         movement.x = 0f;
       }
 
+      Debug.Log($"palanca: {flick}, realFlick, {realFlick}");
+
+      // TODO: SENSIBILIDAD FLICK
       if (flick.magnitude > 0.15f){
         //Esto es para cambiar de lado el sprite dependiendo del flick
-        Vector3 prevScale = transform.localScale;
-        prevScale.x = Mathf.Sign(flick.x) * (spr.flipX ? -1f : 1f);
-        transform.localScale = prevScale;
+        Vector3 prevScale = playerGraphics.transform.localScale;
+        prevScale.x = startingScale.x * Mathf.Sign(flick.x) * (spr.flipX ? -1f : 1f);
+        playerGraphics.transform.localScale = prevScale;
 
         // y esto es para darle el poder al flick
         realFlick += flick * flickSpeed * Time.deltaTime;
         realFlick.x = Mathf.Clamp(realFlick.x, -3f, 3f);
         realFlick.y = Mathf.Clamp(realFlick.y, -3f, 3f);
       }
+      
       
       // Esta es la flechita (Mover a una función de dibujar flechita?)
       arrowBar.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(-realFlick.y, -realFlick.x) * Mathf.Rad2Deg);
@@ -223,8 +258,13 @@ public class PlayerScript : MonoBehaviour
       arrowSprite.size = new Vector2(1.0f + 1.5f * realFlick.magnitude / 4.24f, 0.7f);
 
       // Esto dispararía el objeto
-      if (flick.magnitude < 0.5f){
-        changeGravity(1.0f, 0f);
+      if (flick.magnitude < 0.5f && currentShotsLeft > 0){
+        currentShotsLeft -= 1;
+        reloadTimer = 0.5f;
+        if (!grounded){
+          changeGravity(0.05f, 0.15f);
+          changeSpeed(0f, 0.15f);
+        }
         anim.Play("Throw");
         audioSource.PlayOneShot(fireSound);
         Vector2 projectilePos = -realFlick.normalized;
@@ -244,7 +284,8 @@ public class PlayerScript : MonoBehaviour
     } else {
       if (flick.magnitude > 0.5f){
         if (!grounded){
-          changeGravity(0.05f, 0.5f);
+          changeGravity(0.01f, 0.75f);
+          changeSpeed(0f, 0.75f);
         }
         isHolding = true;
         realFlick = flick;
@@ -287,8 +328,10 @@ public class PlayerScript : MonoBehaviour
       if (isDashing){
         //Calculamos la rotación del personaje dependiendo de la dirección del dash
 
-        bool estaFlipeado = (spr.flipX && transform.localScale.x >= 0f) || (!spr.flipX && transform.localScale.x < 0f);
-        float angle = Mathf.Atan2(dashDirection.y, dashDirection.x) * Mathf.Rad2Deg + (estaFlipeado ? 0f : 180f);
+        bool estaFlipeado = (spr.flipX && playerGraphics.transform.localScale.x >= 0f) || (!spr.flipX && playerGraphics.transform.localScale.x < 0f);
+
+        float nonFlipAngle = Mathf.Atan2(dashDirection.y, dashDirection.x) * Mathf.Rad2Deg;
+        float angle = nonFlipAngle + (estaFlipeado ? 0f : 180f);
 
         if (angle < 0){
             angle += 360;
@@ -302,7 +345,8 @@ public class PlayerScript : MonoBehaviour
             spr.flipY = false;
         }
 
-        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        playerGraphics.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        dashEffect.transform.rotation = Quaternion.AngleAxis(nonFlipAngle + 90f, Vector3.forward);
       }
   }
 
@@ -346,19 +390,19 @@ public class PlayerScript : MonoBehaviour
         dashTimer = 0f;
         isDashing = false;
         GetComponent<Collider2D>().enabled = true;
-        Vector3 prevScale = transform.localScale;
-        prevScale.x = (spr.flipX ? Mathf.Sign(movement.x) : -Mathf.Sign(movement.x));
-        transform.localScale = prevScale;
+        Vector3 prevScale = playerGraphics.transform.localScale;
+        prevScale.x = startingScale.x * (spr.flipX ?  Mathf.Sign(movement.x) : -Mathf.Sign(movement.x));
+        playerGraphics.transform.localScale = prevScale;
         movement = movement * 0.5f;
 
         spr.flipY = false;
-        transform.rotation = Quaternion.identity;
+        playerGraphics.transform.rotation = Quaternion.identity;
   }
 
-  void checkFloor(){
-    //RaycastHit2D hit = Physics2D.Raycast(rb.transform.position, new Vector2(0f, -1f), 0.8f, solidMask.value);
-    Collider2D col = Physics2D.OverlapBox(rb.transform.position + Vector3.down * 0.75f, new Vector2(0.5f, 0.2f), 0f, solidMask.value);
-    if (col != null){
+  void checkFloor(){    
+    //Collider2D col = Physics2D.OverlapBox(rb.transform.position + Vector3.down * 0.75f, new Vector2(0.5f, 0.2f), 0f, solidMask.value);
+    grounded = floorChecker.IsTouchingLayers(solidMask.value);
+    if (grounded){
       if (movement.y <= 0f && !canJump){
         //partículas de cuando cae al piso        
         Instantiate(landingPartsPrefab, transform.position + Vector3.down * 0.75f, Quaternion.identity);
@@ -379,20 +423,12 @@ public class PlayerScript : MonoBehaviour
       //rb.gravityScale = 0f;
       if (!isDashing){
         availableDashes = maxDashes;
-      }
-
-      grounded = true;
-    } else {
-      grounded = false;
+      }      
+    } else {      
       //rb.gravityScale = 4f;
       if (!isDashing){
         movement.y -= currentGravity;
       }
     }
-  }  
-
-  void OnDrawGizmos(){    
-    Gizmos.color = Color.yellow;
-    Gizmos.DrawWireCube(transform.position + Vector3.down * 0.75f, new Vector3(0.5f, 0.2f, 1f));    
   }
 }

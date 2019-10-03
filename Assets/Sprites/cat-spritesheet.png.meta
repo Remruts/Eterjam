@@ -32,6 +32,36 @@ TextureImporter:
   - first:
       213: 3604977692861474119
     second: CatDash
+  - first:
+      213: -1249520860213855046
+    second: cat-spritesheet_0
+  - first:
+      213: 9125570369665596495
+    second: cat-spritesheet_1
+  - first:
+      213: -7710959701940252668
+    second: cat-spritesheet_2
+  - first:
+      213: -6302685943728735489
+    second: cat-spritesheet_3
+  - first:
+      213: -683767194782264803
+    second: cat-spritesheet_4
+  - first:
+      213: 1821008043431750087
+    second: cat-spritesheet_5
+  - first:
+      213: 7477747796039395509
+    second: cat-spritesheet_6
+  - first:
+      213: -125004364925959850
+    second: cat-spritesheet_7
+  - first:
+      213: -4479156669686092335
+    second: cat-spritesheet_8
+  - first:
+      213: -7945247480037588327
+    second: cat-spritesheet_9
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -114,7 +144,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CatIdle
+      name: cat-spritesheet_0
       rect:
         serializedVersion: 2
         x: 0
@@ -128,14 +158,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a60033dc8297148f6b6b51266cde9f65
-      internalID: 3023647061846618107
+      spriteID: f0b0777779f970942929847a82e2cb3d
+      internalID: -1249520860213855046
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CatWalk
+      name: cat-spritesheet_1
       rect:
         serializedVersion: 2
         x: 150
@@ -149,19 +179,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 166aecbd4a658474983ff90ff156ee27
-      internalID: 8167869289362295712
+      spriteID: 7cffea220ebc1c34c9c6318cb91ba21e
+      internalID: 9125570369665596495
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CatThrow1
+      name: cat-spritesheet_2
       rect:
         serializedVersion: 2
         x: 300
         y: 150
-        width: 151
+        width: 150
         height: 150
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -170,14 +200,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9fd32d6abf6bb47f59411134d557057c
-      internalID: 6938108116856327617
+      spriteID: b34269996e8045e4c863923519681a68
+      internalID: -7710959701940252668
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CatThrow2
+      name: cat-spritesheet_3
       rect:
         serializedVersion: 2
         x: 450
@@ -191,122 +221,38 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9a30e75d82e6e4c52b07252a2b71f461
-      internalID: -7697275557866253915
+      spriteID: 1862d94fee078114e8506beee6b37289
+      internalID: -6302685943728735489
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CatBasic
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 150
-        height: 150
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 132a25dc5d3c4455baf35fe3483a8153
-      internalID: -6375441436082845787
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CatJump
-      rect:
-        serializedVersion: 2
-        x: 150
-        y: 0
-        width: 150
-        height: 150
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: da238ea59d9074a1eb2a27f54d5ceba2
-      internalID: -6954600437058044378
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CatThrow4
-      rect:
-        serializedVersion: 2
-        x: 300
-        y: 0
-        width: 150
-        height: 150
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 165aa6732846649e681ca770c4add53c
-      internalID: 5752204216568060679
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CatThrow5
-      rect:
-        serializedVersion: 2
-        x: 450
-        y: 0
-        width: 150
-        height: 150
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1cb501b37ed18443f99d56a29e2a633d
-      internalID: -4415377953496685414
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CatThrow3
+      name: cat-spritesheet_4
       rect:
         serializedVersion: 2
         x: 600
         y: 150
         width: 150
         height: 150
-      alignment: 9
+      alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8e98c318004f34a67b12919e4227597c
-      internalID: 1640624188349322621
+      spriteID: d066f186c31f01a409e591b065896c7e
+      internalID: -683767194782264803
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CatDash
+      name: cat-spritesheet_5
       rect:
         serializedVersion: 2
-        x: 599
+        x: 0
         y: 0
         width: 150
         height: 150
@@ -317,8 +263,92 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 924a2f0b9811c4f4ea10378743750c43
-      internalID: 3604977692861474119
+      spriteID: 53c916ad0dd5b0440a210c0c2acb5811
+      internalID: 1821008043431750087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cat-spritesheet_6
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 0
+        width: 150
+        height: 150
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3627cae239bd95d4887bd310255f3b2c
+      internalID: 7477747796039395509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cat-spritesheet_7
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 0
+        width: 150
+        height: 150
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 38dcdf718c773384e90c33a5382b24b9
+      internalID: -125004364925959850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cat-spritesheet_8
+      rect:
+        serializedVersion: 2
+        x: 450
+        y: 0
+        width: 150
+        height: 150
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4019010e2ed3f0240b741c1a0649d0c8
+      internalID: -4479156669686092335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cat-spritesheet_9
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 0
+        width: 150
+        height: 150
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69a9d231f1a55d347ae9602b825ce91f
+      internalID: -7945247480037588327
       vertices: []
       indices: 
       edges: []

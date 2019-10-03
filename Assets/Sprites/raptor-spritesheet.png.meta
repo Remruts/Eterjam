@@ -32,6 +32,36 @@ TextureImporter:
   - first:
       213: 1381329989162192103
     second: RaptorDash
+  - first:
+      213: -728993430423229336
+    second: raptor-spritesheet_0
+  - first:
+      213: -5701639845895546673
+    second: raptor-spritesheet_1
+  - first:
+      213: -7985864865790981112
+    second: raptor-spritesheet_2
+  - first:
+      213: 7857988061407727134
+    second: raptor-spritesheet_3
+  - first:
+      213: -4773777556915710253
+    second: raptor-spritesheet_4
+  - first:
+      213: -3967230050939375028
+    second: raptor-spritesheet_5
+  - first:
+      213: 6192797338244061112
+    second: raptor-spritesheet_6
+  - first:
+      213: -2439696613559330357
+    second: raptor-spritesheet_7
+  - first:
+      213: 6144031629617510104
+    second: raptor-spritesheet_8
+  - first:
+      213: -3985191863395493765
+    second: raptor-spritesheet_9
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -114,7 +144,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: RaptorIdle
+      name: raptor-spritesheet_0
       rect:
         serializedVersion: 2
         x: 0
@@ -128,14 +158,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f6a018cee80144a5984c9c3a13fe4d19
-      internalID: -5217819945003246216
+      spriteID: 791decc213288b24cb5da99b4a3bc385
+      internalID: -728993430423229336
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RaptorWalk
+      name: raptor-spritesheet_1
       rect:
         serializedVersion: 2
         x: 150
@@ -149,14 +179,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fe41faab8e37848a3b18d732d6dbf024
-      internalID: -5735848497925288924
+      spriteID: cff7dd3a756b498498d50452575cefab
+      internalID: -5701639845895546673
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RaptorThrow1
+      name: raptor-spritesheet_2
       rect:
         serializedVersion: 2
         x: 300
@@ -170,14 +200,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7db1c9f92373a4fc3a5e538aaf2da74b
-      internalID: 3094734603933097279
+      spriteID: 70004c55bb0f8ce4d9682a6f5b653e16
+      internalID: -7985864865790981112
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RaptorThrow2
+      name: raptor-spritesheet_3
       rect:
         serializedVersion: 2
         x: 450
@@ -191,14 +221,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c609c6d8de7b24b6f82db80fa0b58f45
-      internalID: 8229968710808333042
+      spriteID: 774e2b107dd08d34db23d71baae9fe08
+      internalID: 7857988061407727134
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RaptorThrow3
+      name: raptor-spritesheet_4
       rect:
         serializedVersion: 2
         x: 600
@@ -212,14 +242,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b6428a2bc7696458ead7b3e8bf41eef4
-      internalID: 6857204566352263047
+      spriteID: 19a29245a808ab2458810b929ccde851
+      internalID: -4773777556915710253
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RaptorBasic
+      name: raptor-spritesheet_5
       rect:
         serializedVersion: 2
         x: 0
@@ -233,17 +263,17 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b4890f56cc69b40c493da462c10a3908
-      internalID: 815968608588522240
+      spriteID: 19ff4df3301c9c24aaf62481044a8472
+      internalID: -3967230050939375028
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RaptorJump
+      name: raptor-spritesheet_6
       rect:
         serializedVersion: 2
-        x: 151
+        x: 150
         y: 0
         width: 150
         height: 150
@@ -254,17 +284,17 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c0e765dbb28c74941b65d078d23aabba
-      internalID: -8975173759320519293
+      spriteID: e03033c7e2ce1f047b2a6a8b61033143
+      internalID: 6192797338244061112
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RaptorThrow4
+      name: raptor-spritesheet_7
       rect:
         serializedVersion: 2
-        x: 301
+        x: 300
         y: 0
         width: 150
         height: 150
@@ -275,17 +305,17 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b6d7f3d63d94d4599891d76fbe31ad4d
-      internalID: 2373829041374221183
+      spriteID: daf204758704ec24e8af7270394042ce
+      internalID: -2439696613559330357
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RaptorThrow5
+      name: raptor-spritesheet_8
       rect:
         serializedVersion: 2
-        x: 451
+        x: 450
         y: 0
         width: 150
         height: 150
@@ -296,14 +326,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ce8a26595969441beb85aa0479c73584
-      internalID: 7980200751282931454
+      spriteID: 6d65b9e5ce89bd04d8dd51f680db1d35
+      internalID: 6144031629617510104
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RaptorDash
+      name: raptor-spritesheet_9
       rect:
         serializedVersion: 2
         x: 600
@@ -317,8 +347,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b5d3d40ad640f4843912064813d3c103
-      internalID: 1381329989162192103
+      spriteID: 7b210455569f3884d84119cb229f94da
+      internalID: -3985191863395493765
       vertices: []
       indices: 
       edges: []
