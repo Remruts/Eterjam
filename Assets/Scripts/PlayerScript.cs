@@ -31,9 +31,13 @@ public class PlayerScript : MonoBehaviour
   int currentShotsLeft;
   float reloadTimer = 0f;
   public float flickSpeed = 10f;
-  Vector2 realFlick = Vector2.zero;
+  //Vector2 realFlick = Vector2.zero;
+  float flickMagnitude = 0f;
+  public float flickAngle = 0f;
   float cooldown = 0f;
 
+  float flickRotationSensibility = 0.1f; // (0f, 1f];
+    
   Vector2 movement;  
   float faceDir = 1f;
   bool canJump = false;
@@ -231,31 +235,43 @@ public class PlayerScript : MonoBehaviour
       if (!grounded){
         movement.x = 0f;
       }
-
-      Debug.Log($"palanca: {flick}, realFlick, {realFlick}");
+      
+      Debug.Log($"palanca: {flick}, flickAngle {flickAngle}, flickMagnitude, {flickMagnitude}");
 
       // TODO: SENSIBILIDAD FLICK
       if (flick.magnitude > 0.15f){
+        
+        //Calculamos el ángulo del flick basándonos en el ángulo previo
+        float newAngle = Mathf.Atan2(-flick.y, -flick.x) * Mathf.Rad2Deg;
+        if (newAngle < 0f){
+          newAngle += 360f;
+        }
+        updateFlickAngle(newAngle, flickRotationSensibility);
+
         //Esto es para cambiar de lado el sprite dependiendo del flick
         Vector3 prevScale = playerGraphics.transform.localScale;
         prevScale.x = startingScale.x * Mathf.Sign(flick.x) * (spr.flipX ? -1f : 1f);
         playerGraphics.transform.localScale = prevScale;
 
         // y esto es para darle el poder al flick
-        realFlick += flick * flickSpeed * Time.deltaTime;
-        realFlick.x = Mathf.Clamp(realFlick.x, -3f, 3f);
-        realFlick.y = Mathf.Clamp(realFlick.y, -3f, 3f);
+        if (flick.magnitude > 0.85f){
+          flickMagnitude += flick.magnitude * flickSpeed * Time.deltaTime;
+        } else {
+          flickMagnitude += (flick.magnitude - flickMagnitude) * 0.1f;
+        }
+        flickMagnitude = Mathf.Clamp(flickMagnitude, -4f, 4f);
       }
-      
+
+      Vector3 flickVector = new Vector3(Mathf.Cos(flickAngle * Mathf.Deg2Rad), Mathf.Sin(flickAngle * Mathf.Deg2Rad), 0f);
       
       // Esta es la flechita (Mover a una función de dibujar flechita?)
-      arrowBar.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(-realFlick.y, -realFlick.x) * Mathf.Rad2Deg);
+      arrowBar.transform.rotation = Quaternion.Euler(0f, 0f, flickAngle);
       arrowBar.transform.position = transform.position 
-        + new Vector3(-realFlick.normalized.x, -realFlick.normalized.y, 0f);
+        + flickVector;
       Vector3 dummyScale = arrowBar.transform.localScale;
       dummyScale.x = -Mathf.Sign(transform.localScale.x);
       arrowBar.transform.localScale = dummyScale;
-      arrowSprite.size = new Vector2(1.0f + 1.5f * realFlick.magnitude / 4.24f, 0.7f);
+      arrowSprite.size = new Vector2(1.0f + 1.5f * flickMagnitude / 4f, 0.7f);
 
       // Esto dispararía el objeto
       if (flick.magnitude < 0.5f && currentShotsLeft > 0){
@@ -266,13 +282,12 @@ public class PlayerScript : MonoBehaviour
           changeSpeed(0f, 0.15f);
         }
         anim.Play("Throw");
-        audioSource.PlayOneShot(fireSound);
-        Vector2 projectilePos = -realFlick.normalized;
-        GameObject aProjectile = Instantiate(projectilePrefab, transform.position + new Vector3(projectilePos.x, projectilePos.y, 0f) * 1.5f, Quaternion.identity) as GameObject;
+        audioSource.PlayOneShot(fireSound);        
+        GameObject aProjectile = Instantiate(projectilePrefab, transform.position + flickVector * 1.5f, Quaternion.identity) as GameObject;
         Rigidbody2D projectileRb = aProjectile.GetComponent<Rigidbody2D>();
         aProjectile.GetComponent<ProjectileScript>().team = team;
 
-        Vector2 laFuerza = -realFlick * projectileSpeed;
+        Vector2 laFuerza = new Vector2(Mathf.Cos(flickAngle * Mathf.Deg2Rad), Mathf.Sin(flickAngle * Mathf.Deg2Rad)) * flickMagnitude * projectileSpeed;
         laFuerza = laFuerza + laFuerza.normalized * 100f;
         projectileRb.AddForce(laFuerza);
 
@@ -288,9 +303,29 @@ public class PlayerScript : MonoBehaviour
           changeSpeed(0f, 0.75f);
         }
         isHolding = true;
-        realFlick = flick;
+        flickMagnitude = flick.magnitude;
+        flickAngle = Mathf.Atan2(-flick.y, -flick.x) * Mathf.Rad2Deg;
+        if (flickAngle < 0f){
+          flickAngle += 360f;
+        }
         arrowBar.gameObject.SetActive(true);
       }
+    }
+  }
+
+
+  // TODO:
+  // Esto sería un lerp angle. Refactorizar armando una clase angle nueva que sólo vaya entre 0 y 360
+  void updateFlickAngle(float targetAngle, float rotSpeed = 0.1f){
+    // targetAngle tiene que estar entre 0 y 360
+    float shortest_angle = ((((targetAngle - flickAngle) % 360) + 540) % 360) - 180;
+    flickAngle += (shortest_angle * rotSpeed) % 360;
+
+    // normalizar
+    if (flickAngle < 0f){
+      flickAngle += 360f;
+    } else if (flickAngle >= 360f){
+      flickAngle -= 360f;
     }
   }
 
