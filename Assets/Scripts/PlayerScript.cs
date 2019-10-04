@@ -300,9 +300,11 @@ public class PlayerScript : MonoBehaviour
     {
       movement.x = inputX * speed;
       faceDir = Mathf.Sign(movement.x);
-      anim.SetBool("standing", false);
+      if (grounded){
+        anim.SetBool("standing", false);
+      }
     } else {            
-      //movementX = movementX * friction;      
+      //movementX = movementX * friction;
       anim.SetBool("standing", true);
     }    
   }
@@ -404,21 +406,15 @@ public class PlayerScript : MonoBehaviour
     grounded = floorChecker.IsTouchingLayers(solidMask.value);
     if (grounded){
       if (movement.y <= 0f && !canJump){
-        //partículas de cuando cae al piso        
-        Instantiate(landingPartsPrefab, transform.position + Vector3.down * 0.75f, Quaternion.identity);
-
-        //rb.velocity = new Vector2(rb.velocity.x, 0f);
-        /*
-        if (!isDashing) {
-            movement.y = 0f;
-        }
-        */
-        
-        canJump = true;
-        var state = anim.GetCurrentAnimatorStateInfo(0); 
-        if (state.IsName("Jump")){
-          anim.Play("Idle");
-        }
+        // Resetear salto
+        canJump = true;        
+        // partículas de cuando cae al piso        
+        Instantiate(landingPartsPrefab, transform.position + Vector3.down * 0.75f, Quaternion.identity);        
+      }
+      // Resetear animación de salto
+      var state = anim.GetCurrentAnimatorStateInfo(0); 
+      if (state.IsName("Jump") || state.IsName("Falling")){
+        anim.Play("Idle");
       }
       //rb.gravityScale = 0f;
       if (!isDashing){
@@ -427,6 +423,12 @@ public class PlayerScript : MonoBehaviour
     } else {      
       //rb.gravityScale = 4f;
       if (!isDashing){
+        var state = anim.GetCurrentAnimatorStateInfo(0);
+        if (movement.y <= 0f){
+          if (state.IsName("Idle") || state.IsName("Jump")){
+            anim.Play("Falling");
+          }
+        }
         movement.y -= currentGravity;
       }
     }
