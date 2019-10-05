@@ -44,6 +44,12 @@ public class ProjectileScript : MonoBehaviour
     if (Time.time - initialTime > lifeSpam){
       morir();
     }
+
+    attractToClosestProjectile();
+  }
+
+  void attractToClosestProjectile(){
+    //attractorField.Cast(Vector2.zero, RaycastHit2D[] results, float distance = Mathf.Infinity, bool ignoreSiblingColliders = true); 
   }
 
   void OnCollisionEnter2D(Collision2D col){

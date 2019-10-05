@@ -25,6 +25,7 @@ public class PlayerScript : MonoBehaviour
   public float baseGravity = 3f;
   float currentGravity = 3f;
   float gravityTimer = 0f;
+  bool gravityCancelFlag = true;
   bool grounded = false;
   
   public int shotsToOverheat = 10;
@@ -43,12 +44,14 @@ public class PlayerScript : MonoBehaviour
   bool canJump = false;
   bool isDashing = false;
   float dashTimer = 0f;
+  float dashCooldownTimer = 0f;
   float dashBounceTimer = 0f;
   Vector2 dashDirection = Vector2.zero;
   int availableDashes;
 
 [Header("Colisiones")]  
   public LayerMask solidMask;
+  public LayerMask jumpingMask;
 
 [Header("Objetos del Player")]
   public GameObject projectilePrefab;
@@ -129,7 +132,7 @@ public class PlayerScript : MonoBehaviour
     }
 
     gravityTimer -= Time.deltaTime;
-    if (gravityTimer <= 0f){
+    if (gravityTimer <= 0f){      
       currentGravity = baseGravity;
       gravityTimer = 0f;
     }
@@ -138,6 +141,12 @@ public class PlayerScript : MonoBehaviour
     if (speedTimer <= 0f){
       speed = maxSpeed;
       speedTimer = 0f;
+    }
+
+    dashCooldownTimer -= Time.deltaTime;
+    if (dashCooldownTimer <= 0f){
+      availableDashes = Mathf.Min(availableDashes + 1, maxDashes);
+      dashCooldownTimer = 0.5f;
     }
 
     reloadTimer -= Time.deltaTime;
@@ -228,24 +237,23 @@ public class PlayerScript : MonoBehaviour
 
   void shoot(){
     // Shooting
-    Vector2 flick = new Vector2(Input.GetAxisRaw("P" + id.ToString() +"FlickX"), -Input.GetAxisRaw("P" + id.ToString() + "FlickY"));    
+    Vector2 flick = new Vector2(Input.GetAxis("P" + id.ToString() +"FlickX"), -Input.GetAxisRaw("P" + id.ToString() + "FlickY"));        
 
     if (isHolding){
       // FIXME!! GRAVEDAD!
       if (!grounded){
         movement.x = 0f;
       }
-      
-      Debug.Log($"palanca: {flick}, flickAngle {flickAngle}, flickMagnitude, {flickMagnitude}");
 
       // TODO: SENSIBILIDAD FLICK
-      if (flick.magnitude > 0.15f){
+      if (flick.magnitude > 0.5f){
         
         //Calculamos el ángulo del flick basándonos en el ángulo previo
         float newAngle = Mathf.Atan2(-flick.y, -flick.x) * Mathf.Rad2Deg;
         if (newAngle < 0f){
           newAngle += 360f;
         }
+        
         updateFlickAngle(newAngle, flickRotationSensibility);
 
         //Esto es para cambiar de lado el sprite dependiendo del flick
@@ -275,11 +283,15 @@ public class PlayerScript : MonoBehaviour
 
       // Esto dispararía el objeto
       if (flick.magnitude < 0.5f && currentShotsLeft > 0){
-        currentShotsLeft -= 1;
+        currentShotsLeft -= 1;        
         reloadTimer = 0.5f;
-        if (!grounded){
-          changeGravity(0.05f, 0.15f);
+        if (!grounded && gravityCancelFlag){
+          changeGravity(0f, 0.15f);
+          movement.y = 0f;
           changeSpeed(0f, 0.15f);
+          if (currentShotsLeft <= 0){
+            gravityCancelFlag = false;
+          }
         }
         anim.Play("Throw");
         audioSource.PlayOneShot(fireSound);        
@@ -297,8 +309,8 @@ public class PlayerScript : MonoBehaviour
         arrowBar.gameObject.SetActive(false);
       }
     } else {
-      if (flick.magnitude > 0.5f){
-        if (!grounded){
+      if (flick.magnitude > 0.5f){        
+        if (!grounded && gravityCancelFlag){
           changeGravity(0.01f, 0.75f);
           changeSpeed(0f, 0.75f);
         }
@@ -419,6 +431,7 @@ public class PlayerScript : MonoBehaviour
     jumpPartsScr.maxAngle = 180f;
 
     dashTimer = dashLength;
+    dashCooldownTimer = 0.5f;
     movement = dashDirection * dashSpeed;
   }
 
@@ -438,7 +451,7 @@ public class PlayerScript : MonoBehaviour
 
   void checkFloor(){    
     //Collider2D col = Physics2D.OverlapBox(rb.transform.position + Vector3.down * 0.75f, new Vector2(0.5f, 0.2f), 0f, solidMask.value);
-    grounded = floorChecker.IsTouchingLayers(solidMask.value);
+    grounded = floorChecker.IsTouchingLayers(jumpingMask.value);
     if (grounded){
       if (movement.y <= 0f && !canJump){
         // Resetear salto
@@ -451,6 +464,9 @@ public class PlayerScript : MonoBehaviour
       if (state.IsName("Jump") || state.IsName("Falling")){
         anim.Play("Idle");
       }
+      
+      gravityCancelFlag = true;
+
       //rb.gravityScale = 0f;
       if (!isDashing){
         availableDashes = maxDashes;

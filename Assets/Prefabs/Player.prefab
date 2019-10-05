@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1347372214}
   - component: {fileID: 1347372215}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: arrow_bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 5989285883478638436}
   - component: {fileID: 6135450485331199087}
   - component: {fileID: 3348512355938067423}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: playerGraphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -197,7 +197,7 @@ GameObject:
   - component: {fileID: 5236526188443135364}
   - component: {fileID: 5777953963252155573}
   - component: {fileID: 9020263438620638244}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -257,8 +257,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   team: 0
   id: 1
-  speed: 10
-  maxSpeed: 10
+  speed: 15
+  maxSpeed: 15
   projectileSpeed: 400
   jumpForce: 70
   dashSpeed: 60
@@ -268,9 +268,13 @@ MonoBehaviour:
   baseGravity: 3
   shotsToOverheat: 7
   flickSpeed: 10
+  flickAngle: 0
   solidMask:
     serializedVersion: 2
     m_Bits: 256
+  jumpingMask:
+    serializedVersion: 2
+    m_Bits: 768
   projectilePrefab: {fileID: 6090660027465305050, guid: 2cc97c32afba38b429571de718846035,
     type: 3}
   fantasmitaPrefab: {fileID: 8546250162463274020, guid: 2d2d64da860c9de4683bb8d70867f9b7,
@@ -410,7 +414,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3154957789554912972}
   - component: {fileID: 7519011955954497040}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: floorCheckerCoso
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -468,6 +472,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: dashEffect
+      objectReference: {fileID: 0}
+    - target: {fileID: 8928426625921206606, guid: 0826c01a157db9446a6c9c6bae831143,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8928426625921206705, guid: 0826c01a157db9446a6c9c6bae831143,
         type: 3}
