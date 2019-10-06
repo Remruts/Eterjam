@@ -246,7 +246,7 @@ public class PlayerScript : MonoBehaviour
       }
 
       // TODO: SENSIBILIDAD FLICK
-      if (flick.magnitude > 0.5f){
+      if (flick.magnitude >= 0.5f){
         
         //Calculamos el ángulo del flick basándonos en el ángulo previo
         float newAngle = Mathf.Atan2(-flick.y, -flick.x) * Mathf.Rad2Deg;

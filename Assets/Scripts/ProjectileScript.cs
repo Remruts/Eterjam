@@ -17,6 +17,8 @@ public class ProjectileScript : MonoBehaviour
   AudioSource audioSource;
   GameObject aTrail;
   SpriteRenderer spr;
+
+  public CircleCollider2D attractorField;
   
   
   // Start is called before the first frame update
@@ -49,7 +51,37 @@ public class ProjectileScript : MonoBehaviour
   }
 
   void attractToClosestProjectile(){
-    //attractorField.Cast(Vector2.zero, RaycastHit2D[] results, float distance = Mathf.Infinity, bool ignoreSiblingColliders = true); 
+    RaycastHit2D[] results = new RaycastHit2D[20];
+    attractorField.Cast(Vector2.zero, results, 0f, true);
+    GameObject closest = null;
+    float minDistance = Mathf.Infinity;
+    
+    foreach (var result in results){
+      if (!result){
+        break;
+      }
+      var col = result.collider;
+      if (col.CompareTag("projectile")){
+        if (col.gameObject.GetComponent<ProjectileScript>().team != team){
+          Vector3 p = result.point;
+          float newDistance = (p - transform.position).sqrMagnitude;
+          if (closest == null){
+            closest = col.gameObject;
+            minDistance = newDistance;
+          } else {              
+            if (newDistance < minDistance){
+              closest = col.gameObject;
+              minDistance = newDistance;
+            }
+          }
+        }
+      }
+    }
+
+    if (closest != null){
+      Vector2 transPos = (closest.transform.position - transform.position);
+      theBody.velocity = (transPos / attractorField.radius) * 50f;
+    }
   }
 
   void OnCollisionEnter2D(Collision2D col){
