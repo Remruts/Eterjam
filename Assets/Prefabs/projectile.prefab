@@ -197,6 +197,7 @@ MonoBehaviour:
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
   team: 0
+  attractorField: {fileID: 8213002440274475514}
 --- !u!114 &-5371908766714406574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -355,4 +356,4 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 3
+  m_Radius: 3.2
