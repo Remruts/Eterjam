@@ -89,6 +89,7 @@ public class ProjectileScript : MonoBehaviour
     Instantiate(sparks, transform.position, Quaternion.identity);
 
     if (audioSource != null && audioSource.enabled){
+        audioSource.pitch = Random.Range(0.9f, 1.1f);
         audioSource.PlayOneShot(bounceSound);
     }
     if (col.gameObject.CompareTag("fan")){ 

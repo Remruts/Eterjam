@@ -46,7 +46,7 @@ public class PlayerScript : MonoBehaviour
   float dashTimer = 0f;
   float dashCooldownTimer = 0f;
   float dashBounceTimer = 0f;
-  Vector2 dashDirection = Vector2.zero;
+  Vector2 dashDirection;
   int availableDashes;
 
 [Header("Colisiones")]  
@@ -68,9 +68,14 @@ public class PlayerScript : MonoBehaviour
 
 [Header("Audio")]
   AudioSource audioSource;
-  public AudioClip dashSound;
-  public AudioClip fireSound;
-  public AudioClip jumpSound;
+  float currentAudioPoint;
+  bool audioIsLocked = false;
+  public AudioClip[] dashSounds;
+  public AudioClip[] dashVoices;
+  public AudioClip[] holdingSounds;
+  public AudioClip[] fireSounds;
+  public AudioClip[] jumpSounds;
+  public AudioClip[] victorySounds;
 
 [Header("Efectos")]
   public GameObject dashEffect;
@@ -80,7 +85,10 @@ public class PlayerScript : MonoBehaviour
 
   // Start is called before the first frame update
   void Start(){
+    currentAudioPoint = Random.Range(0f, 1f);
     availableDashes = maxDashes;
+
+    startingScale = playerGraphics.transform.localScale;
     faceDir = playerGraphics.transform.localScale.x;
 
     currentGravity = baseGravity;
@@ -98,7 +106,7 @@ public class PlayerScript : MonoBehaviour
     spr = playerGraphics.GetComponent<SpriteRenderer>();
     audioSource = GetComponent<AudioSource>();
 
-    startingScale = playerGraphics.transform.localScale;
+    dashDirection = Vector2.right * (spr.flipX ? 1f : -1f);
   }
 
   // Update is called once per frame
@@ -225,6 +233,27 @@ public class PlayerScript : MonoBehaviour
     }
   }
 
+  void playRandomSound(AudioClip[] audios, float volumeScale = 1f, bool oneShot = true, bool lockAudio = false){    
+    if (audios.Length > 0){
+      currentAudioPoint += 0.61803398874989f;
+      currentAudioPoint = currentAudioPoint % 1.0f;
+      int currentAudioIndex = (int)Mathf.Floor(currentAudioPoint * audios.Length);
+      if (oneShot){
+        audioSource.PlayOneShot(audios[currentAudioIndex], volumeScale);
+      } else {
+        if (!audioSource.isPlaying){
+          audioIsLocked = false;
+        }
+        if (!audioIsLocked){
+          audioSource.pitch = Random.Range(1f, 1.2f);
+          audioSource.clip = audios[currentAudioIndex];
+          audioSource.Play();
+          audioIsLocked = lockAudio;
+        }
+      }
+    }
+    //audioSource.pitch = 1f;
+  }
   public void changeGravity(float percentage, float time){
       gravityTimer = time;
       currentGravity = baseGravity * percentage;
@@ -240,6 +269,9 @@ public class PlayerScript : MonoBehaviour
     Vector2 flick = new Vector2(Input.GetAxis("P" + id.ToString() +"FlickX"), -Input.GetAxisRaw("P" + id.ToString() + "FlickY"));        
 
     if (isHolding){
+      if (!isDashing){
+        arrowBar.gameObject.SetActive(true);
+      }
       // FIXME!! GRAVEDAD!
       if (!grounded){
         movement.x = 0f;
@@ -294,7 +326,7 @@ public class PlayerScript : MonoBehaviour
           }
         }
         anim.Play("Throw");
-        audioSource.PlayOneShot(fireSound);        
+        playRandomSound(fireSounds, 1f, false);
         GameObject aProjectile = Instantiate(projectilePrefab, transform.position + flickVector * 1.5f, Quaternion.identity) as GameObject;
         Rigidbody2D projectileRb = aProjectile.GetComponent<Rigidbody2D>();
         aProjectile.GetComponent<ProjectileScript>().team = team;
@@ -309,7 +341,7 @@ public class PlayerScript : MonoBehaviour
         arrowBar.gameObject.SetActive(false);
       }
     } else {
-      if (flick.magnitude > 0.5f){        
+      if (flick.magnitude > 0.5f){
         if (!grounded && gravityCancelFlag){
           changeGravity(0.01f, 0.75f);
           changeSpeed(0f, 0.75f);
@@ -321,6 +353,7 @@ public class PlayerScript : MonoBehaviour
           flickAngle += 360f;
         }
         arrowBar.gameObject.SetActive(true);
+        //playRandomSound(holdingSounds, 1f, false);
       }
     }
   }
@@ -368,7 +401,7 @@ public class PlayerScript : MonoBehaviour
         jumpPartsScr.maxAngle = 180f;
         //rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         canJump = false;
-        audioSource.PlayOneShot(jumpSound, 2f);
+        playRandomSound(jumpSounds, 1f, false);
       }
     }
   }
@@ -402,7 +435,10 @@ public class PlayerScript : MonoBehaviour
   void checkForDashes(){
     if (availableDashes > 0){            
       if (Input.GetButtonDown("P" + id.ToString() + "Dash")) {
-          dashDirection = new Vector2(Input.GetAxis("P" + id.ToString() + "Horizontal"), -Input.GetAxis("P" + id.ToString() + "Vertical")).normalized;
+          Vector2 dashInputDirection = new Vector2(Input.GetAxis("P" + id.ToString() + "Horizontal"), -Input.GetAxis("P" + id.ToString() + "Vertical")).normalized;
+          if (dashInputDirection.magnitude > 0f){
+            dashDirection = dashInputDirection;
+          }
           
           dash();
           
@@ -422,6 +458,9 @@ public class PlayerScript : MonoBehaviour
   void dash(){
     isDashing = true;
     anim.Play("Dash");
+    playRandomSound(dashSounds, 0.5f, true);
+    playRandomSound(dashVoices, 1f, false);
+    
     GetComponent<Collider2D>().enabled = false;
     dashEffect.GetComponent<particleScript>().Emit();
 
@@ -433,6 +472,10 @@ public class PlayerScript : MonoBehaviour
     dashTimer = dashLength;
     dashCooldownTimer = 0.5f;
     movement = dashDirection * dashSpeed;
+  }
+
+  public void victoryShout(){
+    playRandomSound(victorySounds, 1f, false, true);
   }
 
   void stopDashing() {        

@@ -82,6 +82,7 @@ public class ManagerScript : MonoBehaviour
             }
         }
         this.roundOver((deadPlayerTeam + 1) % 2);
+        currentPlayers[0].victoryShout();
     }
 
     public void pauseGame()
