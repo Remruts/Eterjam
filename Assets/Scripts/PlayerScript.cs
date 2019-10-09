@@ -128,8 +128,7 @@ public class PlayerScript : MonoBehaviour
 
   void initTimers(){
     //timers = new Dictionary<string, CustomTimer>();
-    invincibleTimer = new CustomTimer(2f, () => invincible = false);
-    Debug.Log(invincibleTimer != null);
+    invincibleTimer = new CustomTimer(2f, () => invincible = false);    
   }
 
   // Update is called once per frame
@@ -266,9 +265,9 @@ public class PlayerScript : MonoBehaviour
       if (col.gameObject.GetComponent<ProjectileScript>().team == team || invincible){
         return;
       }
+      die();
       ManagerScript.coso.onPlayerDeath(this);
       ManagerScript.coso.setTimeScale(0.05f, 0.1f);
-      die();
     }
   }
 
