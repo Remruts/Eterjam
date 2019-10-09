@@ -267,11 +267,11 @@ public class PlayerScript : MonoBehaviour
       }
       die();
       ManagerScript.coso.onPlayerDeath(this);
-      ManagerScript.coso.setTimeScale(0.05f, 0.1f);
     }
   }
 
   public void die(){
+    ManagerScript.coso.setTimeScale(0.1f, 0.5f);
     CamScript.screen.shake(0.2f, 1f);
     Destroy(gameObject);
     GameObject fantasmita = Instantiate(fantasmitaPrefab, transform.position, Quaternion.identity);

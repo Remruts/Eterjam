@@ -41,10 +41,13 @@ public class ManagerScript : MonoBehaviour
 
     public int currentWinningTeam = 0;
 
+    public string resultsScene = "endBattleScene";
+
     CustomTimer timeScaleTimer;
    
     // Start is called before the first frame update
-    void Awake(){   
+    void Awake(){
+      // TODO: eliminar al manager de la escena
       if (ManagerScript.coso == null){
         DontDestroyOnLoad(gameObject);
         ManagerScript.coso = this;
@@ -97,13 +100,14 @@ public class ManagerScript : MonoBehaviour
       currentPlayers[0].victoryShout();
       playerLives[deadPlayerTeam] -= 1;
       if (playerLives[deadPlayerTeam] > 0){
-        respawnPlayer(deadPlayerTeam);
+        StartCoroutine(respawnPlayer(deadPlayerTeam, 0.6f));
       } else {
         roundOver((deadPlayerTeam + 1) % 2); 
       } 
     }
 
-    void respawnPlayer(int player){
+    IEnumerator respawnPlayer(int player, float waitTime){
+      yield return new WaitForSeconds(waitTime);
       // Posicion random
       Vector3 newPosition = new Vector3(Random.Range(-9f, 9f), Random.Range(-4f, 4f), 0f);
       //Hacer aparecer muñeco
@@ -136,6 +140,7 @@ public class ManagerScript : MonoBehaviour
 
       currentWinningTeam = aWinningTeam;
       matchEnded = true;
+      /*
       winText.SetActive(true);
 
       var elTexto = winText.GetComponent<TMP_Text>();
@@ -146,21 +151,23 @@ public class ManagerScript : MonoBehaviour
           elTexto.color = team1TextColor;
           elTexto.outlineColor = team1OutlineColor;
       }
-
+      
       elTexto.text = "Ganó el equipo " + winner;
+      */
 
-      Invoke("resetearJuego", 3f);
+      setTimeScale(0.1f, 5f);
+      Invoke("resetearJuego", 0.1f);
     }
 
     void resetearJuego(){
-        resetTimeScale();
-        resetLives();
+        //resetTimeScale();
+        //resetLives();
 
-        matchEnded = false;
+        //matchEnded = false;
         winText.SetActive(false);
 
         currentPlayers = new List<PlayerScript>();
-        transitionScript.transition.setTransition(SceneManager.GetActiveScene().name, "noise0");
+        transitionScript.transition.setTransition(resultsScene, "noise0");
         transitionScript.transition.startTransition(0.5f);
         transitionScript.transition.setTransitionTexture(transBacks[currentWinningTeam]);
         //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
