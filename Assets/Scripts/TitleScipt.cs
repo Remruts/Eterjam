@@ -13,8 +13,8 @@ public class TitleScipt : MonoBehaviour
     {
         if(Input.GetButtonDown("P1Jump") || Input.GetButtonDown("P2Jump") || Input.GetButtonDown("P1Start") || Input.GetButtonDown("P2Start")) {
             transitionScript.transition.setTransition("SpritesScene", "noise0");
-            transitionScript.transition.startTransition(0.5f);
-            //SceneManager.LoadScene("SpritesScene");
+            transitionScript.transition.startTransition(0.5f);            
+            //SceneManager.LoadScene("SpritesScene");            
         }
         if (Input.GetKey("escape")){
             Application.Quit();

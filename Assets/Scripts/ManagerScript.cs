@@ -12,6 +12,10 @@ public class ManagerScript : MonoBehaviour
     public List<GameObject> furniturePrefab;
 
     public List<PlayerScript> currentPlayers;
+    public int[] playerLives;
+    public int startingLives = 5;
+
+    public GameObject[] playerPrefabs;
 
     int bodyCount;
 
@@ -49,6 +53,10 @@ public class ManagerScript : MonoBehaviour
         }
         currentTimeScale = timeScale;
         Time.timeScale = currentTimeScale;
+
+        playerLives = new int[2];
+        playerLives[0] = startingLives;
+        playerLives[1] = startingLives;
     }
 
     // Update is called once per frame
@@ -73,16 +81,26 @@ public class ManagerScript : MonoBehaviour
 
 
     public void onPlayerDeath(PlayerScript aDeadPlayer) {
-        currentPlayers.Remove(aDeadPlayer);
         int deadPlayerTeam = aDeadPlayer.team;
-        foreach (PlayerScript player in this.currentPlayers)
-        {
-            if (player.team == deadPlayerTeam){
-                return;
-            }
-        }
-        this.roundOver((deadPlayerTeam + 1) % 2);
         currentPlayers[0].victoryShout();
+        if (playerLives[deadPlayerTeam] > 0){
+            playerLives[deadPlayerTeam] -= 1;
+            respawnPlayer(deadPlayerTeam);
+        } else {
+            currentPlayers.Remove(aDeadPlayer);                             
+            this.roundOver((deadPlayerTeam + 1) % 2); 
+        } 
+    }
+
+    void respawnPlayer(int player){
+        
+        // Posicion random
+        Vector3 newPosition = new Vector3(Random.Range(-9f, 9f), Random.Range(-4f, 4f), 0f);
+        //Hacer aparecer muñeco
+        GameObject playerInstance = Instantiate(playerPrefabs[player], newPosition, Quaternion.identity);
+        //Invencibilidad por 2 segundos
+        //playerInstance.GetComponent<PlayerScript>().MakeInvincible(2f);        
+
     }
 
     public void pauseGame()

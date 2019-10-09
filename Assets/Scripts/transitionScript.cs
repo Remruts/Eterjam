@@ -121,7 +121,7 @@ public class transitionScript : MonoBehaviour {
 		EffectMaterial.SetFloat ("_Cutoff", c);
 	}
 
-	public void startTransition(float time){
+	public void startTransition(float time){        
 		transitioning = true;
 		transitionTime = time;
         invert = false;
