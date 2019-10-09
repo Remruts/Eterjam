@@ -83,8 +83,18 @@ public class PlayerScript : MonoBehaviour
   public GameObject jumpingPartsPrefab;
   public GameObject collisionPartsPrefab;
 
+  //TIMERS
+  //CustomTimer TestTimer;
+  /*
+  public void myTestMethod(){
+    Debug.Log($"Terminó el timer para el jugador {team}");
+  } 
+  */ 
+
   // Start is called before the first frame update
   void Start(){
+    //TestTimer = new CustomTimer(2f, myTestMethod);
+
     currentAudioPoint = Random.Range(0f, 1f);
     availableDashes = maxDashes;
 
@@ -133,6 +143,8 @@ public class PlayerScript : MonoBehaviour
         //movement = dashDirection * dashSpeed;
         rotateWhenInDash();
     }
+
+    //TestTimer.tick(TestTimer.getDuration);
 
     dashBounceTimer -= Time.deltaTime;
     if (dashBounceTimer <= 0f){
