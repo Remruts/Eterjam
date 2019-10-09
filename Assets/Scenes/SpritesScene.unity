@@ -309,8 +309,8 @@ MonoBehaviour:
   playerLives: 
   startingLives: 5
   playerPrefabs:
-  - {fileID: 443397150}
-  - {fileID: 421558726}
+  - {fileID: 4386864481693641778, guid: 9f60166068a1d1248b5b20e68999b738, type: 3}
+  - {fileID: 1002755187968505497, guid: 05590b518390ed448a0dc34f7f593d8d, type: 3}
   winText: {fileID: 1560756935}
   pauseText: {fileID: 622845782}
   paused: 0
@@ -346,12 +346,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &421558726 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1002755187968505497, guid: 05590b518390ed448a0dc34f7f593d8d,
-    type: 3}
-  m_PrefabInstance: {fileID: 1002755187819581279}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &426235856
 GameObject:
   m_ObjectHideFlags: 0
@@ -659,12 +653,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f60166068a1d1248b5b20e68999b738, type: 3}
---- !u!1 &443397150 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4386864481693641778, guid: 9f60166068a1d1248b5b20e68999b738,
-    type: 3}
-  m_PrefabInstance: {fileID: 443397149}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &582236081 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6217991192315759824, guid: 2d578245be322494283ea965f5b4362f,
@@ -1122,6 +1110,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SortingLayer
       value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4134392880129243954, guid: 4ec1f095fea57f349a4d31ad459cb5c3,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ec1f095fea57f349a4d31ad459cb5c3, type: 3}
@@ -1929,6 +1922,11 @@ PrefabInstance:
       propertyPath: m_SortingLayer
       value: -2
       objectReference: {fileID: 0}
+    - target: {fileID: 4134392880129243954, guid: 0de6e2ce91c15a84080194cad2ef3dbd,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0de6e2ce91c15a84080194cad2ef3dbd, type: 3}
 --- !u!1001 &1986211364
@@ -2007,6 +2005,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SortingLayer
       value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4134392880129243954, guid: 0de6e2ce91c15a84080194cad2ef3dbd,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0de6e2ce91c15a84080194cad2ef3dbd, type: 3}

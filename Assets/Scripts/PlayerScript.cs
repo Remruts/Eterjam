@@ -49,6 +49,8 @@ public class PlayerScript : MonoBehaviour
   Vector2 dashDirection;
   int availableDashes;
 
+  bool invincible = false;
+
 [Header("Colisiones")]  
   public LayerMask solidMask;
   public LayerMask jumpingMask;
@@ -84,12 +86,15 @@ public class PlayerScript : MonoBehaviour
   public GameObject collisionPartsPrefab;
 
   //TIMERS
+  //Dictionary<string, CustomTimer> timers;
+
+  CustomTimer invincibleTimer;
   //CustomTimer TestTimer;
   /*
   public void myTestMethod(){
     Debug.Log($"Terminó el timer para el jugador {team}");
   } 
-  */ 
+  */
 
   // Start is called before the first frame update
   void Start(){
@@ -117,6 +122,14 @@ public class PlayerScript : MonoBehaviour
     audioSource = GetComponent<AudioSource>();
 
     dashDirection = Vector2.right * (spr.flipX ? 1f : -1f);
+
+    initTimers();
+  }
+
+  void initTimers(){
+    //timers = new Dictionary<string, CustomTimer>();
+    invincibleTimer = new CustomTimer(2f, () => invincible = false);
+    Debug.Log(invincibleTimer != null);
   }
 
   // Update is called once per frame
@@ -143,9 +156,26 @@ public class PlayerScript : MonoBehaviour
         //movement = dashDirection * dashSpeed;
         rotateWhenInDash();
     }
+    
 
+
+    if (invincible){
+      //TODO: Ajustar para que quede lindo
+      //Titileando no me convence
+      //spr.color = new Color(1f, 1f, 1f, (Mathf.Abs(Mathf.Sin(Time.time * 18f)) > 0.5f ? 0.8f : 0f));
+      spr.color = new Color(1f, 1f, 1f, 0.2f);
+    } else {
+      spr.color = new Color(1f, 1f, 1f, 1f);
+    }
+    
+    tickTimers();
+    
+  }
+
+  void tickTimers(){
     //TestTimer.tick(TestTimer.getDuration);
-
+    invincibleTimer.tick(()=>0f, false, invincible);
+    //TODO: convertir en CustomTimers
     dashBounceTimer -= Time.deltaTime;
     if (dashBounceTimer <= 0f){
         dashBounceTimer = 0f;
@@ -233,16 +263,22 @@ public class PlayerScript : MonoBehaviour
 
   void OnCollisionEnter2D(Collision2D col) {
     if (col.gameObject.CompareTag("projectile")){
-      if (col.gameObject.GetComponent<ProjectileScript>().team == team){
+      if (col.gameObject.GetComponent<ProjectileScript>().team == team || invincible){
         return;
       }
       ManagerScript.coso.onPlayerDeath(this);
-      Destroy(gameObject);
-      GameObject fantasmita = Instantiate(fantasmitaPrefab, transform.position, Quaternion.identity);
-      var scr = fantasmita.GetComponent<fantasmitaScript>();
-      scr.team = team;
-      scr.flip = (Mathf.Sign(playerGraphics.transform.localScale.x) > 0f) ? spr.flipX : !spr.flipX;
+      ManagerScript.coso.setTimeScale(0.05f, 0.1f);
+      die();
     }
+  }
+
+  public void die(){
+    CamScript.screen.shake(0.2f, 1f);
+    Destroy(gameObject);
+    GameObject fantasmita = Instantiate(fantasmitaPrefab, transform.position, Quaternion.identity);
+    var scr = fantasmita.GetComponent<fantasmitaScript>();
+    scr.team = team;
+    scr.flip = (Mathf.Sign(playerGraphics.transform.localScale.x) > 0f) ? spr.flipX : !spr.flipX;
   }
 
   void playRandomSound(AudioClip[] audios, float volumeScale = 1f, bool oneShot = true, bool lockAudio = false){    
@@ -266,13 +302,13 @@ public class PlayerScript : MonoBehaviour
     }
     //audioSource.pitch = 1f;
   }
-  public void changeGravity(float percentage, float time){
-      gravityTimer = time;
+  public void changeGravity(float percentage, float duration){
+      gravityTimer = duration;
       currentGravity = baseGravity * percentage;
   }
 
-  public void changeSpeed(float percentage, float time){
-      speedTimer = time;
+  public void changeSpeed(float percentage, float duration){
+      speedTimer = duration;
       speed = maxSpeed * percentage;
   }
 
@@ -490,18 +526,25 @@ public class PlayerScript : MonoBehaviour
     playRandomSound(victorySounds, 1f, false, true);
   }
 
-  void stopDashing() {        
-        //Debug.Log("terminó el dash");        
-        dashTimer = 0f;
-        isDashing = false;
-        GetComponent<Collider2D>().enabled = true;
-        Vector3 prevScale = playerGraphics.transform.localScale;
-        prevScale.x = startingScale.x * (spr.flipX ?  Mathf.Sign(movement.x) : -Mathf.Sign(movement.x));
-        playerGraphics.transform.localScale = prevScale;
-        movement = movement * 0.5f;
+  public void MakeInvincible(float duration){
+    if (invincibleTimer != null){
+      invincibleTimer.start(duration);
+    }
+    invincible = true;
+  }
 
-        spr.flipY = false;
-        playerGraphics.transform.rotation = Quaternion.identity;
+  void stopDashing() {        
+    //Debug.Log("terminó el dash");        
+    dashTimer = 0f;
+    isDashing = false;
+    GetComponent<Collider2D>().enabled = true;
+    Vector3 prevScale = playerGraphics.transform.localScale;
+    prevScale.x = startingScale.x * (spr.flipX ?  Mathf.Sign(movement.x) : -Mathf.Sign(movement.x));
+    playerGraphics.transform.localScale = prevScale;
+    movement = movement * 0.5f;
+
+    spr.flipY = false;
+    playerGraphics.transform.rotation = Quaternion.identity;
   }
 
   void checkFloor(){    

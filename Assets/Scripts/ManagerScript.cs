@@ -40,111 +40,122 @@ public class ManagerScript : MonoBehaviour
     public float timeScale = 1.0f;
 
     public int currentWinningTeam = 0;
+
+    CustomTimer timeScaleTimer;
    
     // Start is called before the first frame update
-    void Awake()
-    {   
-        if (ManagerScript.coso == null){
-            DontDestroyOnLoad(gameObject);
-            ManagerScript.coso = this;
-            currentPlayers = new List<PlayerScript>();
-        } else{
-            Destroy(gameObject);
-        }
-        currentTimeScale = timeScale;
-        Time.timeScale = currentTimeScale;
+    void Awake(){   
+      if (ManagerScript.coso == null){
+        DontDestroyOnLoad(gameObject);
+        ManagerScript.coso = this;
+        currentPlayers = new List<PlayerScript>();
+      } else{
+        Destroy(gameObject);
+      }
 
-        playerLives = new int[2];
-        playerLives[0] = startingLives;
-        playerLives[1] = startingLives;
+      resetTimeScale();
+      timeScaleTimer = new CustomTimer(0f, resetTimeScale);
+
+      resetLives();
+    }
+
+    void resetTimeScale(){
+      currentTimeScale = timeScale;
+    }
+
+    void resetLives(){
+      playerLives = new int[2];
+      playerLives[0] = startingLives;
+      playerLives[1] = startingLives;
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Para debug. Cambiar
-        if (!paused){
-          Time.timeScale = timeScale;
-        }
-        
-        if (matchEnded){
-            return;
-        }
-        if (Input.GetKey("escape")){
-            Application.Quit();
-        }
+      // Para debug. Cambiar
+      if (!paused){
+        Time.timeScale = currentTimeScale;
+        timeScaleTimer.tick(()=>0f, false, !Mathf.Approximately(currentTimeScale, timeScale));
+      }
+      
+      if (matchEnded){
+        return;
+      }
+      if (Input.GetKey("escape")){
+        Application.Quit();
+      }
 
-        if (Input.GetButtonDown("P1Start") || Input.GetButtonDown("P2Start")){
-            pauseGame();
-        }
+      if (Input.GetButtonDown("P1Start") || Input.GetButtonDown("P2Start")){
+        pauseGame();
+      }
     }
 
 
     public void onPlayerDeath(PlayerScript aDeadPlayer) {
-        int deadPlayerTeam = aDeadPlayer.team;
-        currentPlayers[0].victoryShout();
-        if (playerLives[deadPlayerTeam] > 0){
-            playerLives[deadPlayerTeam] -= 1;
-            respawnPlayer(deadPlayerTeam);
-        } else {
-            currentPlayers.Remove(aDeadPlayer);                             
-            this.roundOver((deadPlayerTeam + 1) % 2); 
-        } 
+      int deadPlayerTeam = aDeadPlayer.team;
+      currentPlayers.Remove(aDeadPlayer);
+      currentPlayers[0].victoryShout();
+      playerLives[deadPlayerTeam] -= 1;
+      if (playerLives[deadPlayerTeam] > 0){
+        respawnPlayer(deadPlayerTeam);
+      } else {
+        roundOver((deadPlayerTeam + 1) % 2); 
+      } 
     }
 
     void respawnPlayer(int player){
-        
-        // Posicion random
-        Vector3 newPosition = new Vector3(Random.Range(-9f, 9f), Random.Range(-4f, 4f), 0f);
-        //Hacer aparecer muñeco
-        GameObject playerInstance = Instantiate(playerPrefabs[player], newPosition, Quaternion.identity);
-        //Invencibilidad por 2 segundos
-        //playerInstance.GetComponent<PlayerScript>().MakeInvincible(2f);        
-
+      // Posicion random
+      Vector3 newPosition = new Vector3(Random.Range(-9f, 9f), Random.Range(-4f, 4f), 0f);
+      //Hacer aparecer muñeco
+      GameObject playerInstance = Instantiate(playerPrefabs[player], newPosition, Quaternion.identity);
+      //Invencibilidad por 2 segundos
+      playerInstance.GetComponent<PlayerScript>().MakeInvincible(2f);
     }
 
     public void pauseGame()
     {
-        // pause the game TODO
-        paused = !paused;
-        if (paused){
-            pauseText.SetActive(true);
-            Time.timeScale = 0f;
-            pauseText.GetComponent<Animator>().Play("show");            
-        } else {
-            //pauseText.SetActive(false);
-            Time.timeScale = currentTimeScale;
-            pauseText.GetComponent<Animator>().Play("hide");
-        }
+      // pause the game TODO
+      paused = !paused;
+      if (paused){
+        pauseText.SetActive(true);
+        Time.timeScale = 0f;
+        pauseText.GetComponent<Animator>().Play("show");            
+      } else {
+        //pauseText.SetActive(false);
+        Time.timeScale = currentTimeScale;
+        pauseText.GetComponent<Animator>().Play("hide");
+      }
     }
 
 
-    void roundOver(int aWinningTeam)
-    {
-        string winner = aWinningTeam == 0 ? "de Desarrollo" : "de Comercial";
-        if (matchEnded){
-            return;
-        }
+    void roundOver(int aWinningTeam){
+      string winner = aWinningTeam == 0 ? "de Desarrollo" : "de Comercial";
+      if (matchEnded){
+          return;
+      }
 
-        currentWinningTeam = aWinningTeam;
-        matchEnded = true;
-        winText.SetActive(true);
+      currentWinningTeam = aWinningTeam;
+      matchEnded = true;
+      winText.SetActive(true);
 
-        var elTexto = winText.GetComponent<TMP_Text>();
-        if (aWinningTeam==0){
-            elTexto.color = team0TextColor;
-            elTexto.outlineColor = team0OutlineColor;
-        }else{
-            elTexto.color = team1TextColor;
-            elTexto.outlineColor = team1OutlineColor;
-        }
+      var elTexto = winText.GetComponent<TMP_Text>();
+      if (aWinningTeam==0){
+          elTexto.color = team0TextColor;
+          elTexto.outlineColor = team0OutlineColor;
+      }else{
+          elTexto.color = team1TextColor;
+          elTexto.outlineColor = team1OutlineColor;
+      }
 
-        elTexto.text = "Ganó el equipo " + winner;
+      elTexto.text = "Ganó el equipo " + winner;
 
-        Invoke("resetearJuego", 3f);
+      Invoke("resetearJuego", 3f);
     }
 
     void resetearJuego(){
+        resetTimeScale();
+        resetLives();
+
         matchEnded = false;
         winText.SetActive(false);
 
@@ -155,18 +166,14 @@ public class ManagerScript : MonoBehaviour
         //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    public void setTimeScale(float newTimeScale, float duration){
+      currentTimeScale = newTimeScale;
+      timeScaleTimer.start(duration * newTimeScale);
+      Time.timeScale = currentTimeScale;
+    }
 
-    public void addPlayer(PlayerScript p)
-    {
+    public void addPlayer(PlayerScript p){
         currentPlayers.Add(p);
     }
-
-    IEnumerator wait(float time)
-    {
-        yield return new WaitForSeconds(time);
-
-        // Code to execute after the delay
-    }
-
 
 }

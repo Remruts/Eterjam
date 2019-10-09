@@ -10,7 +10,7 @@ public class CustomTimer {
   public CustomTimer(float duration, Action theAction){
     maxTime = duration;
     actionToExecute = theAction;
-    currentTime = maxTime;    
+    currentTime = maxTime;
   }
 
   public void tick(Func<float> resetExpression, bool resetCondition = true, bool executionCondition = true){
@@ -33,13 +33,22 @@ public class CustomTimer {
     return maxTime;
   }
 
-  public float setDuration(){
-    return maxTime;
+  public void setDuration(float time){
+    maxTime = time;
   }
 
   // Un reset sin side effects
   public void resetTimerInstantly(){
     currentTime = maxTime;
+  }
+
+  public void start(float time){
+    setDuration(time);
+    resetTimerInstantly();
+  }
+
+  public void setAction(Action theAction){
+    actionToExecute = theAction;
   }
 }
 
