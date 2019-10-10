@@ -110,8 +110,8 @@ public class PlayerScript : MonoBehaviour
     currentShotsLeft = shotsToOverheat;
     
     rb = GetComponent<Rigidbody2D>();
-    if (ManagerScript.coso != null){
-      ManagerScript.coso.addPlayer(this);
+    if (MatchManager.match != null){
+      MatchManager.match.addPlayer(this);
     }
 
     bodyCollider = GetComponent<CircleCollider2D>();
@@ -134,7 +134,7 @@ public class PlayerScript : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
-    if (ManagerScript.coso != null && ManagerScript.coso.paused){
+    if (MatchManager.match != null && MatchManager.match.paused){
         return;
     }
     checkFloor();
@@ -266,12 +266,12 @@ public class PlayerScript : MonoBehaviour
         return;
       }
       die();
-      ManagerScript.coso.onPlayerDeath(this);
+      MatchManager.match.onPlayerDeath(this);
     }
   }
 
   public void die(){
-    ManagerScript.coso.setTimeScale(0.1f, 0.5f);
+    MatchManager.match.setTimeScale(0.1f, 0.5f);
     CamScript.screen.shake(0.2f, 1f);
     Destroy(gameObject);
     GameObject fantasmita = Instantiate(fantasmitaPrefab, transform.position, Quaternion.identity);

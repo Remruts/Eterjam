@@ -25,7 +25,7 @@ public class CamScript : MonoBehaviour
 
   // Update is called once per frame
   void LateUpdate(){
-    if (ManagerScript.coso != null && ManagerScript.coso.paused){
+    if (MatchManager.match != null && MatchManager.match.paused){
       return;
     }
     if (shaking){

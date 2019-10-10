@@ -9,8 +9,7 @@ public class livesUIScript : MonoBehaviour
   public int team = 0;
   // Start is called before the first frame update
   void Start(){
-    livesImage = GetComponent<Image>();
-    resizeLives();
+    livesImage = GetComponent<Image>();    
   }
 
   // Update is called once per frame
@@ -20,8 +19,8 @@ public class livesUIScript : MonoBehaviour
   }
 
   public void resizeLives(){
-    if (ManagerScript.coso != null){
-      float width = ManagerScript.coso.playerLives[team] * 160;
+    if (MatchManager.match != null){
+      float width = MatchManager.match.playerLives[team] * 160;
       livesImage.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
       
     }
