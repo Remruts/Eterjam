@@ -74,7 +74,7 @@ Shader "Sprites/Wobble"
 
             fixed4 frag(v2f IN) : SV_Target
             {
-                fixed2 dudv = tex2D (_NoiseTex, IN.texcoord + fmod(_Time.x + _Time.w * 2.3, 1.0) ).xy * 0.01;
+                fixed2 dudv = tex2D (_NoiseTex, IN.texcoord + fmod(_Time.x + _Time.w * 2.3, 1.0) ).xy * 0.02;
                 fixed4 c = tex2D (_MainTex, IN.texcoord + dudv) * IN.color;
                 c.rgb *= c.a;
                 return c;

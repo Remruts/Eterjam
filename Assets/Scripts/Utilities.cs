@@ -5,6 +5,7 @@ public class CustomTimer {
 
   float currentTime;
   float maxTime;
+  float tickScale = 1.0f;
   Action actionToExecute;
 
   public CustomTimer(float duration, Action theAction){
@@ -14,7 +15,7 @@ public class CustomTimer {
   }
 
   public void tick(Func<float> resetExpression, bool resetCondition = true, bool executionCondition = true){
-    currentTime -= Time.deltaTime;
+    currentTime -= Time.deltaTime * tickScale;
     if (currentTime <= 0f){
       if (resetCondition){
         currentTime = resetExpression();
@@ -35,6 +36,15 @@ public class CustomTimer {
 
   public void setDuration(float time){
     maxTime = time;
+  }
+
+  
+  public void setTickScale(float ts){
+    tickScale = ts;
+  }
+
+  public float getTickScale(){
+    return tickScale;
   }
 
   // Un reset sin side effects

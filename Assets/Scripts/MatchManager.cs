@@ -1,15 +1,13 @@
-﻿using System.Collections;
+﻿//using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using TMPro;
 
 public class MatchManager : MonoBehaviour
 {
-    //global variables
-
-    // player array
-    
+    public string matchType = "stock";
+    public float matchTime = 120f;
     public List<PlayerScript> currentPlayers;
     [Range(0, 99)]
     public int[] playerLives;
@@ -19,6 +17,7 @@ public class MatchManager : MonoBehaviour
     public static MatchManager match;
 
     public GameObject pauseText;
+    public GameObject timerText;
 
     bool matchEnded = false;
     public bool paused = false;
@@ -32,6 +31,7 @@ public class MatchManager : MonoBehaviour
     public string resultsScene = "endBattleScene";
 
     CustomTimer timeScaleTimer;
+    CustomTimer gameTimer;
    
     // Start is called before the first frame update
     void Awake(){
@@ -40,6 +40,13 @@ public class MatchManager : MonoBehaviour
       
       resetTimeScale();
       timeScaleTimer = new CustomTimer(0f, resetTimeScale);
+
+      if (matchType == "time"){
+        timerText.SetActive(true);
+        gameTimer = new CustomTimer(matchTime, roundOver);
+      } else {
+        timerText.SetActive(false);
+      }
     }
 
     void Start(){
@@ -52,28 +59,56 @@ public class MatchManager : MonoBehaviour
 
     void resetLives(){
       playerLives = new int[2];
-      if (ManagerScript.coso != null){
-        playerLives[0] = ManagerScript.coso.startingLives;
-        playerLives[1] = ManagerScript.coso.startingLives;
-      } else {
-        Debug.LogWarning("No existe el manager!");
-        playerLives[0] = 5;
-        playerLives[1] = 5;
+
+      int maxLives = 5;
+      switch (matchType){
+      case "stock":
+        maxLives = ManagerScript.coso.startingLives;
+      break;
+      case "time":
+        maxLives = 0;
+      break;
       }
-      
+
+      playerLives[0] = maxLives;
+      playerLives[1] = maxLives;
     }
 
     // Update is called once per frame
-    void Update()
-    {
-      // Para debug. Cambiar
+    void Update(){
+      if (matchEnded){
+        return;
+      }
+      
       if (!paused){
         Time.timeScale = currentTimeScale;
         timeScaleTimer.tick(()=>0f, false, !Mathf.Approximately(currentTimeScale, timeScale));
-      }
-      
-      if (matchEnded){
-        return;
+
+        if (matchType == "time"){
+          gameTimer.tick(()=> 0f);
+
+          float currentGameTime = gameTimer.getCurrentTime();
+          var timespan = 
+            System.TimeSpan.FromSeconds(currentGameTime);
+
+          string theText = timespan.ToString(@"mm\:ss");
+          
+          if (currentGameTime < 6){
+            var timeAnim = timerText.GetComponent<Animator>();
+            if (!timeAnim.GetBool("LastSeconds")){
+              gameTimer.setTickScale(0.5f);
+              timeAnim.SetBool("LastSeconds", true);
+            }
+            theText = timespan.ToString("%s");
+          }
+
+          timerText.GetComponent<TMP_Text>().text = 
+            theText;
+          if (currentGameTime < 1){
+            timerText.SetActive(false);
+            gameTimer.setTickScale(1f);
+          }
+        }
       }
 
       if (Input.GetButtonDown("P1Start") || Input.GetButtonDown("P2Start")){
@@ -86,12 +121,25 @@ public class MatchManager : MonoBehaviour
       int deadPlayerTeam = aDeadPlayer.team;
       currentPlayers.Remove(aDeadPlayer);
       currentPlayers[0].victoryShout();
-      playerLives[deadPlayerTeam] -= 1;
-      if (playerLives[deadPlayerTeam] > 0){
+
+      if (matchEnded){
+        return;
+      }
+
+      switch (matchType){
+      case "stock":
+        playerLives[deadPlayerTeam] -= 1;
+        if (playerLives[deadPlayerTeam] > 0){
+          StartCoroutine(respawnPlayer(deadPlayerTeam, 0.6f));
+        } else {
+          roundOver(); 
+        }
+      break;
+      case "time":
+        playerLives[(deadPlayerTeam + 1) % 2] += 1;
         StartCoroutine(respawnPlayer(deadPlayerTeam, 0.6f));
-      } else {
-        roundOver((deadPlayerTeam + 1) % 2); 
-      } 
+      break;
+      }
     }
 
     IEnumerator respawnPlayer(int player, float waitTime){
@@ -104,8 +152,7 @@ public class MatchManager : MonoBehaviour
       playerInstance.GetComponent<PlayerScript>().MakeInvincible(2f);
     }
 
-    public void pauseGame()
-    {
+    public void pauseGame(){
       // pause the game TODO
       paused = !paused;
       if (paused){
@@ -120,7 +167,8 @@ public class MatchManager : MonoBehaviour
     }
 
 
-    void roundOver(int aWinningTeam){
+    void roundOver(){
+      int aWinningTeam = (playerLives[0] > playerLives[1] ? 0 : 1);
       if (matchEnded){
           return;
       }
@@ -131,12 +179,12 @@ public class MatchManager : MonoBehaviour
       matchEnded = true;
 
       setTimeScale(0.1f, 5f);
-      Invoke("terminarJuego", 0.1f);
+      Invoke(nameof(endMatch), 0.1f);
     }
 
-    void terminarJuego(){
-        ManagerScript.coso.saveResults(playerLives[0], playerLives[1]);
-        ManagerScript.coso.endMatch();
+    void endMatch(){
+      ManagerScript.coso.saveResults(playerLives[0], playerLives[1]);
+      ManagerScript.coso.endMatch();
     }
 
     public void setTimeScale(float newTimeScale, float duration){
@@ -146,7 +194,7 @@ public class MatchManager : MonoBehaviour
     }
 
     public void addPlayer(PlayerScript p){
-        currentPlayers.Add(p);
+      currentPlayers.Add(p);
     }
 
 }
