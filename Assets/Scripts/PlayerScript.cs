@@ -29,10 +29,8 @@ public class PlayerScript : MonoBehaviour
   bool grounded = false;
   
   public int shotsToOverheat = 10;
-  int currentShotsLeft;
-  float reloadTimer = 0f;
-  public float flickSpeed = 10f;
-  //Vector2 realFlick = Vector2.zero;
+  int currentShotsLeft;  
+  public float flickSpeed = 10f;  
   float flickMagnitude = 0f;
   public float flickAngle = 0f;
   float cooldown = 0f;
@@ -89,16 +87,10 @@ public class PlayerScript : MonoBehaviour
   //Dictionary<string, CustomTimer> timers;
 
   CustomTimer invincibleTimer;
-  //CustomTimer TestTimer;
-  /*
-  public void myTestMethod(){
-    Debug.Log($"Terminó el timer para el jugador {team}");
-  } 
-  */
-
+  CustomTimer reloadTimer;
+  
   // Start is called before the first frame update
   void Start(){
-    //TestTimer = new CustomTimer(2f, myTestMethod);
 
     currentAudioPoint = Random.Range(0f, 1f);
     availableDashes = maxDashes;
@@ -128,47 +120,53 @@ public class PlayerScript : MonoBehaviour
 
   void initTimers(){
     //timers = new Dictionary<string, CustomTimer>();
-    invincibleTimer = new CustomTimer(2f, () => invincible = false);    
+    invincibleTimer = new CustomTimer(2f, () => invincible = false);
+    reloadTimer = new CustomTimer(0f, () => currentShotsLeft += 1);
   }
 
   // Update is called once per frame
   void Update()
   {
     if (MatchManager.match != null && MatchManager.match.paused){
-        return;
+      return;
     }
     checkFloor();
     checkForDashes();
     if (!isDashing){
-        move();
-        jump();
-        if (cooldown == 0f){
-            shoot();
-        } else if (cooldown > 0f){
-            cooldown -= Time.deltaTime;
-            if (cooldown < 0f){
-                cooldown = 0f;
-            }
+      move();
+      jump();
+      if (cooldown == 0f){
+        shoot();
+      } else if (cooldown > 0f){
+        cooldown -= Time.deltaTime;
+        if (cooldown < 0f){
+          cooldown = 0f;
         }
+      }
     } else {
-        arrowBar.gameObject.SetActive(false);
-        //movement = dashDirection * dashSpeed;
-        rotateWhenInDash();
+      arrowBar.gameObject.SetActive(false);
+      //movement = dashDirection * dashSpeed;
+      rotateWhenInDash();
     }
     
+    updateColor();
+    tickTimers();
+  }
 
-
+  void updateColor(){
     if (invincible){
       //TODO: Ajustar para que quede lindo
-      //Titileando no me convence
+      //Titileando. No me convence
       //spr.color = new Color(1f, 1f, 1f, (Mathf.Abs(Mathf.Sin(Time.time * 18f)) > 0.5f ? 0.8f : 0f));
       spr.color = new Color(1f, 1f, 1f, 0.2f);
     } else {
-      spr.color = new Color(1f, 1f, 1f, 1f);
+      float overheatingTime = reloadTimer.getCurrentTime() / reloadTimer.getDuration();
+      if (currentShotsLeft < 1){
+        spr.color = Color.Lerp(Color.white, new Color(1f, 0.4f, 0.26f, 1f), overheatingTime);
+      } else {
+        spr.color = new Color(1f, 1f, 1f, 1f);
+      }
     }
-    
-    tickTimers();
-    
   }
 
   void tickTimers(){
@@ -198,13 +196,11 @@ public class PlayerScript : MonoBehaviour
       dashCooldownTimer = 0.5f;
     }
 
-    reloadTimer -= Time.deltaTime;
-    if (reloadTimer <= 0f){
-      if (currentShotsLeft < shotsToOverheat){
-        currentShotsLeft += 1;
-        reloadTimer = 0.5f - 0.5f * ((float)currentShotsLeft / (float)shotsToOverheat);
-      }
-    }
+    reloadTimer.tick(
+      ()=> 0.5f - 0.5f * ((float)currentShotsLeft / (float)shotsToOverheat), 
+      (currentShotsLeft < shotsToOverheat), 
+      (currentShotsLeft < shotsToOverheat)
+    );
   }
 
   void FixedUpdate(){    
@@ -253,11 +249,8 @@ public class PlayerScript : MonoBehaviour
       movement *= friction;
     }
     
+    // Actualizar el la velocidad del objeto dependiendo de su movimiento
     rb.velocity = movement;
-
-    /*if (Mathf.Abs(rb.velocity.x) > movementX)
-    rb.velocity = new Vector2(movementX, rb.velocity.y);
-    */
   }
 
   void OnCollisionEnter2D(Collision2D col) {
@@ -313,13 +306,13 @@ public class PlayerScript : MonoBehaviour
 
   void shoot(){
     // Shooting
-    Vector2 flick = new Vector2(Input.GetAxis("P" + id.ToString() +"FlickX"), -Input.GetAxisRaw("P" + id.ToString() + "FlickY"));        
+    Vector2 flick = new Vector2(Input.GetAxis("P" + id.ToString() +"FlickX"), -Input.GetAxisRaw("P" + id.ToString() + "FlickY"));
 
     if (isHolding){
       if (!isDashing){
         arrowBar.gameObject.SetActive(true);
       }
-      // FIXME!! GRAVEDAD!
+      // Para que no pueda moverse si está apuntando
       if (!grounded){
         movement.x = 0f;
       }
@@ -361,30 +354,43 @@ public class PlayerScript : MonoBehaviour
       arrowSprite.size = new Vector2(1.0f + 1.5f * flickMagnitude / 4f, 0.7f);
 
       // Esto dispararía el objeto
-      if (flick.magnitude < 0.5f && currentShotsLeft > 0){
-        currentShotsLeft -= 1;        
-        reloadTimer = 0.5f;
-        if (!grounded && gravityCancelFlag){
-          changeGravity(0f, 0.15f);
-          movement.y = 0f;
-          changeSpeed(0f, 0.15f);
-          if (currentShotsLeft <= 0){
-            gravityCancelFlag = false;
-          }
-        }
-        anim.Play("Throw");
-        playRandomSound(fireSounds, 1f, false);
-        GameObject aProjectile = Instantiate(projectilePrefab, transform.position + flickVector * 1.5f, Quaternion.identity) as GameObject;
-        Rigidbody2D projectileRb = aProjectile.GetComponent<Rigidbody2D>();
-        aProjectile.GetComponent<ProjectileScript>().team = team;
+      if (flick.magnitude < 0.5f){
+        if (currentShotsLeft > 0){
 
-        Vector2 laFuerza = new Vector2(Mathf.Cos(flickAngle * Mathf.Deg2Rad), Mathf.Sin(flickAngle * Mathf.Deg2Rad)) * flickMagnitude * projectileSpeed;
-        laFuerza = laFuerza + laFuerza.normalized * 100f;
-        projectileRb.AddForce(laFuerza);
+          currentShotsLeft -= 1;
+
+          reloadTimer.start(0.5f);
+          cooldown = maxCooldown;
+
+          if (!grounded && gravityCancelFlag){
+            changeGravity(0f, 0.15f);
+            movement.y = 0f;
+            changeSpeed(0f, 0.15f);
+            if (currentShotsLeft <= 0){
+              gravityCancelFlag = false;
+            }
+          }
+
+          anim.Play("Throw");
+          playRandomSound(fireSounds, 1f, false);
+          
+          GameObject aProjectile = Instantiate(projectilePrefab, transform.position + flickVector * 1.5f, Quaternion.identity) as GameObject;
+          Rigidbody2D projectileRb = aProjectile.GetComponent<Rigidbody2D>();
+          aProjectile.GetComponent<ProjectileScript>().team = team;
+
+          Vector2 laFuerza = new Vector2(Mathf.Cos(flickAngle * Mathf.Deg2Rad), Mathf.Sin(flickAngle * Mathf.Deg2Rad)) * flickMagnitude * projectileSpeed;
+          laFuerza = laFuerza + laFuerza.normalized * 100f;
+          projectileRb.AddForce(laFuerza);
+
+        } else {
+          GameObject jumpParts = Instantiate(jumpingPartsPrefab, transform.position + Vector3.up * 1f, Quaternion.identity);
+          landingPartsScript jumpPartsScr =     jumpParts.GetComponent<landingPartsScript>();
+          jumpPartsScr.minSpeed = 5f;
+          jumpPartsScr.startAngle = 0f;
+          jumpPartsScr.maxAngle = 180f;
+        }
 
         isHolding = false;
-
-        cooldown = maxCooldown;
         arrowBar.gameObject.SetActive(false);
       }
     } else {
@@ -440,13 +446,14 @@ public class PlayerScript : MonoBehaviour
     if (canJump){
       if (Input.GetButton("P" + id.ToString() + "Jump")){
         anim.Play("Jump");
-        //rb.AddForce(new Vector2(0f, jumpForce));
+        
         movement.y = jumpForce;
+        
         GameObject jumpParts = Instantiate(jumpingPartsPrefab, transform.position + Vector3.down * 0.75f, Quaternion.identity);
         landingPartsScript jumpPartsScr = jumpParts.GetComponent<landingPartsScript>();
         jumpPartsScr.startAngle = 0f;
         jumpPartsScr.maxAngle = 180f;
-        //rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        
         canJump = false;
         playRandomSound(jumpSounds, 1f, false);
       }
