@@ -11,6 +11,7 @@ public class MatchManager : MonoBehaviour
     // player array
     
     public List<PlayerScript> currentPlayers;
+    [Range(0, 99)]
     public int[] playerLives;
 
     public GameObject[] playerPrefabs;
