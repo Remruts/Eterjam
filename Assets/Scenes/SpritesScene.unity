@@ -1856,8 +1856,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26104f8d1b1808342946afa2d0278a6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  matchType: stock
-  matchTime: 120
   currentPlayers: []
   playerLives: 
   playerPrefabs:

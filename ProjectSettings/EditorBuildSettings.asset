@@ -7,10 +7,13 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 0
     path: 
-    guid: 2cda990e2423bbf4892e6590ba056729
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/TitleScene.unity
     guid: 5c1120bdda3c74325b203d9545b8cc63
+  - enabled: 1
+    path: Assets/Scenes/matchSettingsScene.unity
+    guid: e3be035d38ed709429e309bb7d708464
   - enabled: 1
     path: Assets/Scenes/SpritesScene.unity
     guid: 629992767011f426bbcf1e77acac9a71

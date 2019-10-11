@@ -4,9 +4,22 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
+public enum typeOfMatch{
+    vidas = 0,
+    tiempo = 1
+}
+
 public class ManagerScript : MonoBehaviour
 {
-    public int startingLives = 5;
+    public int startingLives = 3;
+    public float startingTime = 120f;
+    public float maxStartingTime = 900f;
+    public float minStartingTime = 30f;
+
+    public int minStartingLives = 1;
+    public int maxStartingLives = 99;
+    
+    public typeOfMatch matchType = typeOfMatch.vidas;
     public static ManagerScript coso;
 
     public Texture2D[] transBacks;
@@ -16,6 +29,7 @@ public class ManagerScript : MonoBehaviour
     int[] results;
 
     public string resultsScene = "endBattleScene";
+    public string matchSettingsScene = "matchSettingsScene";
     public string battleScene = "SpritesScene";
     public string titleScene = "TitleScene";
 
@@ -63,6 +77,24 @@ public class ManagerScript : MonoBehaviour
 
     void resetTimeScale(){
       Time.timeScale = 1f;
+    }
+
+    public void addStartingTime(float t){
+      startingTime += t;
+      if (startingTime > maxStartingTime){
+        startingTime = minStartingTime;
+      } else if (startingTime < minStartingTime){
+        startingTime = maxStartingTime;
+      }
+    }
+
+    public void addStartingLives(int l){
+      startingLives += l;
+      if (startingLives > maxStartingLives){
+        startingLives = minStartingLives;
+      } else if (startingLives < minStartingLives){
+        startingLives = maxStartingLives;
+      }
     }
 
 }

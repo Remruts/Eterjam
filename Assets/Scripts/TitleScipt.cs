@@ -12,7 +12,7 @@ public class TitleScipt : MonoBehaviour
     void Update()
     {
         if(Input.GetButtonDown("P1Jump") || Input.GetButtonDown("P2Jump") || Input.GetButtonDown("P1Start") || Input.GetButtonDown("P2Start")) {
-            ManagerScript.coso.goTo(ManagerScript.coso.battleScene);
+            ManagerScript.coso.goTo(ManagerScript.coso.matchSettingsScene);
         }
         if (Input.GetKey("escape")){
             Application.Quit();

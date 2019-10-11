@@ -6,8 +6,8 @@ using TMPro;
 
 public class MatchManager : MonoBehaviour
 {
-    public string matchType = "stock";
-    public float matchTime = 120f;
+     typeOfMatch currentMatchType = typeOfMatch.vidas;
+    float matchTime = 120f;
     public List<PlayerScript> currentPlayers;
     [Range(0, 99)]
     public int[] playerLives;
@@ -40,17 +40,20 @@ public class MatchManager : MonoBehaviour
       
       resetTimeScale();
       timeScaleTimer = new CustomTimer(0f, resetTimeScale);
+    }
 
-      if (matchType == "time"){
+    void Start(){
+      currentMatchType = ManagerScript.coso.matchType;
+      matchTime = ManagerScript.coso.startingTime;
+
+      resetLives();
+
+      if (currentMatchType == typeOfMatch.tiempo){
         timerText.SetActive(true);
         gameTimer = new CustomTimer(matchTime, roundOver);
       } else {
         timerText.SetActive(false);
       }
-    }
-
-    void Start(){
-      resetLives();
     }
 
     void resetTimeScale(){
@@ -61,11 +64,11 @@ public class MatchManager : MonoBehaviour
       playerLives = new int[2];
 
       int maxLives = 5;
-      switch (matchType){
-      case "stock":
+      switch (currentMatchType){
+      case typeOfMatch.vidas:
         maxLives = ManagerScript.coso.startingLives;
       break;
-      case "time":
+      case typeOfMatch.tiempo:
         maxLives = 0;
       break;
       }
@@ -84,7 +87,7 @@ public class MatchManager : MonoBehaviour
         Time.timeScale = currentTimeScale;
         timeScaleTimer.tick(()=>0f, false, !Mathf.Approximately(currentTimeScale, timeScale));
 
-        if (matchType == "time"){
+        if (currentMatchType == typeOfMatch.tiempo){
           gameTimer.tick(()=> 0f);
 
           float currentGameTime = gameTimer.getCurrentTime();
@@ -96,7 +99,9 @@ public class MatchManager : MonoBehaviour
           if (currentGameTime < 6){
             var timeAnim = timerText.GetComponent<Animator>();
             if (!timeAnim.GetBool("LastSeconds")){
-              gameTimer.setTickScale(0.5f);
+              float counterSpeed = 0.8f;
+              gameTimer.setTickScale(counterSpeed);
+              timeAnim.SetFloat("timeScale", counterSpeed);
               timeAnim.SetBool("LastSeconds", true);
             }
             theText = timespan.ToString("%s");
@@ -126,8 +131,8 @@ public class MatchManager : MonoBehaviour
         return;
       }
 
-      switch (matchType){
-      case "stock":
+      switch (currentMatchType){
+      case typeOfMatch.vidas:
         playerLives[deadPlayerTeam] -= 1;
         if (playerLives[deadPlayerTeam] > 0){
           StartCoroutine(respawnPlayer(deadPlayerTeam, 0.6f));
@@ -135,7 +140,7 @@ public class MatchManager : MonoBehaviour
           roundOver(); 
         }
       break;
-      case "time":
+      case typeOfMatch.tiempo:
         playerLives[(deadPlayerTeam + 1) % 2] += 1;
         StartCoroutine(respawnPlayer(deadPlayerTeam, 0.6f));
       break;
