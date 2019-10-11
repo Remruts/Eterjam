@@ -59,6 +59,9 @@ public class PlayerScript : MonoBehaviour
   public GameObject arrowBar;
   SpriteRenderer arrowSprite;
 
+  public GameObject playerShadow;
+  Vector3 shadowStartPos;
+
   public GameObject playerGraphics;
   public Collider2D floorChecker;
   CircleCollider2D bodyCollider;
@@ -115,6 +118,8 @@ public class PlayerScript : MonoBehaviour
 
     dashDirection = Vector2.right * (spr.flipX ? 1f : -1f);
 
+    shadowStartPos = playerShadow.transform.localPosition;
+
     initTimers();
   }
 
@@ -150,6 +155,7 @@ public class PlayerScript : MonoBehaviour
     }
     
     updateColor();
+    updateShadow();
     tickTimers();
   }
 
@@ -167,6 +173,22 @@ public class PlayerScript : MonoBehaviour
         spr.color = new Color(1f, 1f, 1f, 1f);
       }
     }
+  }
+
+  void updateShadow(){    
+    float shadowScale = 0f;
+    
+    var hit = Physics2D.Raycast(rb.transform.position + Vector3.down * 0.75f, Vector2.down, 12f, solidMask);
+    if (hit){
+      float newY = hit.point.y;
+      shadowScale = 1f - Mathf.Abs((rb.transform.position.y + 0.75f) - hit.point.y) / 14f;
+      var oldPos = playerShadow.transform.position;
+      playerShadow.transform.position = new Vector2(oldPos.x, newY);
+      float shadowAngle = new Angle360(Mathf.Atan2(hit.normal.y, hit.normal.x), true) - 90f;
+      playerShadow.transform.rotation = Quaternion.Euler(0f, 0f, shadowAngle);
+    }
+
+    playerShadow.transform.localScale = Vector2.one * shadowScale;
   }
 
   void tickTimers(){
