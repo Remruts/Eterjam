@@ -17,6 +17,7 @@ public class fanScript : MonoBehaviour{
   
   Collider2D fanCollider;
   Animator anim;
+  public ParticleSystem chispas;
 
   void Start(){
     fanCollider = GetComponent<Collider2D>();
@@ -26,6 +27,7 @@ public class fanScript : MonoBehaviour{
         fanCollider.enabled = true; 
         life = startingLife; 
         anim.enabled = true;
+        chispas.Stop();
       }
     );
   }
@@ -70,6 +72,7 @@ public class fanScript : MonoBehaviour{
       if (life <= 0f){
         fanCollider.enabled = false;
         anim.enabled = false;
+        chispas.Play();
       }
     }
   }
