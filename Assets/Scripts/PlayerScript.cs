@@ -178,10 +178,10 @@ public class PlayerScript : MonoBehaviour
   void updateShadow(){    
     float shadowScale = 0f;
     
-    var hit = Physics2D.Raycast(rb.transform.position + Vector3.down * 0.75f, Vector2.down, 12f, solidMask);
+    var hit = Physics2D.Raycast(rb.transform.position, Vector2.down, 12f, solidMask);
     if (hit){
       float newY = hit.point.y;
-      shadowScale = 1f - Mathf.Abs((rb.transform.position.y + 0.75f) - hit.point.y) / 14f;
+      shadowScale = 1f - Mathf.Abs(rb.transform.position.y - hit.point.y) / 14f;
       var oldPos = playerShadow.transform.position;
       playerShadow.transform.position = new Vector2(oldPos.x, newY);
       float shadowAngle = new Angle360(Mathf.Atan2(hit.normal.y, hit.normal.x), true) - 90f;
