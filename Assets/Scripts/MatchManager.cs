@@ -8,7 +8,7 @@ public class MatchManager : MonoBehaviour
 {
      typeOfMatch currentMatchType = typeOfMatch.vidas;
     float matchTime = 120f;
-    public List<PlayerScript> currentPlayers;
+    List<PlayerScript> currentPlayers;
     [Range(0, 99)]
     public int[] playerLives;
 
@@ -200,6 +200,16 @@ public class MatchManager : MonoBehaviour
 
     public void addPlayer(PlayerScript p){
       currentPlayers.Add(p);
+    }
+
+    public List<GameObject> getPlayers(){
+      List<GameObject> retList = new List<GameObject>();
+      foreach(var player in currentPlayers){
+        if (player != null){
+          retList.Add(player.gameObject);
+        }
+      }
+      return retList;
     }
 
 }
