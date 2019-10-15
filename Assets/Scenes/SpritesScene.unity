@@ -2041,23 +2041,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7901853710433900365, guid: b1e6945e2ed6cc4498651ed711bdc7a0,
         type: 3}
-      propertyPath: cpus.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7901853710433900365, guid: b1e6945e2ed6cc4498651ed711bdc7a0,
-        type: 3}
-      propertyPath: cpus.Array.data[0]
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7901853710433900365, guid: b1e6945e2ed6cc4498651ed711bdc7a0,
-        type: 3}
       propertyPath: startingLives
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7901853710433900365, guid: b1e6945e2ed6cc4498651ed711bdc7a0,
-        type: 3}
-      propertyPath: cpus.Array.data[1]
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1e6945e2ed6cc4498651ed711bdc7a0, type: 3}

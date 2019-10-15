@@ -45,11 +45,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingLives: 5
   startingTime: 120
+  maxStartingTime: 900
+  minStartingTime: 30
+  minStartingLives: 1
+  maxStartingLives: 99
   matchType: 0
   transBacks:
   - {fileID: 2800000, guid: 73b0e89c4f2f02d4eb215095ef7e36fd, type: 3}
   - {fileID: 2800000, guid: f74a0dca89cb3be4e8dabc42ca92fb3f, type: 3}
   currentWinningTeam: 0
   resultsScene: endBattleScene
+  matchSettingsScene: matchSettingsScene
   battleScene: SpritesScene
   titleScene: TitleScene
+  musicVolume: 1
+  audioVolume: 1
+  cpus: 0000
