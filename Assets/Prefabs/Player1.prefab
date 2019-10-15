@@ -197,6 +197,7 @@ GameObject:
   - component: {fileID: 5236526188443135364}
   - component: {fileID: 5777953963252155573}
   - component: {fileID: 9020263438620638244}
+  - component: {fileID: 3037623918366383386}
   m_Layer: 9
   m_Name: Player1
   m_TagString: Player
@@ -262,12 +263,12 @@ MonoBehaviour:
   maxSpeed: 15
   projectileSpeed: 400
   jumpForce: 70
-  dashSpeed: 60
+  dashSpeed: 25
   maxCooldown: 0
-  dashLength: 0.1
+  dashLength: 0.2
   maxDashes: 2
   baseGravity: 3
-  shotsToOverheat: 7
+  shotsToOverheat: 5
   flickSpeed: 10
   flickAngle: 0
   solidMask:
@@ -312,6 +313,7 @@ MonoBehaviour:
     type: 3}
   collisionPartsPrefab: {fileID: 5748673802296053759, guid: 98e29d0bcca8b1345a13bef180693c6d,
     type: 3}
+  cpu: 0
 --- !u!82 &5777953963252155573
 AudioSource:
   m_ObjectHideFlags: 0
@@ -424,6 +426,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0.14}
   serializedVersion: 2
   m_Radius: 0.73
+--- !u!114 &3037623918366383386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4386864481693641778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66062e25c7ebeb240b7e143c308a1e6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7035610835895347454
 GameObject:
   m_ObjectHideFlags: 0

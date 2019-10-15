@@ -39,6 +39,8 @@ public class ManagerScript : MonoBehaviour
   public float audioVolume = 1.0f;
 
   CustomTimer timeScaleTimer;
+
+  public bool[] cpus;
   
   // Start is called before the first frame update
   void Awake(){

@@ -4824,6 +4824,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7f43c0b22f92234092811c5a25c5f86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startAngle: 0
+  maxAngle: 180
+  minPartCount: 5
+  maxPartCount: 7
+  minSpeed: 20
+  maxSpeed: 20
 --- !u!114 &8594571986850835222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4836,5 +4842,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91fd24c9e54cf724ea77682172c66c67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 1
+  time: 0.5
   objectToSpawn: {fileID: 0}

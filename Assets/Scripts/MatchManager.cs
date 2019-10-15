@@ -8,7 +8,7 @@ public class MatchManager : MonoBehaviour
 {
      typeOfMatch currentMatchType = typeOfMatch.vidas;
     float matchTime = 120f;
-    List<PlayerScript> currentPlayers;
+    Dictionary<int, PlayerScript> currentPlayers;
     [Range(0, 99)]
     public int[] playerLives;
 
@@ -32,11 +32,17 @@ public class MatchManager : MonoBehaviour
 
     CustomTimer timeScaleTimer;
     CustomTimer gameTimer;
+
+    geneticLottery[] AIStrategies;
    
     // Start is called before the first frame update
     void Awake(){
       MatchManager.match = this;
-      currentPlayers = new List<PlayerScript>();
+      currentPlayers = new Dictionary<int, PlayerScript>();
+
+      AIStrategies = new geneticLottery[2];
+      AIStrategies[0] = new geneticLottery();
+      AIStrategies[1] = new geneticLottery();
       
       resetTimeScale();
       timeScaleTimer = new CustomTimer(0f, resetTimeScale);
@@ -54,6 +60,10 @@ public class MatchManager : MonoBehaviour
       } else {
         timerText.SetActive(false);
       }
+    }
+
+    public ref geneticLottery getStrategies(int team){
+      return ref AIStrategies[team];
     }
 
     void resetTimeScale(){
@@ -122,10 +132,25 @@ public class MatchManager : MonoBehaviour
     }
 
 
-    public void onPlayerDeath(PlayerScript aDeadPlayer) {
+    public void onPlayerDeath(PlayerScript aDeadPlayer, int killerPlayerTeam) {
       int deadPlayerTeam = aDeadPlayer.team;
-      currentPlayers.Remove(aDeadPlayer);
-      currentPlayers[0].victoryShout();
+      if (currentPlayers.Count > 0){        
+        if (aDeadPlayer.cpu){
+          aDeadPlayer.GetComponent<AIScript>().addScoreToAI(-10f);
+        }
+
+        currentPlayers.Remove(deadPlayerTeam);
+        if (currentPlayers.ContainsKey(killerPlayerTeam)){
+          currentPlayers[killerPlayerTeam].victoryShout();
+
+          if (currentPlayers[killerPlayerTeam].cpu)
+          {
+            currentPlayers[killerPlayerTeam].GetComponent<AIScript>().addScoreToAI(60f);
+          }
+        }
+        
+      }
+      
 
       if (matchEnded){
         return;
@@ -141,7 +166,7 @@ public class MatchManager : MonoBehaviour
         }
       break;
       case typeOfMatch.tiempo:
-        playerLives[(deadPlayerTeam + 1) % 2] += 1;
+        playerLives[killerPlayerTeam] += 1;
         StartCoroutine(respawnPlayer(deadPlayerTeam, 0.6f));
       break;
       }
@@ -199,12 +224,12 @@ public class MatchManager : MonoBehaviour
     }
 
     public void addPlayer(PlayerScript p){
-      currentPlayers.Add(p);
+      currentPlayers[p.team] = p;
     }
 
     public List<GameObject> getPlayers(){
       List<GameObject> retList = new List<GameObject>();
-      foreach(var player in currentPlayers){
+      foreach(var player in currentPlayers.Values){
         if (player != null){
           retList.Add(player.gameObject);
         }

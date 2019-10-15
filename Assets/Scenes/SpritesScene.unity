@@ -523,43 +523,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5236526188443135364, guid: 9f60166068a1d1248b5b20e68999b738,
         type: 3}
-      propertyPath: jumpForce
-      value: 70
-      objectReference: {fileID: 0}
-    - target: {fileID: 5236526188443135364, guid: 9f60166068a1d1248b5b20e68999b738,
-        type: 3}
-      propertyPath: dashSpeed
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 5236526188443135364, guid: 9f60166068a1d1248b5b20e68999b738,
-        type: 3}
-      propertyPath: dashLength
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5236526188443135364, guid: 9f60166068a1d1248b5b20e68999b738,
-        type: 3}
-      propertyPath: speed
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 5236526188443135364, guid: 9f60166068a1d1248b5b20e68999b738,
-        type: 3}
-      propertyPath: maxSpeed
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 5236526188443135364, guid: 9f60166068a1d1248b5b20e68999b738,
-        type: 3}
-      propertyPath: maxDashes
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5236526188443135364, guid: 9f60166068a1d1248b5b20e68999b738,
-        type: 3}
-      propertyPath: shotsToOverheat
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5236526188443135364, guid: 9f60166068a1d1248b5b20e68999b738,
-        type: 3}
-      propertyPath: jumpingMask.m_Bits
-      value: 768
+      propertyPath: cpu
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1347372213, guid: 9f60166068a1d1248b5b20e68999b738, type: 3}
       propertyPath: m_IsActive
@@ -579,6 +544,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_FlipX
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5602812804416461142, guid: 9f60166068a1d1248b5b20e68999b738,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5602812804416461142, guid: 9f60166068a1d1248b5b20e68999b738,
+        type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5602812804416461142, guid: 9f60166068a1d1248b5b20e68999b738,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5602812804416461142, guid: 9f60166068a1d1248b5b20e68999b738,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5602812804416461142, guid: 9f60166068a1d1248b5b20e68999b738,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8556646263109990985, guid: 9f60166068a1d1248b5b20e68999b738,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f60166068a1d1248b5b20e68999b738, type: 3}
@@ -1616,6 +1611,11 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1002755187968505494, guid: 05590b518390ed448a0dc34f7f593d8d,
+        type: 3}
+      propertyPath: cpu
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05590b518390ed448a0dc34f7f593d8d, type: 3}
 --- !u!1001 &2264286427832846393
@@ -2158,6 +2158,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7901853710433900365, guid: b1e6945e2ed6cc4498651ed711bdc7a0,
+        type: 3}
+      propertyPath: cpus.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7901853710433900365, guid: b1e6945e2ed6cc4498651ed711bdc7a0,
+        type: 3}
+      propertyPath: cpus.Array.data[0]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7901853710433900365, guid: b1e6945e2ed6cc4498651ed711bdc7a0,
+        type: 3}
+      propertyPath: startingLives
+      value: 999
+      objectReference: {fileID: 0}
+    - target: {fileID: 7901853710433900365, guid: b1e6945e2ed6cc4498651ed711bdc7a0,
+        type: 3}
+      propertyPath: cpus.Array.data[1]
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1e6945e2ed6cc4498651ed711bdc7a0, type: 3}
