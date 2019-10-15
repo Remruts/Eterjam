@@ -19,7 +19,8 @@ public class MatchManager : MonoBehaviour
     public GameObject pauseText;
     public GameObject timerText;
 
-    bool matchEnded = false;
+    [HideInInspector]
+    public bool matchEnded = false;
     public bool paused = false;
 
     float currentTimeScale = 1f;
@@ -54,6 +55,11 @@ public class MatchManager : MonoBehaviour
     void Start(){
       currentMatchType = ManagerScript.coso.matchType;
       matchTime = ManagerScript.coso.startingTime;
+
+      if (ManagerScript.coso.attractMode){
+        currentMatchType = typeOfMatch.tiempo;
+        matchTime = 120f;
+      }
 
       resetLives();
 
@@ -158,7 +164,9 @@ public class MatchManager : MonoBehaviour
       }
 
       if (Input.GetButtonDown("P1Start") || Input.GetButtonDown("P2Start")){
-        pauseGame();
+        if (!ManagerScript.coso.attractMode){
+          pauseGame();
+        }
       }
     }
 

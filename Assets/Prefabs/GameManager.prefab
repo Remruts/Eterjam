@@ -58,6 +58,10 @@ MonoBehaviour:
   matchSettingsScene: matchSettingsScene
   battleScene: SpritesScene
   titleScene: TitleScene
+  attractModeScene: SpritesScene
   musicVolume: 1
   audioVolume: 1
+  timeToAttractMode: 20
+  timeInAttractMode: 30
   cpus: 0000
+  attractMode: 0

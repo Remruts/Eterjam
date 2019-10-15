@@ -2042,7 +2042,7 @@ PrefabInstance:
     - target: {fileID: 7901853710433900365, guid: b1e6945e2ed6cc4498651ed711bdc7a0,
         type: 3}
       propertyPath: startingLives
-      value: 999
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7901853710433900365, guid: b1e6945e2ed6cc4498651ed711bdc7a0,
         type: 3}

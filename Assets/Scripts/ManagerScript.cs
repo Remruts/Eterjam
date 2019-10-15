@@ -32,15 +32,20 @@ public class ManagerScript : MonoBehaviour
   public string matchSettingsScene = "matchSettingsScene";
   public string battleScene = "SpritesScene";
   public string titleScene = "TitleScene";
+  public string attractModeScene = "SpritesScene";
 
   [Range(0f, 1f)]
   public float musicVolume = 1.0f;
   [Range(0f, 1f)]
   public float audioVolume = 1.0f;
 
-  CustomTimer timeScaleTimer;
+  CustomTimer attractModeTimer;
+  public float timeToAttractMode = 5f;
+  public float timeInAttractMode = 30f;
 
   public bool[] cpus;
+
+  public bool attractMode = false;
   
   // Start is called before the first frame update
   void Awake(){
@@ -48,7 +53,29 @@ public class ManagerScript : MonoBehaviour
     if (ManagerScript.coso == null){
       DontDestroyOnLoad(gameObject);
       ManagerScript.coso = this;
+      attractModeTimer = new CustomTimer(
+        5f, 
+        ()=>{
+          string currentScene = SceneManager.GetActiveScene().name;
+          if (currentScene == titleScene){
+            goTo(attractModeScene); 
+            attractMode = true;
+            cpus[0] = true;
+            cpus[1] = true;
+            attractModeTimer.setDuration(timeInAttractMode);
+          } else if (currentScene == attractModeScene && attractMode){
+            goTo(titleScene);
+          }
+        }
+      );
     } else{
+      string currentScene = SceneManager.GetActiveScene().name;
+      if (currentScene == coso.titleScene){
+        coso.attractMode = false;
+        coso.cpus[0] = false;
+        coso.cpus[1] = false;
+        coso.attractModeTimer.start(timeToAttractMode);
+      }
       Destroy(gameObject);
     }
   }
@@ -61,11 +88,20 @@ public class ManagerScript : MonoBehaviour
 
   // Update is called once per frame
   void Update(){
-    if (SceneManager.GetActiveScene().name == resultsScene){
+    string currentScene = SceneManager.GetActiveScene().name;
+    
+    if (currentScene == resultsScene || (attractMode && currentScene == attractModeScene)){
       if(Input.GetButtonDown("P1Jump") || Input.GetButtonDown("P2Jump") || Input.GetButtonDown("P1Start") || Input.GetButtonDown("P2Start")) {
         goTo(titleScene);
       }
     }
+    
+    if (currentScene == titleScene){
+      attractModeTimer.tick(()=> timeInAttractMode);
+    } else if (currentScene == attractModeScene){
+      attractModeTimer.tick(()=> timeToAttractMode);
+    }
+    
     if (Input.GetKey("escape")){
       Application.Quit();
     }
@@ -73,7 +109,11 @@ public class ManagerScript : MonoBehaviour
 
   public void endMatch(){
     Invoke(nameof(resetTimeScale), 0.1f);
-    goTo(resultsScene);
+    if (!attractMode){
+      goTo(resultsScene);
+    } else {
+      goTo(titleScene);
+    }
   }
 
   public void goTo(string scene){

@@ -246,11 +246,7 @@ public class geneticLottery{
 
   public void darwin(){
     theBag.Sort((strat1, strat2) => strat2.getScore().CompareTo(strat1.getScore()));
-    foreach (var meh in theBag){
-      if (meh.getScore() > 100f){
-        Debug.Log(meh.getScore());
-      }
-    }
+    
     //theBag.RemoveRange(pickNumber, bagSize);
     List<strategy> newBag = new List<strategy>();
 
