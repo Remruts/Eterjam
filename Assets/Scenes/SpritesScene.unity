@@ -475,106 +475,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4386864481693641779, guid: 9f60166068a1d1248b5b20e68999b738,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -6375441436082845787, guid: 737a4763e97e445eb943e19daabffbb1,
-        type: 3}
-    - target: {fileID: 4386864481693641779, guid: 9f60166068a1d1248b5b20e68999b738,
-        type: 3}
-      propertyPath: m_FlipX
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4386864481693641779, guid: 9f60166068a1d1248b5b20e68999b738,
-        type: 3}
-      propertyPath: m_Size.x
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4386864481693641779, guid: 9f60166068a1d1248b5b20e68999b738,
-        type: 3}
-      propertyPath: m_Size.y
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4386864481693641779, guid: 9f60166068a1d1248b5b20e68999b738,
-        type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 959507028362922116, guid: 9f60166068a1d1248b5b20e68999b738,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 2c015f2ab82424b7b9273f73405efafd, type: 2}
-    - target: {fileID: 4711104831747315079, guid: 9f60166068a1d1248b5b20e68999b738,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4711104831747315078, guid: 9f60166068a1d1248b5b20e68999b738,
-        type: 3}
-      propertyPath: looping
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4711104831747315078, guid: 9f60166068a1d1248b5b20e68999b738,
-        type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5236526188443135364, guid: 9f60166068a1d1248b5b20e68999b738,
-        type: 3}
-      propertyPath: cpu
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1347372213, guid: 9f60166068a1d1248b5b20e68999b738, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 98455050328540440, guid: 9f60166068a1d1248b5b20e68999b738,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6135450485331199087, guid: 9f60166068a1d1248b5b20e68999b738,
-        type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6135450485331199087, guid: 9f60166068a1d1248b5b20e68999b738,
-        type: 3}
-      propertyPath: m_FlipX
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5602812804416461142, guid: 9f60166068a1d1248b5b20e68999b738,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5602812804416461142, guid: 9f60166068a1d1248b5b20e68999b738,
-        type: 3}
-      propertyPath: m_textInfo.spaceCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5602812804416461142, guid: 9f60166068a1d1248b5b20e68999b738,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5602812804416461142, guid: 9f60166068a1d1248b5b20e68999b738,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5602812804416461142, guid: 9f60166068a1d1248b5b20e68999b738,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8556646263109990985, guid: 9f60166068a1d1248b5b20e68999b738,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f60166068a1d1248b5b20e68999b738, type: 3}
 --- !u!4 &582236081 stripped
@@ -2172,12 +2072,12 @@ PrefabInstance:
     - target: {fileID: 7901853710433900365, guid: b1e6945e2ed6cc4498651ed711bdc7a0,
         type: 3}
       propertyPath: startingLives
-      value: 999
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7901853710433900365, guid: b1e6945e2ed6cc4498651ed711bdc7a0,
         type: 3}
       propertyPath: cpus.Array.data[1]
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1e6945e2ed6cc4498651ed711bdc7a0, type: 3}

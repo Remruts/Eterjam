@@ -9,15 +9,15 @@ Está bueno para efectos y sistemas con partículas.
 */
 public class DestroyAfterX : MonoBehaviour {
 
-	public float time = 2f;
+	public float time = 1f;
 	public GameObject objectToSpawn;
 
 	void Start () {
-		Invoke("Destroy", time);
+		Invoke("die", time);
 	}
 
-	void Destroy(){
-		Destroy(gameObject);
+	void die(){
+		Destroy(this.gameObject);
 		if (objectToSpawn != null){
 			Instantiate(objectToSpawn, transform.position, Quaternion.identity);
 		}

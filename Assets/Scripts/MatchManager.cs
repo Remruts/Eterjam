@@ -136,7 +136,7 @@ public class MatchManager : MonoBehaviour
       int deadPlayerTeam = aDeadPlayer.team;
       if (currentPlayers.Count > 0){        
         if (aDeadPlayer.cpu){
-          aDeadPlayer.GetComponent<AIScript>().addScoreToAI(-10f);
+          aDeadPlayer.GetComponent<AIScript>().addScoreToAI(-8f);
         }
 
         currentPlayers.Remove(deadPlayerTeam);
@@ -145,7 +145,7 @@ public class MatchManager : MonoBehaviour
 
           if (currentPlayers[killerPlayerTeam].cpu)
           {
-            currentPlayers[killerPlayerTeam].GetComponent<AIScript>().addScoreToAI(60f);
+            currentPlayers[killerPlayerTeam].GetComponent<AIScript>().addScoreToAI(40f);
           }
         }
         

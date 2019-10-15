@@ -113,7 +113,7 @@ public class geneticLottery{
   int pickNumber = 3;
 
   int iterations = 0;
-  int maxIterations = 10;
+  int maxIterations = 5;
   public geneticLottery(){
     pickNumber = Mathf.Clamp(pickNumber, 1, bagSize);
     theBag = new List<strategy>();
