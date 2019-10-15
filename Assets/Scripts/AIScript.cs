@@ -21,7 +21,7 @@ public class AIScript : MonoBehaviour
     player = GetComponent<PlayerScript>();
     strategyBag = MatchManager.match.getStrategies(player.team);
     
-    reactionTimer = new CustomTimer(0.18f, react);
+    reactionTimer = new CustomTimer(0.2f, react);
     planningTimer = new CustomTimer(1f, plan);
 
     plan();
