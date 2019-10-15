@@ -11,6 +11,7 @@ public class AIScript : MonoBehaviour
 
   CustomTimer reactionTimer;
   CustomTimer planningTimer;
+  CustomTimer mutationTimer;
 
   strategy currentStrategy;
   int currentAction = 0;
@@ -22,6 +23,7 @@ public class AIScript : MonoBehaviour
     strategyBag = MatchManager.match.getStrategies(player.team);
     
     reactionTimer = new CustomTimer(0.2f, react);
+    mutationTimer = new CustomTimer(0.5f, strategyBag.darwin);
     planningTimer = new CustomTimer(1f, plan);
 
     plan();
@@ -87,7 +89,7 @@ public class AIScript : MonoBehaviour
       player.jump();
     }
 
-    currentStrategy.updateScore(currentAction, Time.deltaTime);
+    currentStrategy.updateScore(currentAction, -Time.deltaTime);
 
     currentAction = (currentAction + 1) % currentStrategy.Size();
   }
@@ -130,11 +132,13 @@ public class geneticLottery{
 
     theBag.Sort((strat1, strat2) => strat2.getScore().CompareTo(strat1.getScore()));
 
+    /*
     iterations++;
     if (iterations > maxIterations){
       darwin();
       iterations = 0;
     }
+     */
 
     strategy theChosenOne = theBag[index];
     theBag.RemoveAt(index);
@@ -228,9 +232,17 @@ public class strategyAction{
 
   public strategyAction(){
     move_direction = Random.Range(-1f, 1f);
+    
     jump = (Random.Range(0f, 1f) > 0.7f);
     
     dash  = (Random.Range(0f, 1f) > 0.9f);
+
+    if (jump){
+      dash = false;
+    }
+    if (dash){
+      jump = false;
+    }
     
     if (Random.Range(0f, 1f) > 0.5f){
       shoot_vector = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
@@ -259,6 +271,13 @@ public class strategyAction{
 
     chance = Random.Range(0f, 1f);
     dash = (chance > dominance) ? st1.dash : st2.dash;
+
+    if (jump){
+      dash = false;
+    }
+    if (dash){
+      jump = false;
+    }
 
     chance = Random.Range(0f, 1f);
     targetPlayer = (chance > dominance) ? Mathf.Lerp(st1.targetPlayer, st2.targetPlayer, 0.8f) : Mathf.Lerp(st1.targetPlayer, st2.targetPlayer, 0.2f);
@@ -290,6 +309,13 @@ public class strategyAction{
     }
     if (Random.Range(0f, 1f) > 0.9f){
       targetPlayer = -targetPlayer;
+    }
+
+    if (jump){
+      dash = false;
+    }
+    if (dash){
+      jump = false;
     }
 
     shoot_vector = new Vector2(
