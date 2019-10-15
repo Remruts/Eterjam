@@ -40,7 +40,7 @@ public class ManagerScript : MonoBehaviour
   public float audioVolume = 1.0f;
 
   CustomTimer attractModeTimer;
-  public float timeToAttractMode = 5f;
+  public float timeToAttractMode = 20f;
   public float timeInAttractMode = 30f;
 
   public bool[] cpus;
@@ -54,7 +54,7 @@ public class ManagerScript : MonoBehaviour
       DontDestroyOnLoad(gameObject);
       ManagerScript.coso = this;
       attractModeTimer = new CustomTimer(
-        5f, 
+        timeToAttractMode, 
         ()=>{
           string currentScene = SceneManager.GetActiveScene().name;
           if (currentScene == titleScene){
