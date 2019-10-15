@@ -97,8 +97,7 @@ public class CamScript : MonoBehaviour
       transform.position = shakenPos + offset;
     } else {
       transform.position = Vector3.Lerp(transform.position, currentPos + offset,Time.deltaTime * 10f);
-    }
-    
+    }    
 
   }
 

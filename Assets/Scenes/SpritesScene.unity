@@ -1726,7 +1726,7 @@ PrefabInstance:
     - target: {fileID: 5878806524311171606, guid: d60a9fb02f31217488a46b945d5257a1,
         type: 3}
       propertyPath: offset.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5878806524311171606, guid: d60a9fb02f31217488a46b945d5257a1,
         type: 3}
@@ -2042,7 +2042,17 @@ PrefabInstance:
     - target: {fileID: 7901853710433900365, guid: b1e6945e2ed6cc4498651ed711bdc7a0,
         type: 3}
       propertyPath: startingLives
-      value: 5
+      value: 999
+      objectReference: {fileID: 0}
+    - target: {fileID: 7901853710433900365, guid: b1e6945e2ed6cc4498651ed711bdc7a0,
+        type: 3}
+      propertyPath: cpus.Array.data[0]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7901853710433900365, guid: b1e6945e2ed6cc4498651ed711bdc7a0,
+        type: 3}
+      propertyPath: cpus.Array.data[1]
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1e6945e2ed6cc4498651ed711bdc7a0, type: 3}

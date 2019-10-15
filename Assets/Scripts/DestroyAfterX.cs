@@ -9,17 +9,30 @@ Está bueno para efectos y sistemas con partículas.
 */
 public class DestroyAfterX : MonoBehaviour {
 
-	public float time = 1f;
-	public GameObject objectToSpawn;
+  public float time2Die = 1f;
+  public GameObject objectToSpawn;
 
-	void Start () {
-		Invoke("die", time);
-	}
+  float startTime;
+  ParticleSystem parts;
 
-	void die(){
-		Destroy(this.gameObject);
-		if (objectToSpawn != null){
-			Instantiate(objectToSpawn, transform.position, Quaternion.identity);
-		}
-	}
+  void Start () {
+    startTime = Time.time;
+  }
+
+  void Update(){
+    if (Time.time > startTime + time2Die){
+      die();
+    }
+  }
+
+  void die(){
+    parts = GetComponent<ParticleSystem>();
+    if (parts != null){
+      Destroy(parts);
+    }
+    Destroy(this.gameObject);
+    if (objectToSpawn != null){
+      Instantiate(objectToSpawn, transform.position, Quaternion.identity);
+    }
+  }
 }

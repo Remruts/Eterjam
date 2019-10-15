@@ -32,20 +32,23 @@ public class MatchManager : MonoBehaviour
 
     CustomTimer timeScaleTimer;
     CustomTimer gameTimer;
+    CustomTimer respawnTimer;
 
     geneticLottery[] AIStrategies;
+
+    List<int> deadPlayers;
    
     // Start is called before the first frame update
     void Awake(){
       MatchManager.match = this;
       currentPlayers = new Dictionary<int, PlayerScript>();
 
-      AIStrategies = new geneticLottery[2];
-      AIStrategies[0] = new geneticLottery();
-      AIStrategies[1] = new geneticLottery();
-      
+      startAI();
       resetTimeScale();
       timeScaleTimer = new CustomTimer(0f, resetTimeScale);
+      respawnTimer = new CustomTimer(0f, respawnPlayer);
+
+      deadPlayers = new List<int>();
     }
 
     void Start(){
@@ -60,6 +63,31 @@ public class MatchManager : MonoBehaviour
       } else {
         timerText.SetActive(false);
       }
+    }
+
+    public void startAI(){      
+      AIStrategies = new geneticLottery[2];
+      AIStrategies[0] = new geneticLottery();
+      AIStrategies[1] = new geneticLottery();
+
+      for (int i = 0; i < AIStrategies.Length; i++){
+        if (ManagerScript.coso.cpus[i]){
+          string jsonSavePath = $"Assets/AIModels/ai{i}.json";
+          AIStrategies[i].loadStrategies(jsonSavePath);
+        }
+      }
+    }
+
+    public void saveAI(){
+      Debug.Log("Saving AI...");
+      for (int i = 0; i < AIStrategies.Length; i++){
+        if (ManagerScript.coso.cpus[i]){
+          Debug.Log($"Saving player {i}'s AI");
+          string jsonSavePath = $"Assets/AIModels/ai{i}.json";
+          AIStrategies[i].saveStrategies(jsonSavePath);
+        }
+      }
+      Debug.Log("Saved AI!");
     }
 
     public ref geneticLottery getStrategies(int team){
@@ -124,6 +152,9 @@ public class MatchManager : MonoBehaviour
             gameTimer.setTickScale(1f);
           }
         }
+        if (deadPlayers.Count > 0){
+          respawnTimer.tick(()=>0.6f);
+        }
       }
 
       if (Input.GetButtonDown("P1Start") || Input.GetButtonDown("P2Start")){
@@ -134,9 +165,12 @@ public class MatchManager : MonoBehaviour
 
     public void onPlayerDeath(PlayerScript aDeadPlayer, int killerPlayerTeam) {
       int deadPlayerTeam = aDeadPlayer.team;
-      if (currentPlayers.Count > 0){        
+      if (currentPlayers.Count > 0){
         if (aDeadPlayer.cpu){
-          aDeadPlayer.GetComponent<AIScript>().addScoreToAI(-4f);
+          var theOtherCPU = aDeadPlayer.GetComponent<AIScript>();
+          theOtherCPU.addScoreToAI(-4f);
+          theOtherCPU.mutate();
+          theOtherCPU.plan();
         }
 
         currentPlayers.Remove(deadPlayerTeam);
@@ -145,12 +179,12 @@ public class MatchManager : MonoBehaviour
 
           if (currentPlayers[killerPlayerTeam].cpu)
           {
-            currentPlayers[killerPlayerTeam].GetComponent<AIScript>().addScoreToAI(20f);
+            var theCPU = currentPlayers[killerPlayerTeam].GetComponent<AIScript>();
+            theCPU.addScoreToAI(20f);
+            theCPU.giveMoreTime();
           }
         }
-        
       }
-      
 
       if (matchEnded){
         return;
@@ -160,20 +194,35 @@ public class MatchManager : MonoBehaviour
       case typeOfMatch.vidas:
         playerLives[deadPlayerTeam] -= 1;
         if (playerLives[deadPlayerTeam] > 0){
-          StartCoroutine(respawnPlayer(deadPlayerTeam, 0.6f));
+          addDeadPlayer(deadPlayerTeam);
         } else {
           roundOver(); 
         }
       break;
       case typeOfMatch.tiempo:
         playerLives[killerPlayerTeam] += 1;
-        StartCoroutine(respawnPlayer(deadPlayerTeam, 0.6f));
+        addDeadPlayer(deadPlayerTeam);
       break;
       }
     }
 
-    IEnumerator respawnPlayer(int player, float waitTime){
-      yield return new WaitForSeconds(waitTime);
+    void addDeadPlayer(int deadPlayerTeam){
+      foreach(int p in deadPlayers){
+        if (p == deadPlayerTeam){
+          return;
+        }
+      }
+      deadPlayers.Add(deadPlayerTeam);
+      respawnTimer.start(0.6f);
+    }
+
+    void respawnPlayer(){
+      if (deadPlayers.Count == 0){
+        return;
+      }
+      int player = deadPlayers[0];
+      deadPlayers.RemoveAt(0);
+
       // Posicion random
       Vector3 newPosition = new Vector3(Random.Range(-9f, 9f), Random.Range(-4f, 4f), 0f);
       //Hacer aparecer muñeco

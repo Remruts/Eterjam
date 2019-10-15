@@ -153,6 +153,10 @@ public class PlayerScript : MonoBehaviour
       arrowBar.gameObject.SetActive(false);
       rotateWhenInDash();
     }
+
+    if (cpu){
+      GetComponent<AIScript>().addScoreToAI(-Time.deltaTime * (currentShotsLeft/shotsToOverheat) * 2.0f);
+    }
     
     updateColor();
     updateShadow();
@@ -427,6 +431,7 @@ public class PlayerScript : MonoBehaviour
 
   void shoot(float flickAngle, float magnitude){
     if (currentShotsLeft > 0){
+      GetComponent<AIScript>().addScoreToAI(5f);
       Vector3 flickVector = new Vector3(Mathf.Cos(flickAngle * Mathf.Deg2Rad), Mathf.Sin(flickAngle * Mathf.Deg2Rad), 0f);
 
       currentShotsLeft -= 1;
