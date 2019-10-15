@@ -173,6 +173,8 @@ public class geneticLottery{
 public class strategy{
   List<strategyAction> actionList;
   int size = 0;
+  float maxScore = 100f;
+  float minScore = -30f;
   public strategy(int newSize){
     actionList = new List<strategyAction>();
     bool chance = Random.Range(0f, 1f) > 0.8f;
@@ -211,7 +213,7 @@ public class strategy{
   }
 
   public void updateScore(int i, float score){
-    actionList[i].score += score;
+    actionList[i].score += Mathf.Clamp(actionList[i].score + score, minScore, maxScore);
   }
 
   public strategyAction getAction(int i){
