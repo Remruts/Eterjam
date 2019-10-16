@@ -102,7 +102,7 @@ public class AIScript : MonoBehaviour
       currentMoveDirection = Mathf.Sign(Mathf.Lerp(currentMoveDirection, -enemyVector.x * Mathf.Sign(newAction.targetPlayer), targetPlayer));
     }
 
-    if (newAction.targetPlayer < 0.5f && currentProjectile != null){
+    if (currentProjectile != null){
       float targetProjectile = newAction.targetProjectile;
       Vector2 projectileVector = (transform.position - currentProjectile.transform.position).normalized;
 
@@ -113,7 +113,7 @@ public class AIScript : MonoBehaviour
 
       float newMagnitude = Mathf.Lerp(shootVector.magnitude, projectileVector.magnitude, targetProjectile);
 
-      willDash = newAction.dashProbability > 0.8f;
+      willDash = newAction.dashProbability > 0.6f;
 
       float newAngle;
       if (!willDash){
