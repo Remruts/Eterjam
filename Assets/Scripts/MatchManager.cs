@@ -17,6 +17,7 @@ public class MatchManager : MonoBehaviour
     public static MatchManager match;
 
     public GameObject pauseText;
+    public GameObject demoText;
     public GameObject timerText;
 
     [HideInInspector]
@@ -59,6 +60,7 @@ public class MatchManager : MonoBehaviour
       if (ManagerScript.coso.attractMode){
         currentMatchType = typeOfMatch.tiempo;
         matchTime = 120f;
+        demoText.SetActive(true);
       }
 
       resetLives();
