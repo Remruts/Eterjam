@@ -53,6 +53,11 @@ public class ManagerScript : MonoBehaviour
     if (ManagerScript.coso == null){
       DontDestroyOnLoad(gameObject);
       ManagerScript.coso = this;
+
+      results = new int[2];
+      results[0] = 0;
+      results[1] = 0;
+
       attractModeTimer = new CustomTimer(
         timeToAttractMode, 
         ()=>{
@@ -84,6 +89,13 @@ public class ManagerScript : MonoBehaviour
     results = new int[2];
     results[0] = team0;
     results[1] = team1;
+  }
+
+  public int getResult(int index){
+    if (index > results.Length-1){
+      return 0;
+    }
+    return results[index];
   }
 
   // Update is called once per frame
