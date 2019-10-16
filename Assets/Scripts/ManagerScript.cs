@@ -90,20 +90,29 @@ public class ManagerScript : MonoBehaviour
   void Update(){
     string currentScene = SceneManager.GetActiveScene().name;
     
-    if (currentScene == resultsScene || (attractMode && currentScene == attractModeScene)){
+    if (attractMode && currentScene == attractModeScene){
       if(Input.GetButtonDown("P1Jump") || Input.GetButtonDown("P2Jump") || Input.GetButtonDown("P1Start") || Input.GetButtonDown("P2Start")) {
         goTo(titleScene);
+      }
+      attractModeTimer.tick(()=> timeToAttractMode);
+    } else if (currentScene == resultsScene){
+      if(Input.GetButtonDown("P1Jump") || Input.GetButtonDown("P2Jump") || Input.GetButtonDown("P1Start") || Input.GetButtonDown("P2Start")) {
+        goTo(matchSettingsScene);
       }
     }
     
     if (currentScene == titleScene){
       attractModeTimer.tick(()=> timeInAttractMode);
-    } else if (currentScene == attractModeScene){
-      attractModeTimer.tick(()=> timeToAttractMode);
     }
     
     if (Input.GetKey("escape")){
-      Application.Quit();
+      if (currentScene == titleScene){
+        Application.Quit();
+      } else if (currentScene == battleScene && !attractMode){
+        goTo(matchSettingsScene);
+      } else {
+        goTo(titleScene);
+      }
     }
   }
 
