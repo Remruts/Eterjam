@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3758a2143560ca544955b0f3952d12b6
+guid: efdceab79aaf8db4fa60579e8f49a931
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -31,7 +31,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: -1
     aniso: -1
     mipBias: -100
     wrapU: 1
@@ -108,7 +108,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 934b7441f0a4a754aa8fb7c207ea92cb
+    spriteID: a5657484d6d83cf46b5bbd1707170846
     internalID: 0
     vertices: []
     indices: 
