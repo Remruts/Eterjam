@@ -17,6 +17,9 @@ public class ButtonScript : MonoBehaviour{
   protected CustomTimer pressTimer;
   public bool selected = false;
   public TMP_FontAsset disabledFont;
+
+  public Color selectedColor = Color.white;
+  public Color notSelectedColor = Color.white;
   // Start is called before the first frame update
   protected virtual void Start(){
     theButton = GetComponent<Button>();
@@ -40,7 +43,8 @@ public class ButtonScript : MonoBehaviour{
     this.selected = (gameObject == EventSystem.current.currentSelectedGameObject);
 
     //FIXME: COLOR DEL BOTÓN CUANDO ES SELECCIONADO
-    buttonText.color = (this.selected ? new Color(0.46f, 1f, 0.4f, 1f) : Color.white);
+    //buttonText.color = (this.selected ? new Color(0.46f, 1f, 0.4f, 1f) : Color.white);
+    buttonText.color = (this.selected ? selectedColor : notSelectedColor);
 
     if (this.selected && canPress){
       for (int i = 1; i < 3; i++){

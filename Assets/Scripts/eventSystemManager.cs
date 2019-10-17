@@ -1,10 +1,12 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using UnityEngine.EventSystems;
 
 public class eventSystemManager : MonoBehaviour {
   public GameObject currentButton;
+  public RectTransform cursor;
   private AxisEventData currentAxis;
   private CustomTimer timer;
   private float maxTimeBetweenInputs = 0.3f;
@@ -31,14 +33,19 @@ public class eventSystemManager : MonoBehaviour {
       currentAxis = new AxisEventData (EventSystem.current);
       if (EventSystem.current.currentSelectedGameObject == null){
         EventSystem.current.SetSelectedGameObject(currentButton);
-      } else {
-        currentButton = EventSystem.current.currentSelectedGameObject;
       }
       for (int i=1; i < 3; i++){
         selectStuff(i);
       }
+      currentButton = EventSystem.current.currentSelectedGameObject;
     } else {
       timer.tick(timer.getDuration);
+    }
+
+    if (cursor != null){
+      cursor.SetParent(currentButton.transform.GetChild(0));
+      cursor.anchoredPosition = new Vector3(0f, 0f, 10f);
+      cursor.localScale = Vector3.one;
     }
   }
 
