@@ -61,7 +61,7 @@ MonoBehaviour:
   attractModeScene: SpritesScene
   musicVolume: 1
   audioVolume: 1
-  timeToAttractMode: 10
-  timeInAttractMode: 30
+  timeToAttractMode: 43
+  timeInAttractMode: 45
   cpus: 0000
   attractMode: 0

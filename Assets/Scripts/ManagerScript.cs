@@ -108,13 +108,17 @@ public class ManagerScript : MonoBehaviour
       }
       attractModeTimer.tick(()=> timeToAttractMode);
     } else if (currentScene == resultsScene){
+      Time.timeScale = 1f;
       if(Input.GetButtonDown("P1Jump") || Input.GetButtonDown("P2Jump") || Input.GetButtonDown("P1Start") || Input.GetButtonDown("P2Start")) {
         goTo(matchSettingsScene);
       }
     }
     
     if (currentScene == titleScene){
+      Time.timeScale = 1f;
       attractModeTimer.tick(()=> timeInAttractMode);
+    } else if  (currentScene == matchSettingsScene){
+      Time.timeScale = 1f;
     }
     
     if (Input.GetKey("escape")){

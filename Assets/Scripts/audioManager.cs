@@ -24,9 +24,9 @@ public class audioManager : MonoBehaviour
       DontDestroyOnLoad(this.gameObject);
       audioman = this;
       trackOfScene = new Dictionary<string, Music>();
-			foreach (Music m in trackList){
-				trackOfScene.Add(m.scene, m);
-			}
+      foreach (Music m in trackList){
+          trackOfScene.Add(m.scene, m);
+      }
     } else {
       Destroy(gameObject);
       return;
@@ -58,7 +58,7 @@ public class audioManager : MonoBehaviour
 
   void fadeIn(){
     if (musicVolume < maxVolume){
-      musicVolume += Time.deltaTime / fadeTime;
+      musicVolume += Time.unscaledDeltaTime / fadeTime;
     } else {
       musicVolume = maxVolume;
       state = musicPlayState.playing;
@@ -67,7 +67,7 @@ public class audioManager : MonoBehaviour
 
   void fadeOut(){
     if (musicVolume > 0f){
-      musicVolume -= Time.deltaTime / fadeTime;
+      musicVolume -= Time.unscaledDeltaTime / fadeTime;
     } else {
       musicVolume = 0f;
       state = musicPlayState.fadeIn;
