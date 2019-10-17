@@ -1649,6 +1649,11 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1384847142}
+    - target: {fileID: 3436348554572959108, guid: b804de8e0312b424484effad3d383939,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b804de8e0312b424484effad3d383939, type: 3}
 --- !u!1001 &5878806522994877745
@@ -1762,6 +1767,16 @@ PrefabInstance:
         type: 3}
       propertyPath: followAndZoom
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5878806524311171613, guid: d60a9fb02f31217488a46b945d5257a1,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5878806524311171610, guid: d60a9fb02f31217488a46b945d5257a1,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d60a9fb02f31217488a46b945d5257a1, type: 3}

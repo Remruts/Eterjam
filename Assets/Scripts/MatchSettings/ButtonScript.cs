@@ -24,7 +24,7 @@ public class ButtonScript : MonoBehaviour{
     if (!theButton.IsInteractable()){
       buttonText.font = disabledFont;
     }
-    pressTimer = new CustomTimer(timeBetweenInputs, ()=> {canPress = true;});
+    pressTimer = new CustomTimer(timeBetweenInputs, ()=> {canPress = true;}, true);
   }
 
   protected virtual void Update(){

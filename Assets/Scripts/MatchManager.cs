@@ -17,6 +17,7 @@ public class MatchManager : MonoBehaviour
     public static MatchManager match;
 
     public GameObject pauseText;
+    public GameObject pauseSettings;
     public GameObject demoText;
     public GameObject timerText;
 
@@ -246,6 +247,8 @@ public class MatchManager : MonoBehaviour
       paused = !paused;
       if (paused){
         pauseText.SetActive(true);
+        pauseSettings.GetComponent<eventSystemManager>().reset();
+        pauseSettings.GetComponent<pauseSettingsScript>().resetOptions(); 
         Time.timeScale = 0f;
         pauseText.GetComponent<Animator>().Play("show");            
       } else {

@@ -13,9 +13,14 @@ public class eventSystemManager : MonoBehaviour {
   private bool canSelect = true;
 
   private MoveDirection prevDir = MoveDirection.Down;
+  private GameObject startButton;
+
+  void Awake(){
+    startButton = currentButton;
+  }
 
   void Start(){
-    timer = new CustomTimer(timeBetweenInputs, ()=>{canSelect = true;});
+    timer = new CustomTimer(timeBetweenInputs, ()=>{canSelect = true;}, true);  
   }
 
   void Update(){
@@ -64,5 +69,14 @@ public class eventSystemManager : MonoBehaviour {
     }
     timer.start(timeBetweenInputs);
     prevDir = dir;
+  }
+
+  public void reset(){
+    setSelectedButton(startButton);
+  }
+  public void setSelectedButton(GameObject theButton){
+    EventSystem.current.SetSelectedGameObject(theButton);
+    currentButton = theButton;
+    currentButton.GetComponent<ButtonScript>().selected = true;
   }
 }

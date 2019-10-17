@@ -6,16 +6,18 @@ public class CustomTimer {
   float currentTime;
   float maxTime;
   float tickScale = 1.0f;
+  bool unscaled = false;
   Action actionToExecute;
 
-  public CustomTimer(float duration, Action theAction){
+  public CustomTimer(float duration, Action theAction, bool unscaledTime = false){
     maxTime = duration;
     actionToExecute = theAction;
     currentTime = maxTime;
+    unscaled = unscaledTime;
   }
 
   public void tick(Func<float> resetExpression, bool resetCondition = true, bool executionCondition = true){
-    currentTime -= Time.deltaTime * tickScale;
+    currentTime -= (unscaled ? Time.unscaledDeltaTime : Time.deltaTime) * tickScale;
     if (currentTime <= 0f){
       if (resetCondition){
         currentTime = resetExpression();
