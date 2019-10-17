@@ -145,7 +145,7 @@ MonoBehaviour:
   - scene: SpritesScene
     track: {fileID: 8300000, guid: 7f2ad0b6134be014badfe84e2202877a, type: 3}
   - scene: matchSettingsScene
-    track: {fileID: 8300000, guid: e8ce1b2ed50fd8149b0e10f5cfb693bb, type: 3}
+    track: {fileID: 8300000, guid: f1f58db24dcfc4144ad2fb1276492a69, type: 3}
   - scene: endBattleScene
     track: {fileID: 8300000, guid: 7a086b6b53ade35449479414b6f6f785, type: 3}
   - scene: TitleScene
