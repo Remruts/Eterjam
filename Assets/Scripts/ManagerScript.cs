@@ -59,6 +59,8 @@ public class ManagerScript : MonoBehaviour
       results[0] = 0;
       results[1] = 0;
 
+      Cursor.visible = false;
+
       attractModeTimer = new CustomTimer(
         timeToAttractMode, 
         ()=>{
