@@ -33,6 +33,7 @@ public class ManagerScript : MonoBehaviour
   public string battleScene = "SpritesScene";
   public string titleScene = "TitleScene";
   public string attractModeScene = "SpritesScene";
+  public string controlsScene = "controlsScene";
 
   [Range(0f, 1f)]
   public float musicVolume = 1.0f;
@@ -119,6 +120,10 @@ public class ManagerScript : MonoBehaviour
       attractModeTimer.tick(()=> timeInAttractMode);
     } else if  (currentScene == matchSettingsScene){
       Time.timeScale = 1f;
+    } else if (currentScene == controlsScene){
+      if (Input.GetButtonDown("P1Dash") || Input.GetButtonDown("P2Dash")){
+        goTo(titleScene);
+      }
     }
     
     if (Input.GetKey("escape")){
