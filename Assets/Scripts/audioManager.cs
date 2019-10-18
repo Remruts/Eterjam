@@ -51,9 +51,11 @@ public class audioManager : MonoBehaviour
   }
 
   public void PlayMusicOfScene(string scene, float timeToFade = 1.0f){
-    nextTrack = trackOfScene[scene].track;
-    state = musicPlayState.fadeOut;
-    fadeTime = timeToFade;
+    if (music.clip != trackOfScene[scene].track){
+      nextTrack = trackOfScene[scene].track;
+      state = musicPlayState.fadeOut;
+      fadeTime = timeToFade;
+    }
   }
 
   void fadeIn(){

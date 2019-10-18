@@ -118,6 +118,10 @@ public class ManagerScript : MonoBehaviour
     if (currentScene == titleScene){
       Time.timeScale = 1f;
       attractModeTimer.tick(()=> timeInAttractMode);
+
+      if(Input.GetButtonDown("P1Jump") || Input.GetButtonDown("P2Jump") || Input.GetButtonDown("P1Start") || Input.GetButtonDown("P2Start")) {
+        goTo(controlsScene);
+      }
     } else if  (currentScene == matchSettingsScene){
       Time.timeScale = 1f;
     } else if (currentScene == controlsScene){

@@ -150,3 +150,5 @@ MonoBehaviour:
     track: {fileID: 8300000, guid: 7a086b6b53ade35449479414b6f6f785, type: 3}
   - scene: TitleScene
     track: {fileID: 8300000, guid: d5302dce4686ae24792b5b307214865b, type: 3}
+  - scene: controlsScene
+    track: {fileID: 8300000, guid: f1f58db24dcfc4144ad2fb1276492a69, type: 3}
