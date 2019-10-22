@@ -1,3 +1,5 @@
+# Esto ya está viejo. Actualizar o borrar.
+
 # GRAN TO-DO DE ARREGLOS Y MEJORAS:
 
 ## Referencia:
