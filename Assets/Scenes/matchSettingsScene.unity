@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 22563665}
   - component: {fileID: 22563664}
   - component: {fileID: 22563663}
-  - component: {fileID: 22563666}
+  - component: {fileID: 22563667}
   m_Layer: 5
   m_Name: start
   m_TagString: Untagged
@@ -174,7 +174,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 4
-    m_SelectOnUp: {fileID: 1807286488}
+    m_SelectOnUp: {fileID: 845666706}
     m_SelectOnDown: {fileID: 1616781155}
     m_SelectOnLeft: {fileID: 1724107504}
     m_SelectOnRight: {fileID: 1724107504}
@@ -242,7 +242,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 22563661}
   m_CullTransparentMesh: 0
---- !u!114 &22563666
+--- !u!114 &22563667
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -251,14 +251,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 22563661}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e5f713afe348f549ac0757a509de2f8, type: 3}
+  m_Script: {fileID: 11500000, guid: 426b84097fcce644bb90a811641ce01c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   selected: 0
   disabledFont: {fileID: 11400000, guid: f3c8536cfde24bc489da04d97d6a938f, type: 2}
-  selectedColor: {r: 0.972549, g: 0.54509807, b: 0.9372549, a: 1}
+  selectedColor: {r: 0.9725491, g: 0.54509807, b: 0.93725497, a: 1}
   notSelectedColor: {r: 0.043137256, g: 0, b: 0.7490196, a: 1}
-  scene: SpritesScene
 --- !u!1 &82452190
 GameObject:
   m_ObjectHideFlags: 0
@@ -1321,8 +1320,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 4
-    m_SelectOnUp: {fileID: 82452192}
-    m_SelectOnDown: {fileID: 1340422131}
+    m_SelectOnUp: {fileID: 1807286488}
+    m_SelectOnDown: {fileID: 22563663}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -1345,7 +1344,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 845666707}
   m_OnClick:
     m_PersistentCalls:
@@ -1398,13 +1397,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 845666704}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d809e125629ae53459c4724d0a9041ba, type: 3}
+  m_Script: {fileID: 11500000, guid: 34de4382aa268b54e95ae78ba7d8553e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   selected: 0
   disabledFont: {fileID: 11400000, guid: f3c8536cfde24bc489da04d97d6a938f, type: 2}
   selectedColor: {r: 0.5686275, g: 1, b: 0.13333334, a: 1}
   notSelectedColor: {r: 0.13333334, g: 1, b: 0.69411767, a: 1}
+  niveles:
+  - SpritesScene
+  - Outside
 --- !u!1 &863956892
 GameObject:
   m_ObjectHideFlags: 0
@@ -2733,7 +2735,7 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_SelectOnUp: {fileID: 82452192}
-    m_SelectOnDown: {fileID: 22563663}
+    m_SelectOnDown: {fileID: 845666706}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -3296,7 +3298,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Navigation.m_SelectOnUp
       value: 
-      objectReference: {fileID: 1807286488}
+      objectReference: {fileID: 845666706}
     - target: {fileID: 8776645400517212691, guid: 6f84fa5240c86e647b986e43a1adb351,
         type: 3}
       propertyPath: m_Navigation.m_SelectOnDown

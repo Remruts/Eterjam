@@ -66,6 +66,7 @@ public class ManagerScript : MonoBehaviour
         ()=>{
           string currentScene = SceneManager.GetActiveScene().name;
           if (currentScene == titleScene){
+            
             goTo(attractModeScene); 
             attractMode = true;
             cpus[0] = true;
