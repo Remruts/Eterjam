@@ -139,6 +139,7 @@ MonoBehaviour:
   selectedColor: {r: 0.972549, g: 0.54509807, b: 0.9372549, a: 1}
   notSelectedColor: {r: 0.20392157, g: 0.90588236, b: 0.69411767, a: 1}
   scene: SpritesScene
+  reset: 1
   question: "\xBFReiniciar la partida?"
   pauseSettings: {fileID: 3640648036331560638}
 --- !u!1 &881833671133480894
@@ -1026,7 +1027,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3436348554572959109
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2212,6 +2213,7 @@ MonoBehaviour:
   selectedColor: {r: 0.972549, g: 0.54509807, b: 0.9372549, a: 1}
   notSelectedColor: {r: 0.20392157, g: 0.90588236, b: 0.69411767, a: 1}
   scene: matchSettingsScene
+  reset: 0
   question: "\xBFVolver al men\xFA?"
   pauseSettings: {fileID: 3640648036331560638}
 --- !u!1 &4541486170171992619
